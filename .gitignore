@@ -1,0 +1,42 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+MemoryCaptures/
+
+# Visual Studio / JetBrains Rider
+.vs/
+*.csproj
+*.sln
+*.user
+*.suo
+*.unityproj
+*.tmp
+*.pidb
+*.booproj
+*.svd
+*.pdb
+
+# Unity metadata files
+*.pidb
+*.pdb
+*.mdb
+
+# Ignore Play mode test results
+Assets/Scenes/TestRunner/
+
+# Packages
+Packages/*-lock.json
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# User settings
+UserSettings/
+
+# Crash logs
+crashlytics/
