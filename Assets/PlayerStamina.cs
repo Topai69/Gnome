@@ -1,5 +1,6 @@
-using UnityEngine; 
+using UnityEngine;
 using UnityEngine.UI;
+using System.Collections; // Added this for coroutine support
 
 public class PlayerStamina : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlayerStamina : MonoBehaviour
 
     private bool isSprinting = false;
 
+    public bool sprintAllowed = true; // New bool to control sprinting availability
+
     void Start()
     {
         currentStamina = maxStamina;
@@ -21,11 +24,17 @@ public class PlayerStamina : MonoBehaviour
 
     void Update()
     {
-        
-        if (Input.GetKey(sprintKey) && currentStamina > 0) // Sprint logic here
+        // Added sprintAllowed condition
+        if (Input.GetKey(sprintKey) && currentStamina > 0f && sprintAllowed)
         {
             isSprinting = true;
             currentStamina -= staminaDrainRate * Time.deltaTime;
+
+            if (currentStamina <= 0f) // Added trigger disable coroutine when stamina depleats completely (hits 0)
+            {
+                currentStamina = 0f;
+                StartCoroutine(DisableSprintTemporarily());
+            }
         }
         else
         {
@@ -36,8 +45,15 @@ public class PlayerStamina : MonoBehaviour
             }
         }
 
-        
-        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina); // Basically clamping stamina so it doesn't go negative
+        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
         staminaBar.value = currentStamina;
-    }
+    }
+
+    // Also added coroutine to disable sprinting temporarily (3 seconds) when stamina hits zero
+    IEnumerator DisableSprintTemporarily()
+    {
+        sprintAllowed = false;
+        yield return new WaitForSeconds(3f);
+        sprintAllowed = true;
+    }
 }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -9,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public float stamina = 100.0f;
     public float groundDrag;
-
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -26,15 +24,19 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     public TextMeshProUGUI staminaText;
+
+    private PlayerStamina playerStamina; 
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        playerStamina = GetComponent<PlayerStamina>(); 
     }
 
     private void Update()
     {
-        
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
 
@@ -42,27 +44,19 @@ public class PlayerMovement : MonoBehaviour
         SpeedControl();
 
         // handle drag
-        if (grounded == true)
+        if (grounded)
         {
-            rb.linearDamping = groundDrag;
+            rb.linearDamping = groundDrag; 
         }
         else
         {
             rb.linearDamping = 0;
         }
-        Debug.Log(stamina);
-        if (stamina >= 100)
-        {
-            stamina = 100;
-        }
-        else if (stamina <= 1)
-        {
-            StartCoroutine(Tired());
-        }
 
-        staminaText.text = stamina.ToString();
+        // Removed previous stamina logic bcs it's handled in PlayerStamina now (entirely)
+
+        staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
-    
 
     private void FixedUpdate()
     {
@@ -77,49 +71,38 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        // calculate movement direction
+        // calculates movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        if (Input.GetKey(KeyCode.LeftShift) && stamina > 0)
+
+        float targetSpeed = moveSpeed;
+
+        
+        if (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed)
         {
-            moveSpeed = 10f;
-            StartCoroutine(StaminaLevelDecrease());
+            targetSpeed = 10f;
         }
         else
         {
-            moveSpeed = 5f;
-            StartCoroutine(StaminaLevelIncrease());
+            targetSpeed = 5f;
         }
+
         // player is on ground
-        if (grounded == true)
-            //rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-            rb.linearVelocity = new Vector3(moveDirection.normalized.x * moveSpeed, rb.linearVelocity.y, moveDirection.normalized.z * moveSpeed);
+        if (grounded)
+            rb.linearVelocity = new Vector3(moveDirection.normalized.x * targetSpeed, rb.linearVelocity.y, moveDirection.normalized.z * targetSpeed);
     }
 
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
-        // limit velocity if needed
-        if (flatVel.magnitude > moveSpeed)
+        float maxSpeed = (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed) ? 10f : moveSpeed;
+
+        if (flatVel.magnitude > maxSpeed)
         {
-            Vector3 limitedVel = flatVel.normalized * moveSpeed;
+            Vector3 limitedVel = flatVel.normalized * maxSpeed;
             rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
         }
     }
-    IEnumerator StaminaLevelDecrease()
-    {
-        stamina -= 10f * Time.deltaTime;
-        yield return new WaitForSeconds(1);
-    }
-    IEnumerator StaminaLevelIncrease()
-    {
-        stamina += 10f * Time.deltaTime;
-        yield return new WaitForSeconds(1);
-    }
-    IEnumerator Tired()
-    {
-        new WaitForSeconds(2f);
-        StartCoroutine(StaminaLevelIncrease());
-        yield break;
-    }
+
+    // Removed stamina coroutines aka StaminaLevelDecrease, StaminaLevelIncrease and Tired bcs of conflicts
 }
