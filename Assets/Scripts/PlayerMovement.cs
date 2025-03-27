@@ -14,6 +14,10 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     bool grounded;
 
+    [Header("Jump")]
+    public float jumpForce = 6f;
+    public KeyCode jumpKey = KeyCode.Space; // Jump key
+
     public Transform orientation;
 
     float horizontalInput;
@@ -25,14 +29,14 @@ public class PlayerMovement : MonoBehaviour
 
     public TextMeshProUGUI staminaText;
 
-    private PlayerStamina playerStamina; 
+    private PlayerStamina playerStamina;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
-        playerStamina = GetComponent<PlayerStamina>(); 
+        playerStamina = GetComponent<PlayerStamina>();
     }
 
     private void Update()
@@ -43,6 +47,12 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
 
+        // Jump logic
+        if (Input.GetKeyDown(jumpKey) && grounded)
+        {
+            Jump();
+        }
+
         // handle drag
         if (grounded)
         {
@@ -50,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.linearDamping = 0;
+            rb.linearDamping = 0; 
         }
 
         // Removed previous stamina logic bcs it's handled in PlayerStamina now (entirely)
@@ -76,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
 
         float targetSpeed = moveSpeed;
 
-        
+        // sprinting logic
         if (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed)
         {
             targetSpeed = 10f;
@@ -88,7 +98,9 @@ public class PlayerMovement : MonoBehaviour
 
         // player is on ground
         if (grounded)
+        {
             rb.linearVelocity = new Vector3(moveDirection.normalized.x * targetSpeed, rb.linearVelocity.y, moveDirection.normalized.z * targetSpeed);
+        }
     }
 
     private void SpeedControl()
@@ -97,11 +109,19 @@ public class PlayerMovement : MonoBehaviour
 
         float maxSpeed = (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed) ? 10f : moveSpeed;
 
+        
         if (flatVel.magnitude > maxSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * maxSpeed;
             rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
         }
+    }
+
+    private void Jump()
+    {
+        // resets vertical velocity before applying jump force
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     // Removed stamina coroutines aka StaminaLevelDecrease, StaminaLevelIncrease and Tired bcs of conflicts
