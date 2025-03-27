@@ -13,11 +13,12 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     public bool grounded;
-
+    
     [Header("Jump")]
     public float jumpForce = 6f;
     public KeyCode jumpKey = KeyCode.Space; // Jump key
     public float airMultiplier = 1.5f;
+    public bool hasJumped;
 
     public Transform orientation;
 
@@ -98,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // player is on ground
-        if (grounded)
+        if (grounded || hasJumped)
         {
             rb.linearVelocity = new Vector3(moveDirection.normalized.x * targetSpeed, rb.linearVelocity.y, moveDirection.normalized.z * targetSpeed);
         }
@@ -123,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
         // resets vertical velocity before applying jump force
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(Vector3.up * jumpForce * airMultiplier, ForceMode.Impulse);
+        hasJumped = true;
     }
 
     // Removed stamina coroutines aka StaminaLevelDecrease, StaminaLevelIncrease and Tired bcs of conflicts

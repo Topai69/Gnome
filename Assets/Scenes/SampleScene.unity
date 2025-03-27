@@ -953,7 +953,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8164078558771037576, guid: 5f8ad20ac93185f4dbb6d33e4988556f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1026,6 +1026,7 @@ GameObject:
   - component: {fileID: 942416374}
   - component: {fileID: 942416369}
   - component: {fileID: 942416368}
+  - component: {fileID: 942416375}
   m_Layer: 0
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -1257,6 +1258,36 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!114 &942416375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942416367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca7de3aefa901374ba29464584a3109a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraRadius: 0.4
+  Decollision:
+    Enabled: 0
+    ObstacleLayers:
+      serializedVersion: 2
+      m_Bits: 1
+    UseFollowTarget:
+      Enabled: 0
+      YOffset: 0
+    Damping: 0.5
+    SmoothingTime: 0
+  TerrainResolution:
+    Enabled: 1
+    TerrainLayers:
+      serializedVersion: 2
+      m_Bits: 129
+    MaximumRaycast: 10
+    Damping: 0.5
 --- !u!1 &1137728153 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5f8ad20ac93185f4dbb6d33e4988556f, type: 3}
@@ -1370,6 +1401,7 @@ MonoBehaviour:
   jumpForce: 6
   jumpKey: 32
   airMultiplier: 1.5
+  hasJumped: 0
   orientation: {fileID: 536041639}
   staminaText: {fileID: 0}
 --- !u!114 &1184307920
