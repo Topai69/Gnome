@@ -1,5 +1,5 @@
-using System.Collection;
-using System.Collection.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "InteractionInputData", menuName = "InteractionSystem/InputData")]
