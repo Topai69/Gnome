@@ -18,7 +18,7 @@ public class InteractionData : ScriptableObject {
     public void Interact(){
 
         m_interactable.OnInteract();
-        ResetData();
+        ResetData(); //prob there is a problem here
     }
 
     public bool IsSameInteractable(InteractableBase _newInteractable) => m_interactable == _newInteractable;
