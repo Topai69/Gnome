@@ -17,6 +17,9 @@ public class InteractionController : MonoBehaviour{
     [SerializeField] private float raySphereRadius = 0f;
     [SerializeField] private LayerMask interactableLayer = ~0;
 
+    [Header("Plug Settings")]
+    [SerializeField] private GameObject Plug;
+
     private Camera m_cam;
     private bool m_interacting;
     private float m_holderTimer = 0f;
@@ -36,6 +39,10 @@ public class InteractionController : MonoBehaviour{
     //if it does, we check if interactiondata is empty (if yes, we assign it the new interactable), else we check if its the same object
     void CheckForInteractable()
     {
+
+        //Vector3 characterPosition = transform.position;
+        //Vector3 forwardDirection = transform.forward;m
+
         Ray _ray = new Ray(m_cam.transform.position, m_cam.transform.forward);
         RaycastHit _hitInfo;
 
@@ -98,5 +105,13 @@ public class InteractionController : MonoBehaviour{
             }
         }
     }    
+
+    void UnPlug()
+    {
+        if (Plug != null)
+        {
+            Plug.transform.position = new Vector3(-30.2130966f, 0.381148338f, 18.9699993f);
+        }
+    }
     
 }

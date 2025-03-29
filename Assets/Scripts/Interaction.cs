@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class Interaction : MonoBehaviour
         /*if (Input.GetKeyDown(KeyCode.E))
         {
             UnPlug();
-        }*/
+        }
     }
     void UnPlug()
     {
@@ -28,4 +28,4 @@ public class Interaction : MonoBehaviour
     }
 
 
-}
+}*/
