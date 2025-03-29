@@ -5,16 +5,21 @@ using UnityEngine;
 public class InteractionController : MonoBehaviour{
 
     [Header("Data")]
-    public InteractionInputData interactionInputData;
-    public InteractionData interactionData;
+    [SerializeField] private InteractionInputData interactionInputData = null;
+    [SerializeField] private InteractionData interactionData = null;
+
+    [Space, Header("UI")]
+    [SerializeField] private InteractionUIPanel uiPanel;
 
     [Space]
     [Header("Ray Settings")]
-    public float rayDistance;
-    public float raySphereRadius;
-    public LayerMask interactableLayer;
+    [SerializeField] private float rayDistance = 0f;
+    [SerializeField] private float raySphereRadius = 0f;
+    [SerializeField] private LayerMask interactableLayer = ~0;
 
     private Camera m_cam;
+    private bool m_interacting;
+    private float m_holderTimer = 0f;
 
     void Awake()
     {
@@ -41,13 +46,16 @@ public class InteractionController : MonoBehaviour{
 
             if(interactionData.IsEmpty()){
                 interactionData.Interactable = _interactable;
+                uiPanel.SetTooltip("Interact");
             }else{
                 if (!interactionData.IsSameInteractable(_interactable)){
                     interactionData.Interactable = _interactable;
+                    uiPanel.SetTooltip("Interact");
                 }
             }
 
         }else{
+            uiPanel.ResetUI();
             interactionData.ResetData();
         }
 
@@ -56,7 +64,39 @@ public class InteractionController : MonoBehaviour{
 
     void CheckForInteractableInput()
     {
+        if(interactionData.IsEmpty())
+            return;
 
+        if(interactionInputData.InteractClicked){
+            m_interacting = true;
+            m_holderTimer = 0f;
+        }
+
+        if (interactionInputData.InteractRelease){
+            m_interacting = false;
+            m_holderTimer = 0f;
+            uiPanel.UpdateProgressBar(0f);
+        }
+
+        if (m_interacting){
+            if(!interactionData.Interactable.IsInteractable)
+                return;
+            
+            if (interactionData.Interactable.HoldInteract){
+                m_holderTimer += Time.deltaTime;
+
+                float heldPercentage = m_holderTimer / interactionData.Interactable.HoldDuration;
+                uiPanel.UpdateProgressBar(heldPercentage);
+
+                if (heldPercentage > 1f){
+                    interactionData.Interact();
+                    m_interacting = false;
+                }
+            }else{
+                interactionData.Interact();
+                m_interacting = false;
+            }
+        }
     }    
     
 }

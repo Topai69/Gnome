@@ -16,10 +16,10 @@ public class Interaction : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        /*if (Input.GetKeyDown(KeyCode.E))
         {
             UnPlug();
-        }
+        }*/
     }
     void UnPlug()
     {
