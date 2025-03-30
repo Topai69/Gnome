@@ -96,22 +96,24 @@ public class InteractionController : MonoBehaviour{
                 uiPanel.UpdateProgressBar(heldPercentage);
 
                 if (heldPercentage > 1f){
+                    Debug.Log("Interacted");
                     interactionData.Interact();
                     m_interacting = false;
                 }
             }else{
+                Debug.Log("Interacted else");
                 interactionData.Interact();
                 m_interacting = false;
             }
         }
     }    
 
-    void UnPlug()
+    /*void UnPlug()
     {
         if (Plug != null)
         {
             Plug.transform.position = new Vector3(-30.2130966f, 0.381148338f, 18.9699993f);
         }
-    }
+    }*/
     
 }
