@@ -14,11 +14,12 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     public bool grounded;
     
-    [Header("Jump")]
+    [Header("Jump & Glide")]
     public float jumpForce = 6f;
     public KeyCode jumpKey = KeyCode.Space; // Jump key
     public float airMultiplier = 1.5f;
     public bool hasJumped;
+    public float glideFallSpeed = 2f; // Glide fall speed
 
     public Transform orientation;
 
@@ -53,6 +54,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(jumpKey) && grounded)
         {
             Jump();
+        }
+
+        // Glide logic
+        if (!grounded && Input.GetKey(jumpKey) && rb.linearVelocity.y < 0)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, -glideFallSpeed, rb.linearVelocity.z);
         }
 
         // handle drag
@@ -111,7 +118,6 @@ public class PlayerMovement : MonoBehaviour
 
         float maxSpeed = (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed) ? 10f : moveSpeed;
 
-        
         if (flatVel.magnitude > maxSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * maxSpeed;
