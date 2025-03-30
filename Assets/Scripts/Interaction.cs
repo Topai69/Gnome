@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class Interaction : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        /*if (Input.GetKeyDown(KeyCode.E))
         {
             UnPlug();
         }
@@ -28,4 +28,4 @@ public class Interaction : MonoBehaviour
     }
 
 
-}
+}*/
