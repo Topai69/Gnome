@@ -80,6 +80,25 @@ public class PlayerMovement : MonoBehaviour
         staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
 
+    private void OnTriggerStay (Collider other)
+    {
+        if (other == (other.gameObject.tag == "slab"))
+        {
+            Debug.Log("triggered");
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Debug.Log("KeyPressed");
+                while (transform.position.y < other.transform.position.y + 1.5f)
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y+0.00001f, transform.position.z);
+                }
+                transform.position += new Vector3(other.transform.position.x, transform.position.y, transform.position.z);
+            }
+        }
+    }
+  
+
+
     private void FixedUpdate()
     {
         MovePlayer();
@@ -136,6 +155,8 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(Vector3.up * jumpForce * airMultiplier, ForceMode.Impulse);
         hasJumped = true;
     }
+
+    
 
     // Removed stamina coroutines aka StaminaLevelDecrease, StaminaLevelIncrease and Tired bcs of conflicts
 }
