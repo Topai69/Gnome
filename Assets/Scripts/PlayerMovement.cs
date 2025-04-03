@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 moveDirection;
 
-    Rigidbody rb;
+    public Rigidbody rb;
 
     public TextMeshProUGUI staminaText;
 
@@ -37,9 +37,12 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        
 
         playerStamina = GetComponent<PlayerStamina>();
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
+
     }
 
     private void Update()
@@ -109,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
         if (grounded || hasJumped)
         {
             rb.linearVelocity = new Vector3(moveDirection.normalized.x * targetSpeed, rb.linearVelocity.y, moveDirection.normalized.z * targetSpeed);
+
         }
     }
 
