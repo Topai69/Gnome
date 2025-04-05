@@ -13,6 +13,9 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     public bool grounded;
+
+    [Header("Climbing")]
+    public float climbSpeed = 2f;
     
     [Header("Jump & Glide")]
     public float jumpForce = 6f;
@@ -80,20 +83,35 @@ public class PlayerMovement : MonoBehaviour
         staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
 
-    private void OnTriggerStay (Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other == (other.gameObject.tag == "slab"))
+        if (other.gameObject.CompareTag("slab"))
         {
-            Debug.Log("triggered");
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                Debug.Log("KeyPressed");
-                while (transform.position.y < other.transform.position.y + 1.5f)
-                {
-                    transform.position = new Vector3(transform.position.x, transform.position.y+0.00001f, transform.position.z);
-                }
-                transform.position += new Vector3(other.transform.position.x, transform.position.y, transform.position.z);
+                Debug.Log("mounting");
+                StartCoroutine(ClimbSlab(other.transform));
             }
+        }
+    }
+
+    //this is a coroutine and it handles the incremental movment
+    private IEnumerator ClimbSlab(Transform slabTransform)
+    {
+        float targetY = slabTransform.position.y + 1.5f;
+        Vector3 targetPosition = new Vector3(slabTransform.position.x, targetY, transform.position.z);
+        Vector3 startPosition = transform.position;
+        float climbProgress = 0f;
+
+        while (climbProgress < 1f)
+        {
+            climbProgress += Time.deltaTime * climbSpeed;
+            climbProgress = Mathf.Clamp01(climbProgress);
+
+            Vector3 newPosition = Vector3.Lerp(startPosition, targetPosition, climbProgress);
+            rb.MovePosition(newPosition);
+
+            yield return null;
         }
     }
   
