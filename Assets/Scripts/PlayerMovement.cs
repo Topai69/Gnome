@@ -34,15 +34,15 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerStamina playerStamina;
 
+    // external speed override (for rug slowdown)
+    public bool overrideSpeed = false;
+    public float customSpeed = 5f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
-
         playerStamina = GetComponent<PlayerStamina>();
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ ;
-
-
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     private void Update()
@@ -76,7 +76,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Removed previous stamina logic bcs it's handled in PlayerStamina now (entirely)
-
         staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
 
@@ -96,23 +95,26 @@ public class PlayerMovement : MonoBehaviour
         // calculates movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        float targetSpeed = moveSpeed;
+        float targetSpeed;
 
-        // sprinting logic
-        if (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed)
+        // override speed logic
+        if (overrideSpeed)
+        {
+            targetSpeed = customSpeed;
+        }
+        else if (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed)
         {
             targetSpeed = 10f;
         }
         else
         {
-            targetSpeed = 5f;
+            targetSpeed = moveSpeed;
         }
 
         // player is on ground
         if (grounded || hasJumped)
         {
             rb.linearVelocity = new Vector3(moveDirection.normalized.x * targetSpeed, rb.linearVelocity.y, moveDirection.normalized.z * targetSpeed);
-
         }
     }
 
@@ -120,7 +122,16 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
-        float maxSpeed = (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed) ? 10f : moveSpeed;
+        
+        float maxSpeed;
+        if (overrideSpeed)
+        {
+            maxSpeed = customSpeed;
+        }
+        else
+        {
+            maxSpeed = (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed) ? 10f : moveSpeed;
+        }
 
         if (flatVel.magnitude > maxSpeed)
         {
