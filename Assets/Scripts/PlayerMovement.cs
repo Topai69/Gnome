@@ -78,6 +78,39 @@ public class PlayerMovement : MonoBehaviour
         // Removed previous stamina logic bcs it's handled in PlayerStamina now (entirely)
         staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if (true)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Debug.Log("mounting");
+                StartCoroutine(ClimbSlab(other.transform));
+            }
+        }
+    }
+
+    //this is a coroutine and it handles the incremental movment
+    private IEnumerator ClimbSlab(Transform slabTransform)
+    {
+        float targetY = slabTransform.position.y + 1.5f;
+        Vector3 targetPosition = new Vector3(slabTransform.position.x, targetY, transform.position.z);
+        Vector3 startPosition = transform.position;
+        float climbProgress = 0f;
+        float climbSpeed = 0.5f;
+
+        while (climbProgress < 1f)
+        {
+            climbProgress += Time.deltaTime * climbSpeed;
+            climbProgress = Mathf.Clamp01(climbProgress);
+
+            Vector3 newPosition = Vector3.Lerp(startPosition, targetPosition, climbProgress);
+            rb.MovePosition(newPosition);
+
+            yield return null;
+        }
+    }
+
 
     private void FixedUpdate()
     {
