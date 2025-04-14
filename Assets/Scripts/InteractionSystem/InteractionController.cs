@@ -50,8 +50,9 @@ public class InteractionController : MonoBehaviour{
 
         if (_hitSomething){
             InteractableBase _interactable = _hitInfo.transform.GetComponent<InteractableBase>();
-
+            
             if(interactionData.IsEmpty()){
+                
                 interactionData.Interactable = _interactable;
                 uiPanel.SetTooltip("Interact");
             }else{
@@ -71,22 +72,27 @@ public class InteractionController : MonoBehaviour{
 
     void CheckForInteractableInput()
     {
-        if(interactionData.IsEmpty())
-            return;
+        if (interactionData.IsEmpty())
+        {
+            return; 
+        }
 
         if(interactionInputData.InteractClicked){
+            Debug.Log("Interaction is clicked");
             m_interacting = true;
             m_holderTimer = 0f;
         }
 
         if (interactionInputData.InteractRelease){
+            Debug.Log("Interaction is cancelled");
             m_interacting = false;
             m_holderTimer = 0f;
             uiPanel.UpdateProgressBar(0f);
         }
 
         if (m_interacting){
-            if(!interactionData.Interactable.IsInteractable)
+           
+            if (!interactionData.Interactable.IsInteractable)
                 return;
             
             if (interactionData.Interactable.HoldInteract){
