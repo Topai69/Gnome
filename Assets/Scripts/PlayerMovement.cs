@@ -21,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
     public bool hasJumped;
     public float glideFallSpeed = 2f; // Glide fall speed
 
+    [Header("Rope Climbing")]
+    public bool isOnRope = false;
+
     public Transform orientation;
 
     float horizontalInput;
@@ -48,29 +51,36 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         // ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+        if (!isOnRope)
+        {
+            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+        }
 
         MyInput();
-        SpeedControl();
+        
+        if (!isOnRope)
+        {
+            SpeedControl();
+        }
 
         // Jump logic
-        if (Input.GetKeyDown(jumpKey) && grounded)
+        if (Input.GetKeyDown(jumpKey) && grounded && !isOnRope)
         {
             Jump();
         }
 
         // Glide logic
-        if (!grounded && Input.GetKey(jumpKey) && rb.linearVelocity.y < 0)
+        if (!grounded && !isOnRope && Input.GetKey(jumpKey) && rb.linearVelocity.y < 0)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, -glideFallSpeed, rb.linearVelocity.z);
         }
 
         // handle drag
-        if (grounded)
+        if (grounded && !isOnRope)
         {
             rb.linearDamping = groundDrag; 
         }
-        else
+        else if (!isOnRope)
         {
             rb.linearDamping = 0; 
         }
@@ -78,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
         // Removed previous stamina logic bcs it's handled in PlayerStamina now (entirely)
         staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
+
     private void OnTriggerStay(Collider other)
     {
         if (true)
@@ -111,10 +122,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (!isOnRope)
+        {
+            MovePlayer();
+        }
     }
 
     private void MyInput()
