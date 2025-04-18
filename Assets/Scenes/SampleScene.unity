@@ -2768,8 +2768,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15905666, y: -0.024250021, z: 0.003908074, w: 0.98696387}
-  m_LocalPosition: {x: 36.0946, y: 30.008615, z: 177.3224}
+  m_LocalRotation: {x: 0.15906082, y: -0.023187289, z: 0.003736807, w: 0.9869894}
+  m_LocalPosition: {x: 15.464602, y: 4.9886155, z: -35.167595}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10391,8 +10391,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 942416367}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15905666, y: -0.024250021, z: 0.0039080735, w: 0.98696387}
-  m_LocalPosition: {x: 31.386, y: 29.56, z: 184.87}
+  m_LocalRotation: {x: 0.1590608, y: -0.023187289, z: 0.0037368068, w: 0.9869894}
+  m_LocalPosition: {x: 10.7560005, y: 4.54, z: -27.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11388,7 +11388,7 @@ Transform:
   m_GameObject: {fileID: 1184307915}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.43, y: 26.06, z: 192.2}
+  m_LocalPosition: {x: 9.8, y: 1.04, z: -20.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13261,6 +13261,8 @@ MonoBehaviour:
   heatTime: 3
   launchForce: 20
   playerTag: Player
+  steamEffectPrefab: {fileID: 3343403778589443187, guid: 973c5ed21dd696d4aa2b1a6a29d1674a, type: 3}
+  launchSound: {fileID: 8300000, guid: c3724db5c1fc0774c8ae023dd85e0446, type: 3}
 --- !u!136 &1456610226
 CapsuleCollider:
   m_ObjectHideFlags: 0
