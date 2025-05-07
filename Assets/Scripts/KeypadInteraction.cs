@@ -3,20 +3,15 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 
-public class KeypadInteraction : MonoBehaviour
+public class KeypadInteraction : InteractableBase
 {
     [Header("Keypad Settings")]
     [SerializeField] private GameObject keypadUI;
     [SerializeField] private TextMeshProUGUI displayText;
     [SerializeField] private string correctCode = "1234";
-    [SerializeField] private float interactionDistance = 2f;
-    
-    [Header("References")]
-    [SerializeField] private Transform player;
     
     private string currentInput = "";
     private bool isKeypadOpen = false;
-    private bool isNearLaptop = false;
 
     private void Start()
     {
@@ -24,18 +19,18 @@ public class KeypadInteraction : MonoBehaviour
             keypadUI.SetActive(false);
     }
 
-    private void Update()
+    public override void OnInteract()
     {
-        if (player != null)
-        {
-            float distance = Vector3.Distance(transform.position, player.position);
-            isNearLaptop = distance <= interactionDistance;
-        }
-        if (isNearLaptop && Input.GetKeyDown(KeyCode.E) && !isKeypadOpen)
+        base.OnInteract();
+        if (!isKeypadOpen)
         {
             OpenKeypad();
         }
-        else if (isKeypadOpen && Input.GetKeyDown(KeyCode.Escape))
+    }
+
+    private void Update()
+    {
+        if (isKeypadOpen && Input.GetKeyDown(KeyCode.Escape))
         {
             CloseKeypad();
         }
@@ -82,7 +77,7 @@ public class KeypadInteraction : MonoBehaviour
         }
         else
         {
-            Debug.Log("NOOOOO");
+            Debug.Log("NOOOO");
             currentInput = "";
             UpdateDisplay();
         }
