@@ -8,7 +8,7 @@ public class WasteContainer : MonoBehaviour
     public WasteType AcceptedType => acceptedType;
     public Transform DropPoint => dropPoint;
 
-    public bool CanAcceptItem(WasteItem item)
+    public bool CanAcceptItem(WasteInteraction item)
     {
         return item.Type == acceptedType;
     }
