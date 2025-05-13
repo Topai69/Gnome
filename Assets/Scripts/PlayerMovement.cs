@@ -164,6 +164,7 @@ public class PlayerMovement : MonoBehaviour
         if (grounded || hasJumped)
         {
             rb.linearVelocity = new Vector3(moveDirection.normalized.x * targetSpeed, rb.linearVelocity.y, moveDirection.normalized.z * targetSpeed);
+            
         }
     }
 

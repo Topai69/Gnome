@@ -14,3 +14,10 @@ public class Movement : MonoBehaviour
         
     }
 }
+
+public class PlayerCamera : MonoBehaviour
+{
+
+
+
+};
