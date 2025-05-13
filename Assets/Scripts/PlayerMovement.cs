@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         //staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
 
-    private void OnTriggerStay(Collider other)
+    /*private void OnTriggerStay(Collider other)
     {
         if (true)
         {
@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
             yield return null;
         }
-    }
+    }*/
 
     private void FixedUpdate()
     {
