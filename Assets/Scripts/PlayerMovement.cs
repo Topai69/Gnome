@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Removed previous stamina logic bcs it's handled in PlayerStamina now (entirely)
-        staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
+        //staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
 
     private void OnTriggerStay(Collider other)
@@ -142,6 +142,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // calculates movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        
 
         float targetSpeed;
 
