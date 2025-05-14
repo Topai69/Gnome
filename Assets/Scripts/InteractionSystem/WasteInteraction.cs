@@ -17,7 +17,7 @@ public class WasteInteraction : InteractableBase
         originalPosition = transform.position;
         originalRotation = transform.rotation;
         originalParent = transform.parent;
-        
+
         if (visualFeedback != null)
             visualFeedback.SetActive(false);
     }
@@ -46,25 +46,55 @@ public class WasteInteraction : InteractableBase
 
     private void TryDrop()
     {
+        Debug.Log($"[WasteInteraction] {gameObject.name} TryDrop. CurrentContainer: {currentContainer?.name}");
         if (currentContainer != null)
         {
-            if (currentContainer.CanAcceptItem(this))
+            bool canAccept = currentContainer.CanAcceptItem(this);
+            Debug.Log($"[WasteInteraction] {gameObject.name} Container {currentContainer.name} - can accept {canAccept}");
+            if (canAccept)
             {
-                Drop();
+                PlaceInContainer(currentContainer);
             }
             else
             {
+                Debug.Log($"[WasteInteraction] {gameObject.name} invalid container {currentContainer.name}");
                 ShowInvalidPlacement();
             }
         }
         else
         {
-            Drop();
+            Debug.Log($"[WasteInteraction] {gameObject.name} No container in range, back to original pos");
+            DropToOriginalPosition();
         }
     }
 
-    private void Drop()
+    private void PlaceInContainer(WasteContainer container)
     {
+        Debug.Log($"[WasteInteraction] {gameObject.name} PlaceInContainer: {container.name}. DropPoint: {container.DropPoint?.name}");
+        isBeingHeld = false;
+
+        if (container.DropPoint != null)
+        {
+            transform.SetParent(container.DropPoint); 
+            transform.localPosition = Vector3.zero;   
+            transform.localRotation = Quaternion.identity; 
+        }
+        else
+        {
+            transform.SetParent(container.transform); 
+            transform.position = container.transform.position; 
+        }
+
+        InteractableBase interactable = GetComponent<InteractableBase>();
+        if (interactable != null)
+        {
+            interactable.isInteractable = false; 
+        }
+    }
+
+    private void DropToOriginalPosition() 
+    {
+        Debug.Log($"[WasteInteraction] {gameObject.name} DropToOriginalPosition.");
         isBeingHeld = false;
         transform.SetParent(originalParent);
         transform.position = originalPosition;
@@ -92,6 +122,7 @@ public class WasteInteraction : InteractableBase
         WasteContainer container = other.GetComponent<WasteContainer>();
         if (container != null)
         {
+            Debug.Log($"[WasteInteraction] {gameObject.name} OnTriggerEnter with {other.name}. Container: {container.name}");
             currentContainer = container;
         }
     }
@@ -99,8 +130,9 @@ public class WasteInteraction : InteractableBase
     private void OnTriggerExit(Collider other)
     {
         WasteContainer container = other.GetComponent<WasteContainer>();
-        if (container == currentContainer)
+        if (container != null && container == currentContainer)
         {
+            Debug.Log($"[WasteInteraction] {gameObject.name} OnTriggerExit from {other.name}. CurrentContainer: {currentContainer.name}");
             currentContainer = null;
         }
     }
