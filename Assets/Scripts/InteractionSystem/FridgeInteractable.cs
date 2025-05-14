@@ -13,6 +13,6 @@ public class FridgeInteractable : InteractableBase
         base.OnInteract();
         Debug.Log("Interacted with fridge");
         //anim.Play("Rotating");
-        (transform.parent.gameObject.GetComponent<Animation>()).Play("Fridge");
+        ((transform.parent).parent.gameObject.GetComponent<Animation>()).Play("Fridge");
     }
 }
