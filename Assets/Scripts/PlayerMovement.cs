@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     public LayerMask whatIsInteractable;
     public bool grounded;
-    
+
     [Header("Jump & Glide")]
     public float jumpForce = 6f;
     public KeyCode jumpKey = KeyCode.Space; // Jump key
@@ -25,8 +25,15 @@ public class PlayerMovement : MonoBehaviour
     [Header("Rope Climbing")]
     public bool isOnRope = false;
 
-    public Transform orientation;
+    [Header("Model Rotation")]
+    public Transform orientation; 
+    public Transform playerModel; 
+    public float turnSmoothTime = 0.1f;
 
+    [Header("Camera Reference")]
+    public Transform cameraHolder;        
+
+    float turnSmoothVelocity;
     float horizontalInput;
     float verticalInput;
 
@@ -35,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
 
     public TextMeshProUGUI staminaText;
-
     private PlayerStamina playerStamina;
 
     // external speed override (for rug slowdown)
@@ -46,20 +52,25 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerStamina = GetComponent<PlayerStamina>();
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void Update()
     {
         // ground check
-        if (!isOnRope)
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround)
+            || Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsInteractable);
+
+        // Sync orientation with camera horizontal direction
+        if (cameraHolder != null && orientation != null)
         {
-            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround) ||
-            Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsInteractable);
+            Vector3 viewDir = cameraHolder.forward;
+            viewDir.y = 0f;
+            orientation.forward = viewDir.normalized;
         }
 
         MyInput();
-        
+
         if (!isOnRope)
         {
             SpeedControl();
@@ -80,11 +91,20 @@ public class PlayerMovement : MonoBehaviour
         // handle drag
         if (grounded && !isOnRope)
         {
-            rb.linearDamping = groundDrag; 
+            rb.linearDamping = groundDrag;
         }
         else if (!isOnRope)
         {
-            rb.linearDamping = 0; 
+            rb.linearDamping = 0;
+        }
+
+        // Rotate model if there's movement
+        if (playerModel != null && moveDirection.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
+            float smoothAngle = Mathf.SmoothDampAngle(playerModel.localEulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            Quaternion fixedRotation = Quaternion.Euler(-90f, smoothAngle, 0f); 
+            playerModel.localRotation = fixedRotation;
         }
 
         // Removed previous stamina logic bcs it's handled in PlayerStamina now (entirely)
@@ -136,14 +156,15 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        // calculates movement direction
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        moveDirection.y = 0;
+        moveDirection.Normalize();
     }
 
     private void MovePlayer()
     {
-        // calculates movement direction
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        
-
         float targetSpeed;
 
         // override speed logic
@@ -163,8 +184,7 @@ public class PlayerMovement : MonoBehaviour
         // player is on ground
         if (grounded || hasJumped)
         {
-            rb.linearVelocity = new Vector3(moveDirection.normalized.x * targetSpeed, rb.linearVelocity.y, moveDirection.normalized.z * targetSpeed);
-            
+            rb.linearVelocity = new Vector3(moveDirection.x * targetSpeed, rb.linearVelocity.y, moveDirection.z * targetSpeed);
         }
     }
 
@@ -172,17 +192,10 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
-        
-        float maxSpeed;
-        if (overrideSpeed)
-        {
-            maxSpeed = customSpeed;
-        }
-        else
-        {
-            maxSpeed = (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed) ? 10f : moveSpeed;
-        }
+        float maxSpeed = overrideSpeed ? customSpeed :
+            (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed) ? 10f : moveSpeed;
 
+        // limit velocity if needed
         if (flatVel.magnitude > maxSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * maxSpeed;
@@ -198,5 +211,5 @@ public class PlayerMovement : MonoBehaviour
         hasJumped = true;
     }
 
-    // Removed stamina coroutines aka StaminaLevelDecrease, StaminaLevelIncrease and Tired bcs of conflicts
+    // Removed stamina coroutines aka StaminaLevelDecrease, StaminaLevelIncrease and Tired bcs of conflicts
 }
