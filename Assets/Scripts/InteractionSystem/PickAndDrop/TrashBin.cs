@@ -27,7 +27,7 @@ public class TrashBin : MonoBehaviour
             }
             else
             {
-                Destroy(item.gameObject);
+                Destroy(item.gameObject, 1.5f);
             }
         }
     }
