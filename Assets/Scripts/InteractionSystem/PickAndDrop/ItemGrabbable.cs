@@ -13,6 +13,7 @@ public class ItemGrabbable : InteractableBase
     private Transform itemGrabPointTransform;
     private bool isGrabbed = false;
     private PickAndDrop pickAndDropSystem;
+    private bool wrongBinPopupShown = false;
 
     private void Awake()
     {
@@ -64,6 +65,16 @@ public class ItemGrabbable : InteractableBase
     public bool IsGrabbed()
     {
         return isGrabbed;
+    }
+    
+    public bool HasShownWrongBinPopup()
+    {
+        return wrongBinPopupShown;
+    }
+    
+    public void SetWrongBinPopupShown(bool value)
+    {
+        wrongBinPopupShown = value;
     }
     
     private void FixedUpdate()
