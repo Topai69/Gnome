@@ -5,6 +5,9 @@ public class ItemGrabbable : InteractableBase
     [Header("Grab Settings")]
     [SerializeField] private float lerpSpeed = 10f;
     [SerializeField] private bool canBeDropped = true;
+
+    [SerializeField] private TrashType trashType;
+    public TrashType GetTrashType() => trashType;
     
     private Rigidbody itemRigidbody;
     private Transform itemGrabPointTransform;
