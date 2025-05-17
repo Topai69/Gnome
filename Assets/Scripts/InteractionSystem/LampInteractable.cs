@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class LampInteractable : InteractableBase
 {
-    
+    [SerializeField] private AnimationClip unplugging;
+    private Animation anim;
 
     /*private void Start()
     {
@@ -15,6 +16,6 @@ public class LampInteractable : InteractableBase
         base.OnInteract();
         Debug.Log("Interacted with lamp");
         //anim.Play("Rotating");
-        
+        (transform.parent.gameObject.GetComponent<Animation>()).Play("Unplug");
     }
 }
