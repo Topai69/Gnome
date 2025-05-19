@@ -17,8 +17,8 @@ public class InteractionController : MonoBehaviour{
     [SerializeField] private float raySphereRadius = 0f;
     [SerializeField] private LayerMask interactableLayer = ~0;
 
-    [Header("Plug Settings")]
-    [SerializeField] private GameObject Plug;
+    //[Header("Plug Settings")]
+    //[SerializeField] private GameObject Plug;
 
     private Camera m_cam;
     private bool m_interacting;
