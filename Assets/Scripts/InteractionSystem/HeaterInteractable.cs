@@ -2,17 +2,10 @@ using UnityEngine;
 
 public class HeaterInteractable : InteractableBase
 {
-    [SerializeField] private AnimationClip rotation;
     [SerializeField] private TaskManager taskManager;
     [HideInInspector] public ScoreScript ScoreScript; 
 
-    private Animation anim;
-
-    /* private void Start()
-    {
-        anim = transform.parent.GetComponent<Animation>();
-        anim.AddClip(rotation, "Rotating");
-    }*/
+   
 
     private void Start()
     {
@@ -35,5 +28,8 @@ public class HeaterInteractable : InteractableBase
         {
             ScoreScript.Score += 20;
         }
+
+        gameObject.GetComponent<HeaterInteractable>().enabled = false; //turn of the script, since it's no longer needed
+        gameObject.layer = 6;
     }
 }

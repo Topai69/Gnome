@@ -1,35 +1,29 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class FridgeInteractable : InteractableBase
 {
-    [SerializeField] private AnimationClip rotation;
+  
     [SerializeField] private TaskManager taskManager;
-    [HideInInspector] public ScoreScript ScoreScript; 
-        [Header("QTE Visuals")]
+    [HideInInspector] public ScoreScript ScoreScript;
+    [Header("QTE Visuals")]
     public GameObject qteUI;
-    public Slider timerSlider;                 
+    public Slider timerSlider;
     public RectTransform cursor;
     public RectTransform successZone;
 
     [Header("Timing Settings")]
-    public float timerDuration = 15f; 
-    public float cursorTravelTime = 2f; 
+    public float timerDuration = 15f;
+    public float cursorTravelTime = 2f;
 
     private float elapsedTime = 0f;
     private bool isRunning = false;
 
     private Vector3 cursorStartPos;
     private Vector3 cursorEndPos;
-    private FridgeInteractable _disable;
 
-
-    /*private void Start()
-    {
-        anim = transform.parent.GetComponent<Animation>();
-        anim.AddClip(rotation, "Rotating");
-    }*/
 
     private void Start()
     {
@@ -40,7 +34,6 @@ public class FridgeInteractable : InteractableBase
     {
         base.OnInteract();
         Debug.Log("Interacted with fridge");
-        //anim.Play("Rotating");
         qteUI.SetActive(true);
         elapsedTime = 0f;
         isRunning = true;
@@ -55,8 +48,8 @@ public class FridgeInteractable : InteractableBase
         cursor.localPosition = cursorStartPos;
     }
 
-    
-     void Update()
+
+    void Update()
     {
         if (!isRunning) return;
 
@@ -98,19 +91,19 @@ public class FridgeInteractable : InteractableBase
     {
         isRunning = false;
         qteUI.SetActive(false);
-       // gameObject.SetActive(false);
+        // gameObject.SetActive(false);
         Finish();
     }
-    
+
     private void Finish()
     {
 
 
-        ((transform.parent).parent.gameObject.GetComponent<Animation>()).Play("Fridge");
+        ((transform.parent).parent.gameObject.GetComponent<Animation>()).Play("Fridge"); //play the certain animation
 
         if (taskManager != null)
         {
-            taskManager.CompleteTask(0); 
+            taskManager.CompleteTask(0);
         }
 
         if (ScoreScript != null)
@@ -118,8 +111,8 @@ public class FridgeInteractable : InteractableBase
             ScoreScript.Score += 20;
         }
 
-        
-        gameObject.GetComponent<FridgeInteractable>().enabled = false;
 
+        gameObject.GetComponent<FridgeInteractable>().enabled = false; //turn of the script, since it's no longer needed
+        gameObject.layer = 6; //change layer so that the object was no longer interactable
     }
 }
