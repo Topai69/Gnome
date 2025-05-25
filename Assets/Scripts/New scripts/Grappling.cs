@@ -1,84 +1,67 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Grappling : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private PlayerMovement playerMovement;
-    public Transform cam;
-    public Transform gunTip;
-   
-    public LayerMask whatIsGround;
-    public LayerMask Interactable;
-
-    [Header("Grappling")]
-
-    public float maxGrappleDistance;
-    public float grappleDelayTime;
-
-    private bool grappling = false;
-
-    [Header("Cooldown")]
-
+    private LineRenderer rndr;
     private Vector3 grapplePoint;
+    public LayerMask Grappable;
+    public Transform gunTip, cam, player;
+    private float maxDistance = 20f;
+    private SpringJoint joint;
 
 
-    private LineRenderer lineRenderer;
 
-    public float grappleCooldown;
-    private float grapplingCooldownTimer;
-
-    private void Start()
+    private void Awake()
     {
-        playerMovement = GetComponent<PlayerMovement>();
+        rndr = GetComponent<LineRenderer>();
+
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Mouse1)) StartGrapple();
+        
+        if (Input.GetMouseButtonDown(0)) StartGrapple();
+        else if (Input.GetMouseButtonUp(0)) StopGrapple();
 
-        if (grappleCooldown > 0) grappleCooldown -= Time.deltaTime;
-    }
-
-    private void StartGrapple()
-    {
-        if (grapplingCooldownTimer > 0) return;
-
-        grappling = true;
-
-        RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGround) || Physics.Raycast(cam.position, hit, maxGrappleDistance, Interactable)) // make two layers interactable
-        {
-            grapplePoint = hit.point;
-            Invoke(nameof(ExecuteGrapple), grappleDelayTime);
-        }
-        else
-        {
-            grapplePoint = cam.position + cam.forward * maxGrappleDistance;
-            Invoke(nameof(StopGrapple), grappleDelayTime);
-        }
-        lineRenderer.enabled = true;
-        lineRenderer.SetPosition(1, grapplePoint);
     }
 
     private void LateUpdate()
     {
-        if (grappling)
+        DrawRope();
+    }
+
+    private void StartGrapple()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxDistance, Grappable))
         {
-            lineRenderer.SetPosition(0, gunTip.position);
+            grapplePoint = hit.point;
+            joint = player.AddComponent<SpringJoint>();
+            joint.autoConfigureConnectedAnchor = false;
+            joint.connectedAnchor = grapplePoint;
+
+            float distance = Vector3.Distance(player.position, grapplePoint);
+            joint.maxDistance = distance * 0.8f;
+            joint.minDistance = distance * 0.25f;
+
+            joint.spring = 4.5f;
+            joint.damper = 7f;
+            joint.massScale = 4.5f;
         }
     }
 
-    private void ExecuteGrapple()
-    {
 
+    private void DrawRope()
+    {
+        if (!joint) return;
+        rndr.SetPosition(0, gunTip.position);
+        rndr.SetPosition(0, grapplePoint);
     }
 
     private void StopGrapple()
     {
-        grappling = false;
-        grapplingCooldownTimer = grappleCooldown;
 
-        lineRenderer.enabled = false;
     }
+
 }
