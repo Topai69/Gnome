@@ -1,40 +1,42 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FridgeInteractable : InteractableBase
+public class QuickTimeEvent2 : MonoBehaviour 
 {
-    [SerializeField] private TaskManager taskManager;
-    [HideInInspector] public ScoreScript ScoreScript;
-
     [Header("QTE Visuals")]
     public GameObject qteUI;
     public Slider timerSlider;
 
     [Header("Timing Settings")]
     public float timerDuration = 15f;
+    public int requiredPresses = 30;
+    public KeyCode inputKey = KeyCode.A;
+
+    [Header("References")]
+    public PlayerMovement movementScript; 
 
     private float elapsedTime = 0f;
     private bool isRunning = false;
     private int pressCount = 0;
-    private int requiredPresses = 10;
 
-    private void Start()
+    void OnEnable()
     {
-        ScoreScript = FindAnyObjectByType<ScoreScript>();
+        StartQTE();
     }
 
-    public override void OnInteract()
+    void StartQTE()
     {
-        base.OnInteract();
-        Debug.Log("Interacted with fridge");
-
         qteUI.SetActive(true);
         elapsedTime = 0f;
         pressCount = 0;
         isRunning = true;
-
         timerSlider.value = 1f;
+
+        if (movementScript != null)
+        {
+            movementScript.blockAInput = true; //block "A" movement while QTE is running
+            Debug.Log("A key movement blocked (QTE started)");
+        }
     }
 
     void Update()
@@ -46,8 +48,7 @@ public class FridgeInteractable : InteractableBase
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
         timerSlider.value = remaining;
 
-        // Player input check
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(inputKey))
         {
             pressCount++;
             Debug.Log("Pressed A: " + pressCount);
@@ -70,24 +71,17 @@ public class FridgeInteractable : InteractableBase
     {
         isRunning = false;
         qteUI.SetActive(false);
-        Finish();
+
+        gameObject.SetActive(false); // Triggers OnDisable()
     }
 
-    private void Finish()
+    void OnDisable()
     {
-        ((transform.parent).parent.gameObject.GetComponent<Animation>()).Play("Fridge"); //play the certain animation
-
-        if (taskManager != null)
+        //Always re-enable A movement when this QTE is disabled
+        if (movementScript != null)
         {
-            taskManager.CompleteTask(0);
-        }
-
-        if (ScoreScript != null)
-        {
-            ScoreScript.Score += 20;
-        }
-
-        gameObject.GetComponent<FridgeInteractable>().enabled = false; //turn of the script, since it's no longer needed
-        gameObject.layer = 6; //change layer so that the object was no longer interactable
+            movementScript.blockAInput = false;
+            Debug.Log("A key movement re-enabled (QTE ended)");
+        }
     }
 }

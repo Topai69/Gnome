@@ -6,16 +6,20 @@ public class QuickTimeEvent : MonoBehaviour
 {
     [Header("QTE Visuals")]
     public GameObject qteUI;
-    public Slider timerSlider;                 
+    public Slider timerSlider;
     public RectTransform cursor;
     public RectTransform successZone;
 
     [Header("Timing Settings")]
-    public float timerDuration = 15f; 
-    public float cursorTravelTime = 2f; 
+    public float timerDuration = 15f;
+    public float cursorTravelTime = 2f;
+
+    [Header("References")]
+    public HeaterInteractable heaterScript; 
 
     private float elapsedTime = 0f;
     private bool isRunning = false;
+    private bool success = false;
 
     private Vector3 cursorStartPos;
     private Vector3 cursorEndPos;
@@ -30,6 +34,7 @@ public class QuickTimeEvent : MonoBehaviour
         qteUI.SetActive(true);
         elapsedTime = 0f;
         isRunning = true;
+        success = false;
 
         timerSlider.value = 1f;
 
@@ -50,23 +55,29 @@ public class QuickTimeEvent : MonoBehaviour
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
         timerSlider.value = remaining;
 
-        // Cursor movement 
         float cursorProgress = Mathf.PingPong(elapsedTime / cursorTravelTime, 1f);
         cursor.localPosition = Vector3.Lerp(cursorStartPos, cursorEndPos, cursorProgress);
 
-        // Player input check
         if (Input.GetKeyDown(KeyCode.H))
         {
             if (IsCursorInSuccessZone())
             {
                 Debug.Log("QTE Success!");
-                EndQTE();
+                success = true;
             }
+            else
+            {
+                Debug.Log("QTE Failed! Pressed outside the green zone.");
+                success = false;
+            }
+
+            EndQTE();
         }
 
         if (elapsedTime >= timerDuration)
         {
-            Debug.Log("QTE Failed!");
+            Debug.Log("QTE Failed! Timer ran out.");
+            success = false;
             EndQTE();
         }
     }
@@ -84,5 +95,10 @@ public class QuickTimeEvent : MonoBehaviour
         isRunning = false;
         qteUI.SetActive(false);
         gameObject.SetActive(false);
+
+        if (success && heaterScript != null)
+        {
+            heaterScript.FinishHeaterInteraction();
+        }
     }
 }

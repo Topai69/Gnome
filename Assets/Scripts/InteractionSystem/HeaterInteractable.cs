@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class HeaterInteractable : InteractableBase
 {
+    [SerializeField] private AnimationClip rotation;
     [SerializeField] private TaskManager taskManager;
-    [HideInInspector] public ScoreScript ScoreScript; 
+    [HideInInspector] public ScoreScript ScoreScript;
 
-   
+    [SerializeField] private GameObject quickTimeEvent;
+    [SerializeField] private GameObject interactionUI; 
+
+    [HideInInspector] public bool hasInteracted = false;
 
     private void Start()
     {
@@ -14,14 +18,26 @@ public class HeaterInteractable : InteractableBase
 
     public override void OnInteract()
     {
+        if (hasInteracted) return;
+
         base.OnInteract();
-        Debug.Log("Interacted with heater");
-        //anim.Play("Rotating");
+        Debug.Log("Interacted with heater — QTE triggered");
+
+        if (quickTimeEvent != null && !quickTimeEvent.activeSelf)
+        {
+            quickTimeEvent.SetActive(true);
+        }
+    }
+
+    public void FinishHeaterInteraction()
+    {
+        Debug.Log("Heater QTE succeeded — playing animation");
+
         transform.parent.gameObject.GetComponent<Animation>().Play("Activation");
 
         if (taskManager != null)
         {
-            taskManager.CompleteTask(1); 
+            taskManager.CompleteTask(1);
         }
 
         if (ScoreScript != null)
@@ -29,7 +45,15 @@ public class HeaterInteractable : InteractableBase
             ScoreScript.Score += 20;
         }
 
-        gameObject.GetComponent<HeaterInteractable>().enabled = false; //turn of the script, since it's no longer needed
+        hasInteracted = true;
+
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        GetComponent<HeaterInteractable>().enabled = false;
         gameObject.layer = 6;
     }
 }

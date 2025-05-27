@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections; 
 using UnityEngine;
 using TMPro;
 
@@ -47,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
     // external speed override (for rug slowdown)
     public bool overrideSpeed = false;
     public float customSpeed = 5f;
+
+    public bool blockAInput = false; // Prevents 'A' movement during QTE
 
     private void Start()
     {
@@ -156,6 +158,12 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        // Block 'A' key movement input if QTE is active
+        if (blockAInput && Input.GetKey(KeyCode.A))
+        {
+            horizontalInput = 0f;
+        }
 
         // calculates movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
