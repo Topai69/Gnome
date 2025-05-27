@@ -74,7 +74,7 @@ public class LeftSinkValveInteractable : InteractableBase
 
         if (taskManager != null)
         {
-            taskManager.CompleteTask(1);
+            taskManager.CompleteTask(2);
         }
 
         if (ScoreScript != null)
