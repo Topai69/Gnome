@@ -4752,7 +4752,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Turn the sink off
+  m_text: 'Fix the sink
 
 
 
@@ -7199,7 +7199,7 @@ MonoBehaviour:
     description: Turn the heater off
     isCompleted: 0
   - taskItem: {fileID: 1216402868}
-    description: Turn the sink off
+    description: Fix the sink
     isCompleted: 0
 --- !u!4 &1152267554
 Transform:
