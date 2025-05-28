@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         {
             float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
             float smoothAngle = Mathf.SmoothDampAngle(playerModel.localEulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            Quaternion fixedRotation = Quaternion.Euler(-90f, smoothAngle, 0f); 
+            Quaternion fixedRotation = Quaternion.Euler(-0.392f, smoothAngle, 0f); 
             playerModel.localRotation = fixedRotation;
         }
 
