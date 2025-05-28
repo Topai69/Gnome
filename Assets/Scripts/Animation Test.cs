@@ -3,34 +3,36 @@ using UnityEngine;
 public class AnimationTest : MonoBehaviour
 {
     private Animator Gnome;
-    public PlayerMovement pr;
     private float movementThreshold = 0.1f;
-    
+
+    private PlayerMovement playerMovement;
 
     void Start()
     {
         Gnome = GetComponent<Animator>();
-        pr = GetComponent<PlayerMovement>();
+        playerMovement = GetComponentInParent<PlayerMovement>(); // Get reference from parent
     }
 
-    public void Update()
+    void Update()
     {
-        
-     
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
+        // Don't animate if not grounded
+        if (playerMovement != null && !playerMovement.grounded)
+        {
+            Gnome.SetBool("IsIdle", true);
+            Gnome.SetBool("IsWalking", false);
+            Gnome.SetFloat("MovementSpeed", 0f);
+            return;
+        }
 
-            bool isMoving = (Mathf.Abs(horizontalInput) > movementThreshold) ||
-                            (Mathf.Abs(verticalInput) > movementThreshold);
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
-            Gnome.SetBool("IsIdle", !isMoving);
+        bool isMoving = Mathf.Abs(horizontalInput) > movementThreshold || Mathf.Abs(verticalInput) > movementThreshold;
 
-                Gnome.SetBool("IsWalking", isMoving);
+        Gnome.SetBool("IsIdle", !isMoving);
+        Gnome.SetBool("IsWalking", isMoving);
 
-                float movementSpeed = new Vector2(horizontalInput, verticalInput).magnitude;
-                Gnome.SetFloat("MovementSpeed", movementSpeed);
-      
-    }
+        float movementSpeed = new Vector2(horizontalInput, verticalInput).magnitude;
+        Gnome.SetFloat("MovementSpeed", movementSpeed);
+    }
 }
-
-

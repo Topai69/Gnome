@@ -1,7 +1,6 @@
 using System.Collections; 
 using UnityEngine;
 using TMPro;
-using UnityEditor.Analytics;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     public LayerMask whatIsInteractable;
-    public bool grounded = false;
+    public bool grounded;
 
     [Header("Jump & Glide")]
     public float jumpForce = 6f;
@@ -58,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
-    public void Update()
+    private void Update()
     {
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround)
@@ -110,7 +109,6 @@ public class PlayerMovement : MonoBehaviour
             playerModel.localRotation = fixedRotation;
         }
 
-
         // Removed previous stamina logic bcs it's handled in PlayerStamina now (entirely)
         //staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
@@ -148,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }*/
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
         if (!isOnRope)
         {
@@ -156,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void MyInput()
+    private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
@@ -173,47 +171,48 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.Normalize();
     }
 
-    public void MovePlayer()
+private void MovePlayer()
+{
+    float targetSpeed;
+
+    // override speed logic
+    if (overrideSpeed)
     {
-        float targetSpeed;
-
-        // override speed logic
-        if (overrideSpeed)
-        {
-            targetSpeed = customSpeed;
-        }
-        else if (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed && grounded)
-        {
-            targetSpeed = 10f;
-        }
-        else
-        {
-            targetSpeed = moveSpeed;
-        }
-
-        // player is on ground
-        if (grounded || hasJumped)
-        {
-            rb.linearVelocity = new Vector3(moveDirection.x * targetSpeed, rb.linearVelocity.y, moveDirection.z * targetSpeed);
-        }
+        targetSpeed = customSpeed;
+    }
+    else if (grounded && Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed)
+    {
+        targetSpeed = 10f;
+    }
+    else
+    {
+        targetSpeed = moveSpeed;
     }
 
-    protected void SpeedControl()
+    // player is on ground
+    if (grounded || hasJumped)
     {
-        Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-
-        float maxSpeed = overrideSpeed ? customSpeed :
-            (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed) ? 10f : moveSpeed;
-
-        // limit velocity if needed
-        if (flatVel.magnitude > maxSpeed)
-        {
-            Vector3 limitedVel = flatVel.normalized * maxSpeed;
-            rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
-        }
+        rb.linearVelocity = new Vector3(moveDirection.x * targetSpeed, rb.linearVelocity.y, moveDirection.z * targetSpeed);
     }
+}
 
-    protected void Jump()
+private void SpeedControl()
+{
+    Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+    float maxSpeed = overrideSpeed ? customSpeed :
+        (grounded && Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed) ? 10f : moveSpeed;
+
+    // limit velocity if needed
+    if (flatVel.magnitude > maxSpeed)
+    {
+        Vector3 limitedVel = flatVel.normalized * maxSpeed;
+        rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+    }
+}
+
+
+    private void Jump()
     {
         // resets vertical velocity before applying jump force
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);

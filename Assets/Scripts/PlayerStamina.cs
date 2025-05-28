@@ -10,8 +10,7 @@ public class PlayerStamina : MonoBehaviour
     public float staminaDrainRate = 20f;  
     public float staminaRegenRate = 10f; 
     public KeyCode sprintKey = KeyCode.LeftShift; // This is the sprint key btw
-    private PlayerMovement pr;
-    [SerializeField] private GameObject Player;
+
     private bool isSprinting = false;
 
     public bool sprintAllowed = true; // New bool to control sprinting availability
@@ -21,41 +20,40 @@ public class PlayerStamina : MonoBehaviour
         currentStamina = maxStamina;
         staminaBar.maxValue = maxStamina;
         staminaBar.value = currentStamina;
-        pr = Player.GetComponent<PlayerMovement>();
     }
 
     void Update()
+{
+    // Sprinting only works if: key is held, stamina is available, sprint is allowed, and player is grounded
+    if (Input.GetKey(sprintKey) && currentStamina > 0f && sprintAllowed && GetComponent<PlayerMovement>().grounded)
     {
-        // Added sprintAllowed condition
-        if (Input.GetKey(sprintKey) && currentStamina > 0f && sprintAllowed && pr.grounded)
-        {
-            isSprinting = true;
-            currentStamina -= staminaDrainRate * Time.deltaTime;
+        isSprinting = true;
+        currentStamina -= staminaDrainRate * Time.deltaTime;
 
-            if (currentStamina <= 0f) // Added trigger disable coroutine when stamina depleats completely (hits 0)
-            {
-                currentStamina = 0f;
-                StartCoroutine(DisableSprintTemporarily());
-            }
-        }
-        else
+        if (currentStamina <= 0f) // Added trigger disable coroutine when stamina depleats completely (hits 0)
         {
-            isSprinting = false;
-            if (currentStamina < maxStamina)
-            {
-                currentStamina += staminaRegenRate * Time.deltaTime;
-            }
+            currentStamina = 0f;
+            StartCoroutine(DisableSprintTemporarily());
         }
-
-        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
-        staminaBar.value = currentStamina;
     }
+    else
+    {
+        isSprinting = false;
+        if (currentStamina < maxStamina)
+        {
+            currentStamina += staminaRegenRate * Time.deltaTime;
+        }
+    }
+
+    currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+    staminaBar.value = currentStamina;
+}
 
     // Also added coroutine to disable sprinting temporarily (3 seconds) when stamina hits zero
     IEnumerator DisableSprintTemporarily()
     {
         sprintAllowed = false;
         yield return new WaitForSeconds(3f);
-        sprintAllowed = true;
-    }
+        sprintAllowed = true;
+    }
 }
