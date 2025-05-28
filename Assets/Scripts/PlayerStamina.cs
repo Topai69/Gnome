@@ -10,7 +10,8 @@ public class PlayerStamina : MonoBehaviour
     public float staminaDrainRate = 20f;  
     public float staminaRegenRate = 10f; 
     public KeyCode sprintKey = KeyCode.LeftShift; // This is the sprint key btw
-
+    private PlayerMovement pr;
+    [SerializeField] private GameObject Player;
     private bool isSprinting = false;
 
     public bool sprintAllowed = true; // New bool to control sprinting availability
@@ -20,12 +21,13 @@ public class PlayerStamina : MonoBehaviour
         currentStamina = maxStamina;
         staminaBar.maxValue = maxStamina;
         staminaBar.value = currentStamina;
+        pr = Player.GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
         // Added sprintAllowed condition
-        if (Input.GetKey(sprintKey) && currentStamina > 0f && sprintAllowed)
+        if (Input.GetKey(sprintKey) && currentStamina > 0f && sprintAllowed && pr.grounded)
         {
             isSprinting = true;
             currentStamina -= staminaDrainRate * Time.deltaTime;

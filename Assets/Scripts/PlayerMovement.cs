@@ -1,6 +1,7 @@
 using System.Collections; 
 using UnityEngine;
 using TMPro;
+using UnityEditor.Analytics;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     public LayerMask whatIsInteractable;
-    public bool grounded;
+    public bool grounded = false;
 
     [Header("Jump & Glide")]
     public float jumpForce = 6f;
@@ -57,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
-    private void Update()
+    public void Update()
     {
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround)
@@ -109,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
             playerModel.localRotation = fixedRotation;
         }
 
+
         // Removed previous stamina logic bcs it's handled in PlayerStamina now (entirely)
         //staminaText.text = Mathf.RoundToInt(playerStamina.currentStamina).ToString(); 
     }
@@ -146,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }*/
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         if (!isOnRope)
         {
@@ -154,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MyInput()
+    public void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
@@ -171,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.Normalize();
     }
 
-    private void MovePlayer()
+    public void MovePlayer()
     {
         float targetSpeed;
 
@@ -180,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
         {
             targetSpeed = customSpeed;
         }
-        else if (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed)
+        else if (Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed && grounded)
         {
             targetSpeed = 10f;
         }
@@ -196,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void SpeedControl()
+    protected void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
@@ -211,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Jump()
+    protected void Jump()
     {
         // resets vertical velocity before applying jump force
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
