@@ -27,6 +27,7 @@ public class HeaterInteractable : InteractableBase
         {
             quickTimeEvent.SetActive(true);
         }
+        FinishHeaterInteraction();
     }
 
     public void FinishHeaterInteraction()

@@ -8,7 +8,7 @@ AnimationClip:
   m_PrefabAsset: {fileID: 0}
   m_Name: Fridge
   serializedVersion: 7
-  m_Legacy: 1
+  m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
   m_RotationCurves:
@@ -17,27 +17,27 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0, y: 0, z: 0.15897995, w: 0.9872818}
-        inSlope: {x: 0, y: 0, z: -0.002872467, w: 0.0004620552}
-        outSlope: {x: 0, y: 0, z: -0.002872467, w: 0.0004620552}
+        value: {x: 0, y: 0, z: 0.21568806, w: 0.9764623}
+        inSlope: {x: 0, y: 0, z: -0.0275985, w: 0.0060796738}
+        outSlope: {x: 0, y: 0, z: -0.0275985, w: 0.0060796738}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
-        time: 1.9166667
-        value: {x: 0, y: 0, z: 0.03508439, w: 0.9993844}
-        inSlope: {x: 0, y: 0, z: -0.059568703, w: 0.002094983}
-        outSlope: {x: 0, y: 0, z: -0.059568703, w: 0.002094983}
+        time: 1.0833334
+        value: {x: 0, y: 0, z: 0.054035287, w: 0.99853903}
+        inSlope: {x: 0, y: 0, z: -0.17158905, w: 0.009309765}
+        outSlope: {x: 0, y: 0, z: -0.17158905, w: 0.009309765}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
-        time: 2.4583335
-        value: {x: 0, y: 0, z: 0.017416991, w: 0.99984837}
-        inSlope: {x: 0, y: 0, z: -0.0029086266, w: 0.000051498315}
-        outSlope: {x: 0, y: 0, z: -0.0029086266, w: 0.000051498315}
+        time: 1.6250001
+        value: {x: 0, y: 0, z: 0.00000007450581, w: 1}
+        inSlope: {x: 0, y: 0, z: -0.009637695, w: 0.0000014305087}
+        outSlope: {x: 0, y: 0, z: -0.009637695, w: 0.0000014305087}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -45,61 +45,11 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Fridge/Plane.006
+    path: Plane.006
   m_CompressedRotationCurves: []
   m_EulerCurves: []
-  m_PositionCurves:
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: -0.010465562, y: -0.009380517, z: 0.0035321044}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 2.4583333
-        value: {x: -0.010465562, y: -0.009380517, z: 0.0035321044}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: Fridge/Plane.006
-  m_ScaleCurves:
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 2.4583335
-        value: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: Fridge/Plane.006
+  m_PositionCurves: []
+  m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 24
@@ -115,7 +65,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 2.4583335
+    m_StopTime: 1.6250001
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
