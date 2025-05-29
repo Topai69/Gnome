@@ -1487,7 +1487,7 @@ PrefabInstance:
     - target: {fileID: 7781991944807013649, guid: 569e7269536737d43ad1f8762a955c7d, type: 3}
       propertyPath: heaterScript
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1221182715}
     - target: {fileID: 7781991944807013649, guid: 569e7269536737d43ad1f8762a955c7d, type: 3}
       propertyPath: cursorTravelTime
       value: 1.1
