@@ -45,7 +45,7 @@ public class FridgeInteractable : InteractableBase
 
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
         timerSlider.value = remaining;
-
+        
         // Player input check
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -70,12 +70,28 @@ public class FridgeInteractable : InteractableBase
     {
         isRunning = false;
         qteUI.SetActive(false);
-        Finish();
+
+        if (pressCount >= requiredPresses)
+        {
+            Finish();
+        }
+        else
+        {
+            Debug.Log("Player can retry.");
+        }
     }
 
     private void Finish()
     {
-        ((transform.parent).parent.gameObject.GetComponent<Animation>()).Play("Fridge"); //play the certain animation
+        Animation anim = GetComponentInParent<Animation>();
+        if (anim != null)
+        {
+            anim.Play("Fridge");
+        }
+        else
+        {
+            Debug.LogWarning("No Animation component found on parent.");
+        }
 
         if (taskManager != null)
         {
@@ -87,7 +103,7 @@ public class FridgeInteractable : InteractableBase
             ScoreScript.Score += 20;
         }
 
-        gameObject.GetComponent<FridgeInteractable>().enabled = false; //turn of the script, since it's no longer needed
+        GetComponent<FridgeInteractable>().enabled = false; //turn of the script, since it's no longer needed
         gameObject.layer = 6; //change layer so that the object was no longer interactable
-    }
+    }
 }
