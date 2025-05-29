@@ -15,7 +15,7 @@ public class QuickTimeEvent : MonoBehaviour
     public float cursorTravelTime = 2f;
 
     [Header("References")]
-    public HeaterInteractable heaterScript; 
+    public HeaterInteractable heaterScript;
 
     private float elapsedTime = 0f;
     private bool isRunning = false;
@@ -96,9 +96,24 @@ public class QuickTimeEvent : MonoBehaviour
         qteUI.SetActive(false);
         gameObject.SetActive(false);
 
+        // Only complete heater if QTE was successful
         if (success && heaterScript != null)
         {
             heaterScript.FinishHeaterInteraction();
+        }
+        else
+        {
+            Debug.Log("QTE failed or no Heater script reference, allowing retry.");
+
+            if (heaterScript != null)
+            {
+                Collider col = heaterScript.GetComponent<Collider>();
+                if (col != null)
+                {
+                    col.enabled = true;
+                }
+                heaterScript.hasInteracted = false;
+            }
         }
     }
 }
