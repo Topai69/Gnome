@@ -15,13 +15,17 @@ public class AnimationTest : MonoBehaviour
 
     void Update()
     {
-        // Don't animate if not grounded
         if (playerMovement != null && !playerMovement.grounded)
         {
-            Gnome.SetBool("IsIdle", true);
+            Gnome.SetBool("IsIdle", false);
             Gnome.SetBool("IsWalking", false);
+            Gnome.SetBool("IsFalling", true);
             Gnome.SetFloat("MovementSpeed", 0f);
             return;
+        }
+        else
+        {
+            Gnome.SetBool("IsFalling", false);
         }
 
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -34,5 +38,5 @@ public class AnimationTest : MonoBehaviour
 
         float movementSpeed = new Vector2(horizontalInput, verticalInput).magnitude;
         Gnome.SetFloat("MovementSpeed", movementSpeed);
-    }
+    }
 }
