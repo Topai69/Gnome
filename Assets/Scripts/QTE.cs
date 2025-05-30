@@ -58,7 +58,7 @@ public class QuickTimeEvent : MonoBehaviour
         float cursorProgress = Mathf.PingPong(elapsedTime / cursorTravelTime, 1f);
         cursor.localPosition = Vector3.Lerp(cursorStartPos, cursorEndPos, cursorProgress);
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (IsCursorInSuccessZone())
             {
