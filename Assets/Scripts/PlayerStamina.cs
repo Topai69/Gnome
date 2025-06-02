@@ -25,7 +25,7 @@ public class PlayerStamina : MonoBehaviour
     void Update()
 {
     // Sprinting only works if: key is held, stamina is available, sprint is allowed, and player is grounded
-    if (Input.GetKey(sprintKey) && currentStamina > 0f && sprintAllowed && GetComponent<PlayerMovement>().grounded)
+    if ((Input.GetKey(sprintKey) || Input.GetKey(KeyCode.JoystickButton0)) && currentStamina > 0f && sprintAllowed && GetComponent<PlayerMovement>().grounded)
     {
         isSprinting = true;
         currentStamina -= staminaDrainRate * Time.deltaTime;
