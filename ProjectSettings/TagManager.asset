@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ground
   - Score
+  - DialogueSlab
   layers:
   - Default
   - TransparentFX

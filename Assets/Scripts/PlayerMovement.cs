@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     public float turnSmoothTime = 0.1f;
 
     [Header("Camera Reference")]
-    public Transform cameraHolder;        
+    public Transform cameraHolder;
 
     float turnSmoothVelocity;
     float horizontalInput;
