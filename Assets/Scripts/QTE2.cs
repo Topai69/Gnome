@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class QuickTimeEvent2 : MonoBehaviour 
@@ -48,7 +49,7 @@ public class QuickTimeEvent2 : MonoBehaviour
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
         timerSlider.value = remaining;
 
-        if (Input.GetKeyDown(inputKey))
+        if (Input.GetKeyDown(inputKey) || Input.GetKeyDown(KeyCode.JoystickButton0))
         {
             pressCount++;
             Debug.Log("Pressed A: " + pressCount);

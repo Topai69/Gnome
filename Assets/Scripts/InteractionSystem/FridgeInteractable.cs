@@ -7,6 +7,8 @@ public class FridgeInteractable : InteractableBase
 {
     [SerializeField] private TaskManager taskManager;
     [HideInInspector] public ScoreScript ScoreScript;
+    [SerializeField] public QuickTimeEvent2 quickTime;
+
 
     [Header("QTE Visuals")]
     public GameObject qteUI;
@@ -35,7 +37,7 @@ public class FridgeInteractable : InteractableBase
         elapsedTime = 0f;
         pressCount = 0;
         isRunning = true;
-
+       
         timerSlider.value = 1f;
     }
 
@@ -48,7 +50,7 @@ public class FridgeInteractable : InteractableBase
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
         timerSlider.value = remaining;
         
-        // Player input check
+       // Player input check
         if (Input.GetKeyDown(KeyCode.A))
         {
             pressCount++;
@@ -81,8 +83,9 @@ public class FridgeInteractable : InteractableBase
         {
             Debug.Log("Player can retry.");
         }
-    }
-
+   
+        }
+  
     private void Finish()
     {
         Animation anim = GetComponentInParent<Animation>();

@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     public bool overrideSpeed = false;
     public float customSpeed = 5f;
 
-    public bool blockAInput = false; // Prevents 'A' movement during QTE
+    public bool blockAInput = false; // Prevents ALL movement during QTE
 
     private void Start()
     {
@@ -79,13 +79,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Jump logic
-        if (Input.GetKeyDown(jumpKey) && grounded && !isOnRope)
+        if ((Input.GetKeyDown(jumpKey) || Input.GetKeyDown(KeyCode.JoystickButton1)) && grounded && !isOnRope)
         {
             Jump();
         }
 
         // Glide logic
-        if (!grounded && !isOnRope && Input.GetKey(jumpKey) && rb.linearVelocity.y < 0)
+        if (!grounded && !isOnRope && (Input.GetKey(jumpKey) || Input.GetKey(KeyCode.JoystickButton1))  && rb.linearVelocity.y < 0)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, -glideFallSpeed, rb.linearVelocity.z);
         }
@@ -159,10 +159,11 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        // Block 'A' key movement input if QTE is active
-        if (blockAInput && Input.GetKey(KeyCode.A))
+        // Block ALL key movement input if QTE is active
+        if (blockAInput)
         {
             horizontalInput = 0f;
+            verticalInput = 0f;
         }
 
         // calculates movement direction
@@ -180,7 +181,7 @@ private void MovePlayer()
     {
         targetSpeed = customSpeed;
     }
-    else if (grounded && Input.GetKey(playerStamina.sprintKey) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed)
+    else if ((grounded && Input.GetKey(playerStamina.sprintKey) || Input.GetKey(KeyCode.JoystickButton0)) && playerStamina.currentStamina > 0f && playerStamina.sprintAllowed)
     {
         targetSpeed = 10f;
     }

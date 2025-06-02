@@ -17,6 +17,9 @@ public class QuickTimeEvent : MonoBehaviour
     [Header("References")]
     public HeaterInteractable heaterScript;
 
+
+    [SerializeField] public PlayerMovement plr;
+
     private float elapsedTime = 0f;
     private bool isRunning = false;
     private bool success = false;
@@ -44,6 +47,7 @@ public class QuickTimeEvent : MonoBehaviour
         cursorStartPos = new Vector3(-width / 2f, cursor.localPosition.y, 0);
         cursorEndPos = new Vector3(width / 2f, cursor.localPosition.y, 0);
         cursor.localPosition = cursorStartPos;
+        plr.blockAInput = true;
     }
 
     void Update()
@@ -58,7 +62,7 @@ public class QuickTimeEvent : MonoBehaviour
         float cursorProgress = Mathf.PingPong(elapsedTime / cursorTravelTime, 1f);
         cursor.localPosition = Vector3.Lerp(cursorStartPos, cursorEndPos, cursorProgress);
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton2))
         {
             if (IsCursorInSuccessZone())
             {
@@ -114,6 +118,8 @@ public class QuickTimeEvent : MonoBehaviour
                 }
                 heaterScript.hasInteracted = false;
             }
+
         }
+        plr.blockAInput = false;
     }
 }
