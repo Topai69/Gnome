@@ -16,7 +16,8 @@ public class DualKeyQuickTimeEvent : MonoBehaviour
 
     [Header("References")]
     public LeftSinkValveInteractable valveScript; 
-    public PlayerMovement movementScript;         
+    public PlayerMovement movementScript;
+    [SerializeField] public PlayerMovement plr;
 
     private float elapsedTime = 0f;
     private bool isRunning = false;
@@ -53,7 +54,7 @@ public class DualKeyQuickTimeEvent : MonoBehaviour
             timerSlider.value = remaining;
 
         // Check if both keys are pressed simultaneously
-        bool success = (Input.GetKey(keyOne) && Input.GetKeyDown(keyTwo)) || (Input.GetKeyDown(keyOne) && Input.GetKey(keyTwo));
+        bool success = (Input.GetKey(keyOne) && Input.GetKeyDown(keyTwo) || (Input.GetKeyDown(KeyCode.Joystick1Button0))) || (Input.GetKeyDown(keyOne) && (Input.GetKey(keyTwo) || Input.GetKeyDown(KeyCode.Joystick1Button0)));
 
         if (success)
         {

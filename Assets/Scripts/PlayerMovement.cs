@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     public bool overrideSpeed = false;
     public float customSpeed = 5f;
 
-    public bool blockAInput = false; // Prevents 'A' movement during QTE
+    public bool blockAInput = false; // Prevents ALL movement during QTE
 
     private void Start()
     {
@@ -159,10 +159,11 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        // Block 'A' key movement input if QTE is active
-        if (blockAInput && Input.GetKey(KeyCode.A))
+        // Block ALL key movement input if QTE is active
+        if (blockAInput)
         {
             horizontalInput = 0f;
+            verticalInput = 0f;
         }
 
         // calculates movement direction
