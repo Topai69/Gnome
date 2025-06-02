@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class FridgeInteractable : InteractableBase
 {
@@ -10,10 +11,11 @@ public class FridgeInteractable : InteractableBase
     [Header("QTE Visuals")]
     public GameObject qteUI;
     public Slider timerSlider;
-
+    public VisualEffectAsset effect;
     [Header("Timing Settings")]
     public float timerDuration = 15f;
 
+    private string names;
     private float elapsedTime = 0f;
     private bool isRunning = false;
     private int pressCount = 0;
@@ -103,6 +105,7 @@ public class FridgeInteractable : InteractableBase
             ScoreScript.Score += 20;
         }
 
+       
         GetComponent<FridgeInteractable>().enabled = false; //turn of the script, since it's no longer needed
         gameObject.layer = 6; //change layer so that the object was no longer interactable
     }
