@@ -222,4 +222,14 @@ private void SpeedControl()
     }
 
     // Removed stamina coroutines aka StaminaLevelDecrease, StaminaLevelIncrease and Tired bcs of conflicts
+
+    public float GetVerticalVelocity()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            return rb.linearVelocity.y;
+        }
+        return 0f;
+    }
 }
