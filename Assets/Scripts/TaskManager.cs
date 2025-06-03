@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class TaskManager : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class TaskManager : MonoBehaviour
     }
 
     public List<TaskBinding> taskBindings;
+    [SerializeField] private Image progressBar; 
+    [SerializeField] private TextMeshProUGUI percentageText; 
 
     void Start()
     {
@@ -22,6 +26,8 @@ public class TaskManager : MonoBehaviour
                 binding.taskItem.SetTask(binding.description, binding.isCompleted);
             }
         }
+        
+        UpdateTaskProgress();
     }
 
     // ✅ Call this to mark a task as completed and update the UI
@@ -31,10 +37,30 @@ public class TaskManager : MonoBehaviour
         {
             taskBindings[index].isCompleted = true;
             taskBindings[index].taskItem.SetTask(taskBindings[index].description, true);
+            UpdateTaskProgress();
         }
         else
         {
             Debug.LogWarning("TaskManager: Tried to complete an invalid task index.");
+        }
+    }
+    
+    private void UpdateTaskProgress()
+    {
+        int completedCount = 0;
+        foreach (TaskBinding binding in taskBindings)
+        {
+            if (binding.isCompleted)
+                completedCount++;
+        }
+        float progress = taskBindings.Count > 0 ? (float)completedCount / taskBindings.Count : 0f;
+        if (progressBar != null)
+            progressBar.fillAmount = progress;
+
+        if (percentageText != null)
+        {
+            int percentage = Mathf.RoundToInt(progress * 100);
+            percentageText.text = percentage + "%";
         }
     }
 }
