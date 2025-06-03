@@ -62,7 +62,7 @@ public class QuickTimeEvent : MonoBehaviour
         float cursorProgress = Mathf.PingPong(elapsedTime / cursorTravelTime, 1f);
         cursor.localPosition = Vector3.Lerp(cursorStartPos, cursorEndPos, cursorProgress);
 
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton2))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton0))
         {
             if (IsCursorInSuccessZone())
             {

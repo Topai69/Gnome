@@ -5,6 +5,7 @@ public class LeftSinkValveInteractable : InteractableBase
 {
     [SerializeField] private TaskManager taskManager;
     [HideInInspector] public ScoreScript ScoreScript;
+ 
 
     [Header("QTE Visuals")]
     public GameObject qteUI;           
@@ -13,8 +14,8 @@ public class LeftSinkValveInteractable : InteractableBase
     [Header("Timing Settings")]
     public float timerDuration = 15f;  
 
-    private float elapsedTime = 0f;
-    private bool isRunning = false;
+    public float elapsedTime = 0f;
+    public bool isRunning = false;
 
     private void Start()
     {
@@ -29,7 +30,7 @@ public class LeftSinkValveInteractable : InteractableBase
         StartQTE();
     }
 
-    void Update()
+    public void Update()
     {
         if (!isRunning) return;
 
@@ -41,7 +42,7 @@ public class LeftSinkValveInteractable : InteractableBase
         if (elapsedTime >= timerDuration)
         {
             Debug.Log("QTE Timeout");
-            EndQTE();
+            //EndQTE();
         }
     }
 
@@ -57,7 +58,7 @@ public class LeftSinkValveInteractable : InteractableBase
             timerSlider.value = 1f;
     }
 
-    void EndQTE()
+   /* public void EndQTE()
     {
         isRunning = false;
 
@@ -65,12 +66,13 @@ public class LeftSinkValveInteractable : InteractableBase
             qteUI.SetActive(false);
 
         FinishValveInteraction();
-    }
+    }*/
 
     public void FinishValveInteraction()
     {
+        Debug.Log("working");
         //anim.Play("Rotating");
-        (transform.parent.gameObject.GetComponent<Animation>()).Play("LeftSinkValve");
+        transform.parent.gameObject.GetComponent<Animation>().Play("Sink");
 
         if (taskManager != null)
         {

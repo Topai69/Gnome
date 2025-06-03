@@ -9,29 +9,35 @@ public class DualKeyQuickTimeEvent : MonoBehaviour
 
     [Header("Timing Settings")]
     public float timerDuration = 15f; 
-
+    
     [Header("Input Keys")]
     public KeyCode keyOne = KeyCode.A;
     public KeyCode keyTwo = KeyCode.LeftArrow;
 
-    [Header("References")]
-    public LeftSinkValveInteractable valveScript; 
-    public PlayerMovement movementScript;
-    [SerializeField] public PlayerMovement plr;
+    [SerializeField] LeftSinkValveInteractable valve;
 
-    private float elapsedTime = 0f;
-    private bool isRunning = false;
+    [Header("References")]
+    //public LeftSinkValveInteractable valveScript; 
+    public PlayerMovement movementScript;
+    //[SerializeField] public PlayerMovement plr;
+
+    bool success;
+
+   // private float elapsedTime = 0f;
+   // private bool isRunning = false;
+
 
     void OnEnable()
     {
         StartQTE();
+
     }
 
     void StartQTE()
     {
         qteUI.SetActive(true);
-        elapsedTime = 0f;
-        isRunning = true;
+        valve.elapsedTime = 0f;
+        valve.isRunning = true;
 
         if (timerSlider != null)
             timerSlider.value = 1f;
@@ -45,41 +51,45 @@ public class DualKeyQuickTimeEvent : MonoBehaviour
 
     void Update()
     {
-        if (!isRunning) return;
+        if (!valve.isRunning) return;
 
-        elapsedTime += Time.deltaTime;
-        float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
+        valve.elapsedTime += Time.deltaTime;
+        float remaining = Mathf.Clamp01(1 - (valve.elapsedTime / valve.timerDuration));
 
         if (timerSlider != null)
             timerSlider.value = remaining;
-
+        
         // Check if both keys are pressed simultaneously
-        bool success = (Input.GetKey(keyOne) && Input.GetKeyDown(keyTwo) || (Input.GetKeyDown(KeyCode.Joystick1Button0))) || (Input.GetKeyDown(keyOne) && (Input.GetKey(keyTwo) || Input.GetKeyDown(KeyCode.Joystick1Button0)));
 
+        success = ((Input.GetKey(keyOne) && Input.GetKeyDown(keyTwo) || (Input.GetKeyDown(KeyCode.Joystick1Button0)
+            || (Input.GetKeyDown(keyOne) && (Input.GetKey(keyTwo) || (Input.GetKeyDown(KeyCode.Joystick1Button0)) || (Input.GetKeyDown(KeyCode.Joystick1Button0)))))));
         if (success)
         {
             Debug.Log("QTE Success: Left + A pressed");
-            Complete(success: true);
+            
+            Complete();
+
         }
 
-        if (elapsedTime >= timerDuration)
+        if (valve.elapsedTime >= valve.timerDuration)
         {
             Debug.Log("QTE Failed: Time ran out");
-            Complete(success: false);
+            Complete();
         }
     }
 
-    void Complete(bool success)
+    void Complete()
     {
-        isRunning = false;
-        qteUI.SetActive(false);
-        gameObject.SetActive(false); // Triggers OnDisable()
+        valve.isRunning = false;
 
+        qteUI.SetActive(false);
+       
         if (movementScript != null)
             movementScript.blockAInput = false;
 
-        if (success && valveScript != null)
-            valveScript.FinishValveInteraction();
+        if (success) valve.FinishValveInteraction();
+         
+        gameObject.SetActive(false); // Triggers OnDisable()
     }
 
     void OnDisable()

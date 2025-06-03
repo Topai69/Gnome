@@ -51,7 +51,7 @@ public class FridgeInteractable : InteractableBase
         timerSlider.value = remaining;
         
        // Player input check
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.JoystickButton0))
         {
             pressCount++;
             Debug.Log("Pressed A: " + pressCount);
@@ -84,19 +84,22 @@ public class FridgeInteractable : InteractableBase
             Debug.Log("Player can retry.");
         }
    
-        }
+    }
   
     private void Finish()
     {
         Animation anim = GetComponentInParent<Animation>();
-        if (anim != null)
+        transform.parent.gameObject.GetComponent<Animation>().Play("Fridge");
+        /*if (anim != null)
         {
-            anim.Play("Fridge");
+            //anim.Play("Fridge");
+            transform.parent.gameObject.GetComponent<Animation>().Play("Fridge");
         }
         else
         {
             Debug.LogWarning("No Animation component found on parent.");
         }
+        */
 
         if (taskManager != null)
         {
