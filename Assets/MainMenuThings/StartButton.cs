@@ -28,9 +28,14 @@ public class StartButton : MonoBehaviour
     }
     IEnumerator ChangeScene()
     { 
-        yield return new WaitForSeconds(3f); // 3 seconds delay
+        //yield return new WaitForSeconds(3f); // 3 seconds delay
         SceneManager.LoadScene(2);
         VideoPlayer.SetActive(false);
+        yield return null;
     }   
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
     
 }
