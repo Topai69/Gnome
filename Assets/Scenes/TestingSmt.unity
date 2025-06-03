@@ -10482,6 +10482,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bottle
       objectReference: {fileID: 0}
+    - target: {fileID: 156000354048501644, guid: 48433419dd95bd44481c5e9643ee0766, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 676078508532120886, guid: 48433419dd95bd44481c5e9643ee0766, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.475339
@@ -10521,6 +10525,14 @@ PrefabInstance:
     - target: {fileID: 676078508532120886, guid: 48433419dd95bd44481c5e9643ee0766, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4346672063329817821, guid: 48433419dd95bd44481c5e9643ee0766, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8396930116503523865, guid: 48433419dd95bd44481c5e9643ee0766, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11057,7 +11069,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168981874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1811136, y: -0.041627124, z: 0.0076731276, w: 0.98255086}
+  m_LocalRotation: {x: 0.18112987, y: -0.039487842, z: 0.0072787935, w: 0.9826392}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11450,7 +11462,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169670628}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.10907268, y: 0.4816319, z: 0.060560256, w: 0.86744815}
+  m_LocalRotation: {x: -0.14730752, y: 0.46885633, z: 0.0796375, w: 0.8672555}
   m_LocalPosition: {x: -17.91, y: 7.46, z: 57.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -14502,6 +14514,7 @@ MonoBehaviour:
   isInteractable: 1
   taskManager: {fileID: 1013012123}
   ScoreScript: {fileID: 0}
+  quickTime: {fileID: 0}
   quickTime: {fileID: 0}
   qteUI: {fileID: 1650492965}
   timerSlider: {fileID: 480937150}
