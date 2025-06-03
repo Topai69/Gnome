@@ -19,6 +19,6 @@ public class RotateOverTime : MonoBehaviour
         {
             //Application.Quit(); //
             Time.timeScale = 0f;
-        }
-    }
+        }
+    }
 }
