@@ -4,25 +4,29 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    private bool isPaused = false;
+
     [Header("Menu Panels")]
     public GameObject pauseMenuPanel;
     public GameObject settingsPanel;
 
-    [Header("Buttons")]
-    public Button resumeButton;
-    public Button settingsButton;
-    public Button quitButton;
+    [Header("Audio")]
+    public int maximum;
+    public int current;
+    public Image Mask;
+    public int minimum;
+    public Image fill;
 
-    private bool isPaused = false;
+
+
 
     void Start()
     {
         pauseMenuPanel.SetActive(false);
         settingsPanel.SetActive(false);
-        
-        resumeButton.onClick.AddListener(ResumeGame);
-        settingsButton.onClick.AddListener(OpenSettings);
-        quitButton.onClick.AddListener(QuitGame);
+
+
+
     }
 
     void Update()
@@ -38,9 +42,10 @@ public class PauseMenu : MonoBehaviour
                 PauseGame();
             }
         }
+        GetCurrentFillAudio();
     }
 
-    void PauseGame()
+    public void PauseGame()
     {
         isPaused = true;
         Time.timeScale = 0f;
@@ -49,7 +54,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
     }
 
-    void ResumeGame()
+    public void ResumeGame()
     {
         isPaused = false;
         Time.timeScale = 1f;
@@ -59,17 +64,24 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
     }
 
-    void OpenSettings()
+    public void OpenSettings()
     {
         settingsPanel.SetActive(true);
     }
 
-    void QuitGame()
+    public void QuitGame()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-        #endif
+#endif
     }
-} 
+    void GetCurrentFillAudio()
+    {
+        float currentOffset = current - minimum;
+        float maximumOffset = maximum - minimum;
+        float fillAmount = currentOffset / maximumOffset;
+        Mask.fillAmount = fillAmount;
+    }
+}
