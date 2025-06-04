@@ -7578,6 +7578,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d920c399e3bce654186266af69e24f52, type: 3}
       insertIndex: -1
       addedObject: {fileID: 772537996}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d920c399e3bce654186266af69e24f52, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 772537997}
     - targetCorrespondingSourceObject: {fileID: 50754954277266222, guid: d920c399e3bce654186266af69e24f52, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1044926862}
@@ -7612,6 +7615,23 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3082250236548730855, guid: d920c399e3bce654186266af69e24f52, type: 3}
+--- !u!111 &772537997
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772537993}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 2f1449e75069cf746a7d9ade3ca8a424, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &780646532 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -9171360903238368129, guid: ff1c933796ad223459dea8e7cd77bd46, type: 3}
@@ -12116,7 +12136,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169670628}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.098262034, y: 0.60806096, z: 0.076201946, w: 0.78409165}
+  m_LocalRotation: {x: -0.033022456, y: 0.6922683, z: 0.031742394, w: 0.72018504}
   m_LocalPosition: {x: -17.91, y: 7.46, z: 57.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
