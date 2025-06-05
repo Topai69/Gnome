@@ -27,9 +27,17 @@ public class FridgeInteractable : InteractableBase
     private int pressCount = 0;
     private int requiredPresses = 10;
 
+    private AnimationTest animController;
+
     private void Start()
     {
         ScoreScript = FindAnyObjectByType<ScoreScript>();
+        
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            animController = player.GetComponentInChildren<AnimationTest>();
+        }
     }
 
     public override void OnInteract()
@@ -41,8 +49,13 @@ public class FridgeInteractable : InteractableBase
         elapsedTime = 0f;
         pressCount = 0;
         isRunning = true;
-       
+        
         timerSlider.value = 1f;
+       
+        if (animController != null)
+        {
+            animController.StartPushingAnimation();
+        }
     }
 
     void Update()
@@ -53,12 +66,11 @@ public class FridgeInteractable : InteractableBase
 
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
         timerSlider.value = remaining;
-        
-        // Player input check
+    
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.JoystickButton0))
     {
         if (aButtonImage != null && pressedSprite != null)
-        aButtonImage.sprite = pressedSprite; // Show pressed sprite
+        aButtonImage.sprite = pressedSprite; 
 
         pressCount++;
         Debug.Log("Pressed A: " + pressCount);
@@ -72,7 +84,7 @@ public class FridgeInteractable : InteractableBase
         if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.JoystickButton0))
         {
         if (aButtonImage != null && normalSprite != null)
-        aButtonImage.sprite = normalSprite; // Revert to normal
+        aButtonImage.sprite = normalSprite;
     }
     }
 
@@ -81,6 +93,11 @@ public class FridgeInteractable : InteractableBase
     {
         isRunning = false;
         qteUI.SetActive(false);
+
+        if (animController != null)
+        {
+            animController.StopPushingAnimation();
+        }
 
         if (pressCount >= requiredPresses)
         {
@@ -120,6 +137,6 @@ public class FridgeInteractable : InteractableBase
 
        
         GetComponent<FridgeInteractable>().enabled = false; //turn of the script, since it's no longer needed
-        gameObject.layer = 6; //change layer so that the object was no longer interactable
+        gameObject.layer = 6; 
     }
 }

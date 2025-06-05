@@ -7,18 +7,39 @@ public class AnimationTest : MonoBehaviour
     private PlayerMovement playerMovement;
     private bool jumpInitiated = false; 
     private float jumpInitiationTimer = 0f;
-
+    
+    private bool isPushing = false;
 
     void Start()
     {
         Gnome = GetComponent<Animator>();
         playerMovement = GetComponentInParent<PlayerMovement>();
     }
+    
+    public void StartPushingAnimation()
+    {
+        isPushing = true;
+        Gnome.SetBool("IsPushing", true);
+        Gnome.SetBool("IsIdle", false);
+        Gnome.SetBool("IsWalking", false);
+        Gnome.SetBool("IsJumping", false);
+        Gnome.SetBool("IsFalling", false);
+    }
+    
+    public void StopPushingAnimation()
+    {
+        isPushing = false;
+        Gnome.SetBool("IsPushing", false);
+        Gnome.SetBool("IsIdle", true);  
+    }
 
     void Update()
     {
         if (!playerMovement.blockAInput)
         { 
+            if (isPushing)
+                return;
+                
             if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton1)) && playerMovement != null && playerMovement.grounded)
             {
                 jumpInitiated = true;
