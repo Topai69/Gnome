@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,38 +15,53 @@ public class QuickTimeEvent : MonoBehaviour
 
     [Header("References")]
     public HeaterInteractable heaterScript;
-
-
     [SerializeField] public PlayerMovement plr;
 
     private float elapsedTime = 0f;
     private bool isRunning = false;
     private bool success = false;
 
+    private int currentStage = 0;
+    private const int maxStages = 3;
+
     private Vector3 cursorStartPos;
     private Vector3 cursorEndPos;
 
-    void OnEnable()
+    private RectTransform backgroundBar;
+
+    private void OnEnable()
     {
-        StartQTE();
+        backgroundBar = qteUI.transform.Find("BackgroundBar").GetComponent<RectTransform>();
+        StartQTEStage(0);
     }
 
-    void StartQTE()
+    void StartQTEStage(int stage)
     {
         qteUI.SetActive(true);
         elapsedTime = 0f;
         isRunning = true;
         success = false;
 
-        timerSlider.value = 1f;
+        if (timerSlider != null)
+            timerSlider.value = 1f;
 
-        RectTransform background = qteUI.transform.Find("BackgroundBar").GetComponent<RectTransform>();
-        float width = background.rect.width;
+        // Calculate UI width
+        float width = backgroundBar.rect.width;
 
         cursorStartPos = new Vector3(-width / 2f, cursor.localPosition.y, 0);
         cursorEndPos = new Vector3(width / 2f, cursor.localPosition.y, 0);
         cursor.localPosition = cursorStartPos;
-        plr.blockAInput = true;
+
+        // Randomize green thing position
+        float zoneWidth = stage == 0 ? 100 : (stage == 1 ? 60 : 30);
+        successZone.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, zoneWidth);
+
+        float minX = -width / 2f + zoneWidth / 2f;
+        float maxX = width / 2f - zoneWidth / 2f;
+        float randomX = Random.Range(minX, maxX);
+        successZone.localPosition = new Vector3(randomX, successZone.localPosition.y, 0);
+
+        if (plr != null) plr.blockAInput = true;
     }
 
     void Update()
@@ -55,9 +69,10 @@ public class QuickTimeEvent : MonoBehaviour
         if (!isRunning) return;
 
         elapsedTime += Time.deltaTime;
-
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
-        timerSlider.value = remaining;
+
+        if (timerSlider != null)
+            timerSlider.value = remaining;
 
         float cursorProgress = Mathf.PingPong(elapsedTime / cursorTravelTime, 1f);
         cursor.localPosition = Vector3.Lerp(cursorStartPos, cursorEndPos, cursorProgress);
@@ -66,23 +81,20 @@ public class QuickTimeEvent : MonoBehaviour
         {
             if (IsCursorInSuccessZone())
             {
-                Debug.Log("QTE Success!");
-                success = true;
+                Debug.Log($"QTE {currentStage + 1} Success!");
+                ProceedToNextStage();
             }
             else
             {
                 Debug.Log("QTE Failed! Pressed outside the green zone.");
-                success = false;
+                EndQTE(false);
             }
-
-            EndQTE();
         }
 
         if (elapsedTime >= timerDuration)
         {
             Debug.Log("QTE Failed! Timer ran out.");
-            success = false;
-            EndQTE();
+            EndQTE(false);
         }
     }
 
@@ -94,32 +106,44 @@ public class QuickTimeEvent : MonoBehaviour
         return cursorX >= zoneMin && cursorX <= zoneMax;
     }
 
-    void EndQTE()
+    void ProceedToNextStage()
+    {
+        currentStage++;
+        if (currentStage < maxStages)
+        {
+            StartQTEStage(currentStage);
+        }
+        else
+        {
+            EndQTE(true);
+        }
+    }
+
+    void EndQTE(bool wasSuccessful)
     {
         isRunning = false;
         qteUI.SetActive(false);
         gameObject.SetActive(false);
 
+        if (plr != null)
+            plr.blockAInput = false;
+
         // Only complete heater if QTE was successful
-        if (success && heaterScript != null)
+        if (wasSuccessful && heaterScript != null)
         {
             heaterScript.FinishHeaterInteraction();
         }
         else
         {
             Debug.Log("QTE failed or no Heater script reference, allowing retry.");
-
             if (heaterScript != null)
             {
                 Collider col = heaterScript.GetComponent<Collider>();
-                if (col != null)
-                {
-                    col.enabled = true;
-                }
+                if (col != null) col.enabled = true;
                 heaterScript.hasInteracted = false;
             }
-
         }
-        plr.blockAInput = false;
+
+        currentStage = 0;
     }
 }
