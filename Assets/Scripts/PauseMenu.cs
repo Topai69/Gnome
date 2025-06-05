@@ -10,13 +10,6 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuPanel;
     public GameObject settingsPanel;
 
-    [Header("Audio")]
-    public int maximum;
-    public int current;
-    public Image Mask;
-    public int minimum;
-    public Image fill;
-
 
 
 
@@ -42,7 +35,6 @@ public class PauseMenu : MonoBehaviour
                 PauseGame();
             }
         }
-        GetCurrentFillAudio();
     }
 
     public void PauseGame()
@@ -76,12 +68,5 @@ public class PauseMenu : MonoBehaviour
 #else
             Application.Quit();
 #endif
-    }
-    void GetCurrentFillAudio()
-    {
-        float currentOffset = current - minimum;
-        float maximumOffset = maximum - minimum;
-        float fillAmount = currentOffset / maximumOffset;
-        Mask.fillAmount = fillAmount;
     }
 }
