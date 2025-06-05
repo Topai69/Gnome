@@ -45,7 +45,8 @@ public class DualKeyQuickTimeEvent : MonoBehaviour
         if (movementScript != null)
         {
             movementScript.blockAInput = true;
-            Debug.Log("A movement blocked for dual key QTE");
+            movementScript.blockJump = true;  
+            Debug.Log("A movement and jumping blocked for dual key QTE");
         }
     }
 
@@ -81,11 +82,12 @@ public class DualKeyQuickTimeEvent : MonoBehaviour
     void Complete()
     {
         valve.isRunning = false;
-
         qteUI.SetActive(false);
-       
-        if (movementScript != null)
+   
+        if (movementScript != null) {
             movementScript.blockAInput = false;
+            movementScript.blockJump = false;  
+        }
 
         if (success) valve.FinishValveInteraction();
          
@@ -97,7 +99,8 @@ public class DualKeyQuickTimeEvent : MonoBehaviour
         if (movementScript != null)
         {
             movementScript.blockAInput = false;
-            Debug.Log("A movement re-enabled (QTE ended)");
-        }
-    }
+            movementScript.blockJump = false;  
+            Debug.Log("A movement and jumping re-enabled (QTE ended)");
+        }
+    }
 }

@@ -48,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
     public bool overrideSpeed = false;
     public float customSpeed = 5f;
 
-    public bool blockAInput = false; // Prevents ALL movement during QTE
+    public bool blockAInput = false; 
+    public bool blockJump = false; 
 
     private void Start()
     {
@@ -79,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Jump logic
-        if ((Input.GetKeyDown(jumpKey) || Input.GetKeyDown(KeyCode.JoystickButton1)) && grounded && !isOnRope)
+        if (!blockJump && (Input.GetKeyDown(jumpKey) || Input.GetKeyDown(KeyCode.JoystickButton1)) && grounded && !isOnRope)
         {
             Jump();
         }

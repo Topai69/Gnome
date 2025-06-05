@@ -35,8 +35,9 @@ public class QuickTimeEvent2 : MonoBehaviour
 
         if (movementScript != null)
         {
-            movementScript.blockAInput = true; //block "A" movement while QTE is running
-            Debug.Log("A key movement blocked (QTE started)");
+            movementScript.blockAInput = true; 
+            movementScript.blockJump = true;   
+            Debug.Log("A key movement and jumping blocked (QTE started)");
         }
     }
 
@@ -78,11 +79,11 @@ public class QuickTimeEvent2 : MonoBehaviour
 
     void OnDisable()
     {
-        //Always re-enable A movement when this QTE is disabled
         if (movementScript != null)
         {
             movementScript.blockAInput = false;
-            Debug.Log("A key movement re-enabled (QTE ended)");
-        }
-    }
+            movementScript.blockJump = false; 
+            Debug.Log("A key movement and jumping re-enabled (QTE ended)");
+        }
+    }
 }

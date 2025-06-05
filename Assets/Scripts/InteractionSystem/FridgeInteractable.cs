@@ -51,7 +51,17 @@ public class FridgeInteractable : InteractableBase
         isRunning = true;
         
         timerSlider.value = 1f;
-       
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.blockJump = true; 
+            }
+        }
+        
         if (animController != null)
         {
             animController.StartPushingAnimation();
@@ -94,6 +104,16 @@ public class FridgeInteractable : InteractableBase
         isRunning = false;
         qteUI.SetActive(false);
 
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.blockJump = false;
+            }
+        }
+
         if (pressCount >= requiredPresses)
         {
             Finish();
@@ -133,6 +153,16 @@ public class FridgeInteractable : InteractableBase
     private IEnumerator StopPushingAfterFridgeAnimation(float delay)
     {
         yield return new WaitForSeconds(delay);
+        
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.blockJump = false;
+            }
+        }
         
         if (animController != null)
         {

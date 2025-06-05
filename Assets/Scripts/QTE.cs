@@ -61,7 +61,10 @@ public class QuickTimeEvent : MonoBehaviour
         float randomX = Random.Range(minX, maxX);
         successZone.localPosition = new Vector3(randomX, successZone.localPosition.y, 0);
 
-        if (plr != null) plr.blockAInput = true;
+        if (plr != null) {
+            plr.blockAInput = true;
+            plr.blockJump = true; 
+        }
     }
 
     void Update()
@@ -125,8 +128,10 @@ public class QuickTimeEvent : MonoBehaviour
         qteUI.SetActive(false);
         gameObject.SetActive(false);
 
-        if (plr != null)
+        if (plr != null) {
             plr.blockAInput = false;
+            plr.blockJump = false; 
+        }
 
         // Only complete heater if QTE was successful
         if (wasSuccessful && heaterScript != null)
