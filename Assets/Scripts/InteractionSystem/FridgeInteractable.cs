@@ -94,11 +94,6 @@ public class FridgeInteractable : InteractableBase
         isRunning = false;
         qteUI.SetActive(false);
 
-        if (animController != null)
-        {
-            animController.StopPushingAnimation();
-        }
-
         if (pressCount >= requiredPresses)
         {
             Finish();
@@ -106,24 +101,20 @@ public class FridgeInteractable : InteractableBase
         else
         {
             Debug.Log("Player can retry.");
+            
+            if (animController != null)
+            {
+                animController.StopPushingAnimation();
+            }
         }
-   
     }
   
     private void Finish()
     {
         Animation anim = GetComponentInParent<Animation>();
         transform.parent.gameObject.GetComponent<Animation>().Play("Fridge");
-        /*if (anim != null)
-        {
-            //anim.Play("Fridge");
-            transform.parent.gameObject.GetComponent<Animation>().Play("Fridge");
-        }
-        else
-        {
-            Debug.LogWarning("No Animation component found on parent.");
-        }
-        */
+        float fridgeAnimationDuration = transform.parent.gameObject.GetComponent<Animation>()["Fridge"].length;
+        StartCoroutine(StopPushingAfterFridgeAnimation(fridgeAnimationDuration));
 
         if (taskManager != null)
         {
@@ -135,8 +126,17 @@ public class FridgeInteractable : InteractableBase
             ScoreScript.Score += 20;
         }
 
-       
-        GetComponent<FridgeInteractable>().enabled = false; //turn of the script, since it's no longer needed
+        GetComponent<FridgeInteractable>().enabled = false; // turn off the script, since it's no longer needed
         gameObject.layer = 6; 
+    }
+
+    private IEnumerator StopPushingAfterFridgeAnimation(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
+        if (animController != null)
+        {
+            animController.StopPushingAnimation();
+        }
     }
 }
