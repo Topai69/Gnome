@@ -8,19 +8,18 @@ public class Dialogue : MonoBehaviour
     public TextMeshProUGUI textComponent;
     public string[] lines;
     public float textSpeed;
-    public GameObject DialogueBox;
 
     private int index;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         textComponent.text = string.Empty;
         StartDialogue();
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -30,10 +29,8 @@ public class Dialogue : MonoBehaviour
             }
             else
             {
-                DialogueBox.SetActive(false);
                 StopAllCoroutines();
                 textComponent.text = lines[index];
-
             }
         }
     }
@@ -67,3 +64,4 @@ public class Dialogue : MonoBehaviour
         }
     }
 }
+
