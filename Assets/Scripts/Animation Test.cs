@@ -6,8 +6,7 @@ public class AnimationTest : MonoBehaviour
     private float movementThreshold = 0.1f;
     private PlayerMovement playerMovement;
     private bool jumpInitiated = false; 
-    private float jumpInitiationTimer = 0f;
-
+    private float jumpInitiationTimer = 0f; 
 
     void Start()
     {
@@ -17,30 +16,28 @@ public class AnimationTest : MonoBehaviour
 
     void Update()
     {
-        if (!playerMovement.blockAInput)
-        { 
-            if (Input.GetButtonDown("Jump") && playerMovement != null && playerMovement.grounded)
-            {
-                jumpInitiated = true;
-                jumpInitiationTimer = 0.2f;
-                Gnome.SetBool("IsJumping", true);
-                Gnome.SetBool("IsIdle", false);
-                Gnome.SetBool("IsWalking", false);
-                Gnome.SetBool("IsFalling", false);
-            }
+        if (Input.GetButtonDown("Jump") && playerMovement != null && playerMovement.grounded)
+        {
+            jumpInitiated = true;
+            jumpInitiationTimer = 0.2f; 
+            Gnome.SetBool("IsJumping", true);
+            Gnome.SetBool("IsIdle", false);
+            Gnome.SetBool("IsWalking", false);
+            Gnome.SetBool("IsFalling", false);
+        }
 
         if (jumpInitiationTimer > 0)
         {
             jumpInitiationTimer -= Time.deltaTime;
         }
-
+        
         if (playerMovement != null && !playerMovement.grounded)
         {
             if (playerMovement.GetVerticalVelocity() > 0 || jumpInitiated)
             {
                 Gnome.SetBool("IsJumping", true);
                 Gnome.SetBool("IsFalling", false);
-
+                
                 if (playerMovement.GetVerticalVelocity() > 0)
                 {
                     jumpInitiated = false;
@@ -63,7 +60,7 @@ public class AnimationTest : MonoBehaviour
             {
                 jumpInitiated = false;
             }
-
+            
             if (!jumpInitiated)
             {
                 Gnome.SetBool("IsJumping", false);
@@ -84,6 +81,5 @@ public class AnimationTest : MonoBehaviour
 
         float movementSpeed = new Vector2(horizontalInput, verticalInput).magnitude;
         Gnome.SetFloat("MovementSpeed", movementSpeed);
-        }
     }
 }
