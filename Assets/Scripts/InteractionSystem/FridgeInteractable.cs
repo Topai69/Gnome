@@ -27,9 +27,17 @@ public class FridgeInteractable : InteractableBase
     private int pressCount = 0;
     private int requiredPresses = 10;
 
+    private AnimationTest animController;
+
     private void Start()
     {
         ScoreScript = FindAnyObjectByType<ScoreScript>();
+        
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            animController = player.GetComponentInChildren<AnimationTest>();
+        }
     }
 
     public override void OnInteract()
@@ -41,8 +49,23 @@ public class FridgeInteractable : InteractableBase
         elapsedTime = 0f;
         pressCount = 0;
         isRunning = true;
-       
+        
         timerSlider.value = 1f;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.blockJump = true; 
+            }
+        }
+        
+        if (animController != null)
+        {
+            animController.StartPushingAnimation();
+        }
     }
 
     void Update()
@@ -53,12 +76,11 @@ public class FridgeInteractable : InteractableBase
 
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
         timerSlider.value = remaining;
-        
-        // Player input check
+    
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.JoystickButton0))
     {
         if (aButtonImage != null && pressedSprite != null)
-        aButtonImage.sprite = pressedSprite; // Show pressed sprite
+        aButtonImage.sprite = pressedSprite; 
 
         pressCount++;
         Debug.Log("Pressed A: " + pressCount);
@@ -72,7 +94,7 @@ public class FridgeInteractable : InteractableBase
         if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.JoystickButton0))
         {
         if (aButtonImage != null && normalSprite != null)
-        aButtonImage.sprite = normalSprite; // Revert to normal
+        aButtonImage.sprite = normalSprite;
     }
     }
 
@@ -82,6 +104,16 @@ public class FridgeInteractable : InteractableBase
         isRunning = false;
         qteUI.SetActive(false);
 
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.blockJump = false;
+            }
+        }
+
         if (pressCount >= requiredPresses)
         {
             Finish();
@@ -89,24 +121,20 @@ public class FridgeInteractable : InteractableBase
         else
         {
             Debug.Log("Player can retry.");
+            
+            if (animController != null)
+            {
+                animController.StopPushingAnimation();
+            }
         }
-   
     }
   
     private void Finish()
     {
         Animation anim = GetComponentInParent<Animation>();
         transform.parent.gameObject.GetComponent<Animation>().Play("Fridge");
-        /*if (anim != null)
-        {
-            //anim.Play("Fridge");
-            transform.parent.gameObject.GetComponent<Animation>().Play("Fridge");
-        }
-        else
-        {
-            Debug.LogWarning("No Animation component found on parent.");
-        }
-        */
+        float fridgeAnimationDuration = transform.parent.gameObject.GetComponent<Animation>()["Fridge"].length;
+        StartCoroutine(StopPushingAfterFridgeAnimation(fridgeAnimationDuration));
 
         if (taskManager != null)
         {
@@ -118,8 +146,27 @@ public class FridgeInteractable : InteractableBase
             ScoreScript.Score += 20;
         }
 
-       
-        GetComponent<FridgeInteractable>().enabled = false; //turn of the script, since it's no longer needed
-        gameObject.layer = 6; //change layer so that the object was no longer interactable
+        GetComponent<FridgeInteractable>().enabled = false; // turn off the script, since it's no longer needed
+        gameObject.layer = 6; 
+    }
+
+    private IEnumerator StopPushingAfterFridgeAnimation(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.blockJump = false;
+            }
+        }
+        
+        if (animController != null)
+        {
+            animController.StopPushingAnimation();
+        }
     }
 }
