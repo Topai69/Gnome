@@ -2555,7 +2555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226512439}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.181129, y: -0.039600126, z: 0.00729949, w: 0.98263466}
+  m_LocalRotation: {x: 0.18113303, y: -0.039057076, z: 0.00719939, w: 0.98265636}
   m_LocalPosition: {x: 5.111602, y: 3.7936153, z: 30.413406}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3954,7 +3954,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349876157}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.181129, y: -0.039600126, z: 0.00729949, w: 0.98263466}
+  m_LocalRotation: {x: 0.18113303, y: -0.039057076, z: 0.00719939, w: 0.98265636}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10324,6 +10324,9 @@ MonoBehaviour:
   qteUI: {fileID: 1650492965}
   timerSlider: {fileID: 480937150}
   effect: {fileID: 0}
+  aButtonImage: {fileID: 1650492968}
+  normalSprite: {fileID: 21300000, guid: f549811d27689c1459db9db93fdb2b75, type: 3}
+  pressedSprite: {fileID: 21300000, guid: c5cdedd8b891fb847a23efb12c71e163, type: 3}
   timerDuration: 15
 --- !u!64 &1044926863
 MeshCollider:
@@ -11891,7 +11894,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168981874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18112901, y: -0.03960013, z: 0.0072994907, w: 0.98263466}
+  m_LocalRotation: {x: 0.18113303, y: -0.039057072, z: 0.0071993885, w: 0.98265636}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12284,7 +12287,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169670628}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.12470482, y: 0.5989237, z: 0.095108666, w: 0.7852984}
+  m_LocalRotation: {x: -0.02264853, y: 0.8146418, z: 0.031885635, w: 0.5786442}
   m_LocalPosition: {x: -17.91, y: 7.46, z: 57.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -18462,6 +18465,17 @@ MonoBehaviour:
   requiredPresses: 30
   inputKey: 97
   movementScript: {fileID: 393939307}
+--- !u!114 &1650492968 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9197534642075283195, guid: 6a1dc002a01c56c4fb4846b153293d4f, type: 3}
+  m_PrefabInstance: {fileID: 2038425645}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650492965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1650641020
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,10 @@ public class FridgeInteractable : InteractableBase
     public GameObject qteUI;
     public Slider timerSlider;
     public VisualEffectAsset effect;
+    [SerializeField] private Image aButtonImage;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite pressedSprite;
+
     [Header("Timing Settings")]
     public float timerDuration = 15f;
 
@@ -50,25 +54,28 @@ public class FridgeInteractable : InteractableBase
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
         timerSlider.value = remaining;
         
-       // Player input check
+        // Player input check
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.JoystickButton0))
-        {
-            pressCount++;
-            Debug.Log("Pressed A: " + pressCount);
+    {
+        if (aButtonImage != null && pressedSprite != null)
+        aButtonImage.sprite = pressedSprite; // Show pressed sprite
 
-            if (pressCount >= requiredPresses)
-            {
-                Debug.Log("QTE Success!");
-                EndQTE();
-            }
-        }
+        pressCount++;
+        Debug.Log("Pressed A: " + pressCount);
 
-        if (elapsedTime >= timerDuration)
+        if (pressCount >= requiredPresses)
         {
-            Debug.Log(pressCount >= requiredPresses ? "QTE Success!" : "QTE Failed!");
-            EndQTE();
+        Debug.Log("QTE Success!");
+        EndQTE();
         }
+        }
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.JoystickButton0))
+        {
+        if (aButtonImage != null && normalSprite != null)
+        aButtonImage.sprite = normalSprite; // Revert to normal
     }
+    }
+
 
     void EndQTE()
     {
