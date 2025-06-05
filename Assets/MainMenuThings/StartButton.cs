@@ -1,30 +1,50 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class StartButton : MonoBehaviour
 {
     public GameObject Video;
     public GameObject Image;
     public GameObject VideoPlayer;
-    public GameObject LoadingScreen; 
+    public GameObject LoadingScreen;
+
     public float delayBeforeLoad = 5f; // Delay Lenght
 
     public void StartGame()
     {
-        StartCoroutine(ChangeScene());
-        Image.SetActive(false);
-        Video.SetActive(true);
-        VideoPlayer.SetActive(true);
-        if (LoadingScreen != null) LoadingScreen.SetActive(true);
+        StartCoroutine(StartSequence());
     }
 
-    IEnumerator ChangeScene()
+    IEnumerator StartSequence()
     {
+        if (Image != null) Image.SetActive(false);
+        if (Video != null) Video.SetActive(true);
+        if (VideoPlayer != null) VideoPlayer.SetActive(true);
+
+        VideoPlayer vp = VideoPlayer.GetComponent<VideoPlayer>();
+        if (vp != null)
+        {
+            vp.Play();
+
+            yield return new WaitUntil(() => vp.isPrepared);
+            yield return new WaitUntil(() => !vp.isPlaying);
+
+            VideoPlayer.SetActive(false);
+            if (Video != null) Video.SetActive(false);
+        }
+        else
+        {
+            yield return new WaitForSeconds(2f); 
+        }
+
+        if (LoadingScreen != null)
+            LoadingScreen.SetActive(true);
+
         yield return new WaitForSeconds(delayBeforeLoad);
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(2);
-
         while (!asyncLoad.isDone)
         {
             yield return null;
