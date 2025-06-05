@@ -15,6 +15,8 @@ public class ItemGrabbable : InteractableBase
     private PickAndDrop pickAndDropSystem;
     private bool wrongBinPopupShown = false;
 
+    private Quaternion originalRotation;
+
     private void Awake()
     {
         itemRigidbody = GetComponent<Rigidbody>();
@@ -47,8 +49,25 @@ public class ItemGrabbable : InteractableBase
     {
         this.itemGrabPointTransform = itemGrabPointTransform;
         itemRigidbody.useGravity = false;
-        itemRigidbody.linearDamping = 10f;  
+        itemRigidbody.linearDamping = 10f;
+        
+        itemRigidbody.freezeRotation = true;
+        originalRotation = transform.rotation;
+        
         isGrabbed = true;
+    }
+
+    private void FixedUpdate()
+    {
+        if (itemGrabPointTransform != null && isGrabbed)
+        {
+            Vector3 targetPosition = itemGrabPointTransform.position;
+            Vector3 lerpedPosition = Vector3.Lerp(transform.position, targetPosition, Time.fixedDeltaTime * lerpSpeed);
+            itemRigidbody.MovePosition(lerpedPosition);
+            
+            Quaternion targetRotation = originalRotation; 
+            itemRigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * lerpSpeed));
+        }
     }
 
     public void Drop()
@@ -58,7 +77,9 @@ public class ItemGrabbable : InteractableBase
             
         this.itemGrabPointTransform = null;
         itemRigidbody.useGravity = true;
-        itemRigidbody.linearDamping = 0f;  
+        itemRigidbody.linearDamping = 0f;
+        itemRigidbody.freezeRotation = false;
+        
         isGrabbed = false;
     }
     
@@ -75,14 +96,5 @@ public class ItemGrabbable : InteractableBase
     public void SetWrongBinPopupShown(bool value)
     {
         wrongBinPopupShown = value;
-    }
-    
-    private void FixedUpdate()
-    {
-        if (itemGrabPointTransform != null)
-        {
-            Vector3 newPosition = Vector3.Lerp(transform.position, itemGrabPointTransform.position, Time.deltaTime * lerpSpeed);
-            itemRigidbody.MovePosition(newPosition);
-        }
     }
 }

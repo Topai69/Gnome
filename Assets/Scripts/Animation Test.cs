@@ -19,7 +19,7 @@ public class AnimationTest : MonoBehaviour
     {
         if (!playerMovement.blockAInput)
         { 
-            if (Input.GetButtonDown("Jump") && playerMovement != null && playerMovement.grounded)
+            if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.JoystickButton1)) && playerMovement != null && playerMovement.grounded)
             {
                 jumpInitiated = true;
                 jumpInitiationTimer = 0.2f;
