@@ -16,7 +16,7 @@ public class ScoreScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       ProgressBar.current = Score;
+        ProgressBar.current = Score;
         Leveling();
     }
 
@@ -35,12 +35,14 @@ public class ScoreScript : MonoBehaviour
             level = 2;
             Score = 0;
             ProgressBar.maximum = 300;
+            
         }
         if (level == 2 && Score >= 300)
         {
             level = 3;
             Score = 0;
             ProgressBar.maximum = 500;
+            
         }
     }
 }
