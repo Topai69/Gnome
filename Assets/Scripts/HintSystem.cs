@@ -20,7 +20,8 @@ public class HintSystem : MonoBehaviour
     [SerializeField] private GameObject[] taskArrowGroups; 
     
     [Header("External References")]
-    [SerializeField] private PauseMenu pauseMenu; 
+    [SerializeField] private PauseMenu pauseMenu;
+    private bool wasGamePaused = false;
     
     private bool hintsActive = false;
     private int currentTaskIndex = -1;
@@ -37,6 +38,8 @@ public class HintSystem : MonoBehaviour
 
         if (taskSelectionPanel != null)
             taskSelectionPanel.SetActive(false);
+        if (pauseMenu == null)
+            pauseMenu = FindObjectOfType<PauseMenu>();
     }
     
     void SetupTaskButtons()
@@ -64,6 +67,19 @@ public class HintSystem : MonoBehaviour
     
     void Update()
     {
+        bool isGamePaused = (pauseMenu != null && pauseMenu.isPaused); 
+        if (isGamePaused && !wasGamePaused)
+        {
+            if (taskSelectionPanel != null)
+                taskSelectionPanel.SetActive(false);
+            isTaskSelectionOpen = false;
+            hintsActive = false;
+            HideAllArrows();
+        }
+        
+        wasGamePaused = isGamePaused;
+        if (isGamePaused)
+            return;
        
         if (Input.GetKeyDown(KeyCode.H) || Input.GetKeyDown(KeyCode.JoystickButton3)) 
         {
@@ -73,6 +89,9 @@ public class HintSystem : MonoBehaviour
     
     private void ToggleTaskSelection()
     {
+        if (pauseMenu != null && pauseMenu.isPaused) 
+            return;
+        
         if (isTaskSelectionOpen)
         {
             taskSelectionPanel.SetActive(false);
@@ -158,5 +177,14 @@ public class HintSystem : MonoBehaviour
                 ToggleHintArrows(false);
             }
         }
+    }
+
+    public void OnGamePaused()
+    {
+        if (taskSelectionPanel != null)
+            taskSelectionPanel.SetActive(false);
+        isTaskSelectionOpen = false;
+        hintsActive = false;
+        HideAllArrows();
     }
 }

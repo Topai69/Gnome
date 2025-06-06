@@ -53,18 +53,20 @@ public class PauseMenu : MonoBehaviour
 
     public void TogglePause()
     {
+        isPaused = !isPaused;
+
         if (isPaused)
         {
-            ResumeGame();
+            PauseGame();
         }
         else
         {
-            PauseGame();
+            ResumeGame();
         }
 
         if (isPaused && hintSystem != null)
         {
-            hintSystem.CloseTaskSelection();
+            hintSystem.OnGamePaused();
         }
     }
 
