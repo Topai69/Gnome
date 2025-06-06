@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RotateOverTime : MonoBehaviour
+public class RotateOverTime : PauseMenu
 {
     public float duration = 10f; // in seconds
     private float rotationAmount = 360f;

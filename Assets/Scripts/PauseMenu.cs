@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -8,18 +9,14 @@ public class PauseMenu : MonoBehaviour
 
     [Header("Menu Panels")]
     public GameObject pauseMenuPanel;
-    public GameObject settingsPanel;
+    public GameObject gameplayUI;
 
-
-
+    public TextMeshProUGUI timeLeft;
+    public RotateOverTime clock;
 
     void Start()
     {
         pauseMenuPanel.SetActive(false);
-        settingsPanel.SetActive(false);
-
-
-
     }
 
     void Update()
@@ -35,6 +32,7 @@ public class PauseMenu : MonoBehaviour
                 PauseGame();
             }
         }
+        timeLeft.text = "Time Left:" + (clock.gameDuration - clock.elapsedTime).ToString("F0");
     }
 
     public void PauseGame()
@@ -42,6 +40,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0f;
         pauseMenuPanel.SetActive(true);
+        gameplayUI.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -51,14 +50,9 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
         pauseMenuPanel.SetActive(false);
-        settingsPanel.SetActive(false);
+        gameplayUI.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
-
-    public void OpenSettings()
-    {
-        settingsPanel.SetActive(true);
     }
 
     public void QuitGame()
