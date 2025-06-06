@@ -26,14 +26,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
+            TogglePause(); 
         }
         timeLeft.text = "Time Left:" + (clock.gameDuration - clock.elapsedTime).ToString("F0");
     }
