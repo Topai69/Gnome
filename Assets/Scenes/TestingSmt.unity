@@ -3032,7 +3032,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226512439}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18111362, y: -0.041624304, z: 0.007672608, w: 0.982551}
+  m_LocalRotation: {x: 0.18112361, y: -0.04032414, z: 0.0074329465, w: 0.9826052}
   m_LocalPosition: {x: 5.1116014, y: 3.7936153, z: 30.41341}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4528,7 +4528,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349876157}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18111362, y: -0.041624304, z: 0.007672608, w: 0.982551}
+  m_LocalRotation: {x: 0.18112361, y: -0.04032414, z: 0.0074329465, w: 0.9826052}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4957,7 +4957,7 @@ MonoBehaviour:
   interactionInputData: {fileID: 11400000, guid: 03244df4aab348144bdc37fe939d9d00, type: 2}
   interactionData: {fileID: 11400000, guid: 96b1751d64ca6144f9dd84af7da94b01, type: 2}
   uiPanel: {fileID: 1087877519}
-  rayDistance: 10
+  rayDistance: 6.8
   raySphereRadius: 0.5
   interactableLayer:
     serializedVersion: 2
@@ -12431,7 +12431,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168981874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18111362, y: -0.041624308, z: 0.007672608, w: 0.982551}
+  m_LocalRotation: {x: 0.1811236, y: -0.040324133, z: 0.007432947, w: 0.9826052}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12824,7 +12824,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169670628}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.16847357, y: 0.8160573, z: 0.29339176, w: 0.46860245}
+  m_LocalRotation: {x: 0.009212116, y: 0.986821, z: -0.060723357, w: 0.14970696}
   m_LocalPosition: {x: -17.91, y: 7.46, z: 57.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
