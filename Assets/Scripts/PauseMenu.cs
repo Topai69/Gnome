@@ -5,7 +5,7 @@ using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
-    private bool isPaused = false;
+    public bool isPaused = false;
 
     [Header("Menu Panels")]
     public GameObject pauseMenuPanel;
@@ -14,9 +14,12 @@ public class PauseMenu : MonoBehaviour
     public TextMeshProUGUI timeLeft;
     public RotateOverTime clock;
 
+    private HintSystem hintSystem;
+
     void Start()
     {
         pauseMenuPanel.SetActive(false);
+        hintSystem = FindObjectOfType<HintSystem>();
     }
 
     void Update()
@@ -55,6 +58,23 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
     }
 
+    public void TogglePause()
+    {
+        if (isPaused)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+
+        if (isPaused && hintSystem != null)
+        {
+            hintSystem.CloseTaskSelection();
+        }
+    }
+
     public void QuitGame()
     {
 #if UNITY_EDITOR
@@ -63,4 +83,6 @@ public class PauseMenu : MonoBehaviour
             Application.Quit();
 #endif
     }
+
+    
 }

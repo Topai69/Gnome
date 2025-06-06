@@ -44,11 +44,11 @@ public class FridgeInteractable : InteractableBase
     {
         base.OnInteract();
 
-        HintSystem hintSystem = FindObjectOfType<HintSystem>();
+        /*HintSystem hintSystem = FindObjectOfType<HintSystem>();
         if (hintSystem != null)
         {
             hintSystem.ShowHintPrompt(0); 
-        }
+        }*/
     
         Debug.Log("Interacted with fridge");
 
