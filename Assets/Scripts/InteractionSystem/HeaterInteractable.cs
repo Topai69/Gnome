@@ -13,7 +13,7 @@ public class HeaterInteractable : InteractableBase
 
     [HideInInspector] public bool hasInteracted = false;
     bool flag = false;
-    float timer = 0f;
+    [SerializeField] float timer = 3f;
 
     private void Start()
     {
@@ -69,9 +69,9 @@ public class HeaterInteractable : InteractableBase
     {
         if (flag)
         {
-            if (timer < 5f)
+            if (timer > 0)
             {
-                timer += Time.deltaTime;
+                timer -= Time.deltaTime;
             }
             else
             {

@@ -33,7 +33,7 @@ public class FridgeInteractable : InteractableBase
     private bool isRunning = false;
     private int pressCount = 0;
     private int requiredPresses = 10;
-    private float timer = 0f;
+    [SerializeField] private float timer = 3f;
     [SerializeField] GameObject vfx;
 
     private AnimationTest animController;
@@ -111,9 +111,9 @@ public class FridgeInteractable : InteractableBase
 
         if (flag)
         {
-            if (timer < 5f)
+            if (timer > 0f)
             {
-                timer += Time.deltaTime;
+                timer -= Time.deltaTime;
             }
             else
             {

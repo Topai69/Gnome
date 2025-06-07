@@ -17,7 +17,7 @@ public class LeftSinkValveInteractable : InteractableBase
     public float elapsedTime = 0f;
     public bool isRunning = false;
     private bool flag = false;
-    private float timer = 0f;
+    [SerializeField] private float timer = 3f;
     [SerializeField] private GameObject vfx;
 
     private void Start()
@@ -49,9 +49,9 @@ public class LeftSinkValveInteractable : InteractableBase
         }
         if (flag)
         {
-            if (timer < 5f)
+            if (timer > 0f)
             {
-                timer += Time.deltaTime;
+                timer -= Time.deltaTime;
             }
             else
             {
