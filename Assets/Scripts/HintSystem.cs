@@ -28,6 +28,7 @@ public class HintSystem : MonoBehaviour
     private bool isTaskSelectionOpen = false;
     
     private GameObject lastSelectedButton = null;
+    private bool wasHintPromptVisibleBeforePause = false;
     
     void Start()
     {
@@ -225,10 +226,23 @@ public class HintSystem : MonoBehaviour
 
     public void OnGamePaused()
     {
+        if (hintPromptPanel != null)
+            wasHintPromptVisibleBeforePause = hintPromptPanel.activeSelf;
+
         if (taskSelectionPanel != null)
             taskSelectionPanel.SetActive(false);
+        
+        if (hintPromptPanel != null)
+            hintPromptPanel.SetActive(false);
+            
         isTaskSelectionOpen = false;
         hintsActive = false;
         HideAllArrows();
+    }
+
+    public void OnGameResumed()
+    {
+        if (hintPromptPanel != null)
+            hintPromptPanel.SetActive(wasHintPromptVisibleBeforePause);
     }
 }

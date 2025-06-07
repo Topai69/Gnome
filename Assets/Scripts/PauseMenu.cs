@@ -65,9 +65,16 @@ public class PauseMenu : MonoBehaviour
             ResumeGame();
         }
 
-        if (isPaused && hintSystem != null)
+        if (hintSystem != null)
         {
-            hintSystem.OnGamePaused();
+            if (isPaused)
+            {
+                hintSystem.OnGamePaused();
+            }
+            else
+            {
+                hintSystem.OnGameResumed();
+            }
         }
     }
 
