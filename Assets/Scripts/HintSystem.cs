@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.EventSystems; 
+using UnityEngine.EventSystems;
 
 public class HintSystem : MonoBehaviour
 {
@@ -23,6 +23,7 @@ public class HintSystem : MonoBehaviour
     private int currentTaskIndex = -1;
     private bool isTaskSelectionOpen = false;
     private bool wasHintPromptVisibleBeforePause = false;
+    private bool wasTaskSelectionOpenBeforePause = false;
     private GameObject lastSelectedButton = null;
     
     void Start()
@@ -191,9 +192,6 @@ public class HintSystem : MonoBehaviour
     
     public void OnGamePaused()
     {
-        if (hintPromptPanel != null)
-            wasHintPromptVisibleBeforePause = hintPromptPanel.activeSelf;
-        
         if (taskSelectionPanel != null)
             taskSelectionPanel.SetActive(false);
         
@@ -207,8 +205,7 @@ public class HintSystem : MonoBehaviour
     
     public void OnGameResumed()
     {
-        if (hintPromptPanel != null)
-            hintPromptPanel.SetActive(wasHintPromptVisibleBeforePause);
+        UnblockPlayerMovement();
     }
     
     public void OnTaskCompleted(int taskIndex)
