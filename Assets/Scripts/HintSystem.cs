@@ -146,11 +146,8 @@ public class HintSystem : MonoBehaviour
             taskSelectionPanel.SetActive(false);
             isTaskSelectionOpen = false;
             
-            if (hintsActive)
-            {
-                hintsActive = false;
-                ToggleHintArrows(false);
-            }
+            hintsActive = false;
+            ToggleHintArrows(false);
             
             EventSystem.current.SetSelectedGameObject(null);
             
@@ -160,6 +157,9 @@ public class HintSystem : MonoBehaviour
         {
             taskSelectionPanel.SetActive(true);
             isTaskSelectionOpen = true;
+            
+            hintsActive = false;
+            ToggleHintArrows(false);
             
             if (taskSelectionButtons != null && taskSelectionButtons.Length > 0 && taskSelectionButtons[0] != null)
             {

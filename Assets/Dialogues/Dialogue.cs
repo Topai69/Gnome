@@ -21,7 +21,7 @@ public class Dialogue : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.JoystickButton5))
         {
             if (textComponent.text == lines[index])
             {
