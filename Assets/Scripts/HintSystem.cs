@@ -85,6 +85,21 @@ public class HintSystem : MonoBehaviour
         {
             ToggleTaskSelection();
         }
+        
+        // Se il pannello di selezione è aperto e viene premuto il pulsante A su un elemento selezionato
+        if (isTaskSelectionOpen && Input.GetKeyDown(KeyCode.JoystickButton0)) // JoystickButton0 = pulsante A
+        {
+            GameObject selectedObject = EventSystem.current.currentSelectedGameObject;
+            if (selectedObject != null)
+            {
+                Button selectedButton = selectedObject.GetComponent<Button>();
+                if (selectedButton != null)
+                {
+                    // Simula il click sul pulsante
+                    selectedButton.onClick.Invoke();
+                }
+            }
+        }
     }
     
     private void ToggleTaskSelection()
@@ -107,11 +122,14 @@ public class HintSystem : MonoBehaviour
         }
         else
         {
+            // Mostra il pannello di selezione
             taskSelectionPanel.SetActive(true);
             isTaskSelectionOpen = true;
             
+            // Seleziona automaticamente il primo pulsante per la navigazione con controller
             if (taskSelectionButtons != null && taskSelectionButtons.Length > 0 && taskSelectionButtons[0] != null)
             {
+                // Importante: questo imposta la selezione attiva sul primo pulsante
                 EventSystem.current.SetSelectedGameObject(taskSelectionButtons[0].gameObject);
             }
         }
