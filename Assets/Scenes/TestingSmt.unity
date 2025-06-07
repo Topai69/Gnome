@@ -3271,7 +3271,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226512439}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18109861, y: -0.043501213, z: 0.0080185775, w: 0.9824697}
+  m_LocalRotation: {x: 0.1811062, y: -0.0425645, z: 0.007845914, w: 0.9825107}
   m_LocalPosition: {x: 5.1116014, y: 3.7936153, z: 30.41341}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4898,7 +4898,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349876157}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18109861, y: -0.043501213, z: 0.0080185775, w: 0.9824697}
+  m_LocalRotation: {x: 0.1811062, y: -0.0425645, z: 0.007845914, w: 0.9825107}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9472,7 +9472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d920c399e3bce654186266af69e24f52, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.23
+      value: -2.66
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d920c399e3bce654186266af69e24f52, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12318,6 +12318,7 @@ MonoBehaviour:
   taskManager: {fileID: 1013012123}
   ScoreScript: {fileID: 0}
   quickTime: {fileID: 1650492967}
+  plane: {fileID: 0}
   qteUI: {fileID: 1650492965}
   timerSlider: {fileID: 480937150}
   effect: {fileID: 0}
@@ -13936,7 +13937,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168981874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18109861, y: -0.04350121, z: 0.0080185775, w: 0.9824697}
+  m_LocalRotation: {x: 0.18110618, y: -0.0425645, z: 0.007845913, w: 0.9825107}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14329,7 +14330,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169670628}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.04641979, y: 0.95181245, z: 0.18257092, w: -0.24200425}
+  m_LocalRotation: {x: -0.14627683, y: 0.574061, z: 0.10512875, w: 0.7987522}
   m_LocalPosition: {x: -17.91, y: 7.46, z: 57.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -20952,6 +20953,7 @@ MonoBehaviour:
   requiredPresses: 30
   inputKey: 97
   movementScript: {fileID: 393939307}
+  interactable: {fileID: 0}
 --- !u!114 &1650492968 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9197534642075283195, guid: 6a1dc002a01c56c4fb4846b153293d4f, type: 3}
@@ -21494,7 +21496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0d6abc6d4647794295f31aafdb9dce9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.27
+      value: -4.38
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0d6abc6d4647794295f31aafdb9dce9, type: 3}
       propertyPath: m_LocalPosition.z
