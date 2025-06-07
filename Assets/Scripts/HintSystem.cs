@@ -27,6 +27,8 @@ public class HintSystem : MonoBehaviour
     private int currentTaskIndex = -1;
     private bool isTaskSelectionOpen = false;
     
+    private GameObject lastSelectedButton = null;
+    
     void Start()
     {
         HideAllArrows();
@@ -86,8 +88,7 @@ public class HintSystem : MonoBehaviour
             ToggleTaskSelection();
         }
         
-        // Se il pannello di selezione è aperto e viene premuto il pulsante A su un elemento selezionato
-        if (isTaskSelectionOpen && Input.GetKeyDown(KeyCode.JoystickButton0)) // JoystickButton0 = pulsante A
+        if (isTaskSelectionOpen && Input.GetKeyDown(KeyCode.JoystickButton0)) 
         {
             GameObject selectedObject = EventSystem.current.currentSelectedGameObject;
             if (selectedObject != null)
@@ -95,7 +96,6 @@ public class HintSystem : MonoBehaviour
                 Button selectedButton = selectedObject.GetComponent<Button>();
                 if (selectedButton != null)
                 {
-                    // Simula il click sul pulsante
                     selectedButton.onClick.Invoke();
                 }
             }
@@ -109,6 +109,19 @@ public class HintSystem : MonoBehaviour
         
         if (isTaskSelectionOpen)
         {
+            lastSelectedButton = EventSystem.current.currentSelectedGameObject;
+         
+            EventSystem.current.SetSelectedGameObject(null);
+    
+            if (lastSelectedButton != null)
+            {
+                TaskButtonHighlight highlight = lastSelectedButton.GetComponent<TaskButtonHighlight>();
+                if (highlight != null)
+                {
+                    highlight.ForceDeselect();
+                }
+            }
+            
             taskSelectionPanel.SetActive(false);
             isTaskSelectionOpen = false;
             
@@ -117,21 +130,34 @@ public class HintSystem : MonoBehaviour
                 hintsActive = false;
                 ToggleHintArrows(false);
             }
-
-            EventSystem.current.SetSelectedGameObject(null);
         }
         else
         {
-            // Mostra il pannello di selezione
             taskSelectionPanel.SetActive(true);
             isTaskSelectionOpen = true;
+            GameObject buttonToSelect = null;
             
-            // Seleziona automaticamente il primo pulsante per la navigazione con controller
-            if (taskSelectionButtons != null && taskSelectionButtons.Length > 0 && taskSelectionButtons[0] != null)
+            if (lastSelectedButton != null && lastSelectedButton.activeInHierarchy)
             {
-                // Importante: questo imposta la selezione attiva sul primo pulsante
-                EventSystem.current.SetSelectedGameObject(taskSelectionButtons[0].gameObject);
+                buttonToSelect = lastSelectedButton;
             }
+            else if (taskSelectionButtons != null && taskSelectionButtons.Length > 0 && taskSelectionButtons[0] != null)
+            {
+                buttonToSelect = taskSelectionButtons[0].gameObject;
+            }
+            
+            StartCoroutine(SelectButtonNextFrame(buttonToSelect));
+        }
+    }
+    
+    private IEnumerator SelectButtonNextFrame(GameObject buttonToSelect)
+    {
+        yield return null;
+        
+        if (buttonToSelect != null && buttonToSelect.activeInHierarchy)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(buttonToSelect);
         }
     }
     

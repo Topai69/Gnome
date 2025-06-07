@@ -41,4 +41,15 @@ public class TaskButtonHighlight : MonoBehaviour, ISelectHandler, IDeselectHandl
         if (buttonImage != null)
             buttonImage.color = normalColor;
     }
+
+    public void ForceDeselect()
+    {
+        if (selectionIndicator != null)
+            selectionIndicator.SetActive(false);
+            
+        transform.localScale = Vector3.one;
+        
+        if (buttonImage != null)
+            buttonImage.color = normalColor;
+    }
 }

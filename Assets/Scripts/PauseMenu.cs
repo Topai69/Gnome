@@ -24,10 +24,11 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7))
         {
-            TogglePause(); 
+            TogglePause();
         }
+        
         timeLeft.text = "Time Left:" + (clock.gameDuration - clock.elapsedTime).ToString("F0");
     }
 
