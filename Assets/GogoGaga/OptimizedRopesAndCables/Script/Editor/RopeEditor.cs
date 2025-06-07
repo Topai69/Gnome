@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using System.Net;
 
 namespace GogoGaga.OptimizedRopesAndCables
 {
@@ -8,7 +9,9 @@ namespace GogoGaga.OptimizedRopesAndCables
     {
         private Rope component;
         private SerializedProperty startPoint;
-        private SerializedProperty midPoint;
+        private SerializedProperty midPoint1;
+        private SerializedProperty midPoint2;
+        private SerializedProperty midPoint3;
         private SerializedProperty endPoint;
         private SerializedProperty linePoints;
         private SerializedProperty ropeWidth;
@@ -22,7 +25,9 @@ namespace GogoGaga.OptimizedRopesAndCables
         {
             component = (Rope)target;
             startPoint = serializedObject.FindProperty("startPoint");
-            midPoint = serializedObject.FindProperty("midPoint");
+            midPoint1 = serializedObject.FindProperty("midPoint1");
+            midPoint2 = serializedObject.FindProperty("midPoint2");
+            midPoint3 = serializedObject.FindProperty("midPoint3");
             endPoint = serializedObject.FindProperty("endPoint");
             linePoints = serializedObject.FindProperty(nameof(Rope.linePoints));
             ropeWidth = serializedObject.FindProperty(nameof(Rope.ropeWidth));
@@ -86,7 +91,11 @@ namespace GogoGaga.OptimizedRopesAndCables
 
             EditorGUILayout.PropertyField(startPoint, new GUIContent("Rope Start"));
             EditorGUILayout.Space(2);
-            EditorGUILayout.PropertyField(midPoint, new GUIContent("Mid Point (Optional)", "This will move at the center hanging from the rope, like a necklace, for example"));
+            EditorGUILayout.PropertyField(midPoint1, new GUIContent("Mid Point (Optional)", "This will move at the center hanging from the rope, like a necklace, for example"));
+            EditorGUILayout.Space(2);
+            EditorGUILayout.PropertyField(midPoint2, new GUIContent("Mid Point (Optional)", "This will move at the center hanging from the rope, like a necklace, for example"));
+            EditorGUILayout.Space(2);
+            EditorGUILayout.PropertyField(midPoint3, new GUIContent("Mid Point (Optional)", "This will move at the center hanging from the rope, like a necklace, for example"));
             EditorGUILayout.Space(2);
             EditorGUILayout.PropertyField(endPoint, new GUIContent("Rope End"));
             EditorGUILayout.Space(2);
@@ -114,13 +123,32 @@ namespace GogoGaga.OptimizedRopesAndCables
                     newEndPoint.localPosition = -component.transform.forward * 2;
                     component.SetEndPoint(newEndPoint,true);
                     
-                    if (!component.MidPoint)
+                    if (!component.MidPoint1)
                     {
                         var newMidPoint = new GameObject("Mid Point").transform;
                         newMidPoint.parent = component.transform;
                         newMidPoint.localPosition = -component.transform.up * 2;
-                        component.SetMidPoint(newMidPoint,true);
+                        component.SetMidPoint1(newMidPoint,true);
                     }
+
+                    if (!component.MidPoint2)
+                    {
+                        var newMidPoint = new GameObject("Mid Point").transform;
+                        newMidPoint.parent = component.transform;
+                        newMidPoint.localPosition = -component.transform.up * 2;
+                        component.SetMidPoint1(newMidPoint, true);
+                    }
+
+                    if (!component.MidPoint3)
+                    {
+                        var newMidPoint = new GameObject("Mid Point").transform;
+                        newMidPoint.parent = component.transform;
+                        newMidPoint.localPosition = -component.transform.up * 2;
+                        component.SetMidPoint1(newMidPoint, true);
+                    }
+
+
+
 
                     serializedObject.Update(); // Update serialized object to reflect changes
                 }

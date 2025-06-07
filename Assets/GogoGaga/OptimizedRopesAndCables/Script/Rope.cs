@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using System.Net;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -18,8 +20,15 @@ namespace GogoGaga.OptimizedRopesAndCables
         public Transform StartPoint => startPoint;
 
         [Tooltip("This will move at the center hanging from the rope, like a necklace, for example")]
-        [SerializeField] private Transform midPoint;
-        public Transform MidPoint => midPoint;
+        [SerializeField] private Transform midPoint1;
+        public Transform MidPoint1 => midPoint1;
+
+        [SerializeField] private Transform midPoint2;
+        public Transform MidPoint2 => midPoint2;
+
+        [SerializeField] private Transform midPoint3;
+        public Transform MidPoint3 => midPoint3;
+
 
         [Tooltip("The rope will end at this point")]
         [SerializeField] private Transform endPoint;
@@ -161,9 +170,17 @@ namespace GogoGaga.OptimizedRopesAndCables
             targetValue = mid;
             mid = currentValue;
 
-            if (midPoint != null)
+            if (midPoint1 != null)
             {
-                midPoint.position = GetRationalBezierPoint(startPoint.position, mid, endPoint.position, midPointPosition, StartPointWeight, midPointWeight, EndPointWeight);
+                midPoint1.position = GetRationalBezierPoint(startPoint.position, mid, endPoint.position, midPointPosition, StartPointWeight, midPointWeight, EndPointWeight);
+            }
+            if (midPoint2 != null)
+            {
+                midPoint2.position = GetRationalBezierPoint(startPoint.position, mid, endPoint.position, midPointPosition, StartPointWeight, midPointWeight, EndPointWeight);
+            }
+            if (midPoint3 != null)
+            {
+                midPoint3.position = GetRationalBezierPoint(startPoint.position, mid, endPoint.position, midPointPosition, StartPointWeight, midPointWeight, EndPointWeight);
             }
 
             for (int i = 0; i < linePoints; i++)
@@ -279,10 +296,10 @@ namespace GogoGaga.OptimizedRopesAndCables
 
             NotifyPointsChanged();
         }
-        public void SetMidPoint(Transform newMidPoint, bool instantAssign = false)
+        public void SetMidPoint1(Transform newMidPoint, bool instantAssign = false)
         {
-            midPoint = newMidPoint;
-            prevMidPointPosition = midPoint == null ? 0.5f : midPointPosition;
+            midPoint1 = newMidPoint;
+            prevMidPointPosition = midPoint1 == null ? 0.5f : midPointPosition;
             
             if (instantAssign || newMidPoint == null)
             {
@@ -290,7 +307,31 @@ namespace GogoGaga.OptimizedRopesAndCables
             }
             NotifyPointsChanged();
         }
-        
+
+        public void SetMidPoint2(Transform newMidPoint, bool instantAssign = false)
+        {
+            midPoint2 = newMidPoint;
+            prevMidPointPosition = midPoint2 == null ? 0.5f : midPointPosition;
+
+            if (instantAssign || newMidPoint == null)
+            {
+                RecalculateRope();
+            }
+            NotifyPointsChanged();
+        }
+
+        public void SetMidPoint3(Transform newMidPoint, bool instantAssign = false)
+        {
+            midPoint3 = newMidPoint;
+            prevMidPointPosition = midPoint3 == null ? 0.5f : midPointPosition;
+
+            if (instantAssign || newMidPoint == null)
+            {
+                RecalculateRope();
+            }
+            NotifyPointsChanged();
+        }
+
         public void SetEndPoint(Transform newEndPoint, bool instantAssign = false)
         {
             endPoint = newEndPoint;

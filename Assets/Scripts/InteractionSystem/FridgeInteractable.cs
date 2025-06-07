@@ -28,10 +28,13 @@ public class FridgeInteractable : InteractableBase
     [Header("Timing Settings")]
     public float timerDuration = 15f;
 
+    private bool flag = false;
     private float elapsedTime = 0f;
     private bool isRunning = false;
     private int pressCount = 0;
     private int requiredPresses = 10;
+    private float timer = 0f;
+    [SerializeField] GameObject vfx;
 
     private AnimationTest animController;
 
@@ -104,6 +107,19 @@ public class FridgeInteractable : InteractableBase
         {
             Debug.Log("QTE Failed!");
             EndQTE();
+        }
+
+        if (flag)
+        {
+            if (timer < 5f)
+            {
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                vfx.SetActive(false);
+                GetComponent<FridgeInteractable>().enabled = false;
+            }
         }
     }
 
@@ -222,7 +238,9 @@ public class FridgeInteractable : InteractableBase
             ScoreScript.Score += 20;
         }
 
-        GetComponent<FridgeInteractable>().enabled = false; // turn off the script, since it's no longer needed
+
+        vfx.SetActive(true);
+        flag = true;
         gameObject.layer = 6; 
     }
 

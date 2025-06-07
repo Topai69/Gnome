@@ -16,6 +16,9 @@ public class LeftSinkValveInteractable : InteractableBase
 
     public float elapsedTime = 0f;
     public bool isRunning = false;
+    private bool flag = false;
+    private float timer = 0f;
+    [SerializeField] private GameObject vfx;
 
     private void Start()
     {
@@ -43,6 +46,18 @@ public class LeftSinkValveInteractable : InteractableBase
         {
             Debug.Log("QTE Timeout");
             //EndQTE();
+        }
+        if (flag)
+        {
+            if (timer < 5f)
+            {
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                vfx.SetActive(false);
+                GetComponent<LeftSinkValveInteractable>().enabled = false;
+            }
         }
     }
 
@@ -84,7 +99,10 @@ public class LeftSinkValveInteractable : InteractableBase
             ScoreScript.Score += 10;
         }
 
-        GetComponent<LeftSinkValveInteractable>().enabled = false; //turn of the script, since it's no longer needed
+        
         gameObject.layer = 6;
-    }
+
+        vfx.SetActive(true);
+        flag = true;
+    }
 }
