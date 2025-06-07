@@ -10,25 +10,20 @@ public class HintSystem : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private GameObject hintPromptPanel;
     [SerializeField] private TextMeshProUGUI hintPromptText;
-    
-    [Header("Task Hint Selection UI")]
     [SerializeField] private GameObject taskSelectionPanel;
     [SerializeField] private Button[] taskSelectionButtons;
     [SerializeField] private string[] taskNames;
-    
-    [Header("Hint Arrows")]
-    [SerializeField] private GameObject[] taskArrowGroups; 
+    [SerializeField] private GameObject[] taskArrowGroups;
     
     [Header("External References")]
     [SerializeField] private PauseMenu pauseMenu;
-    private bool wasGamePaused = false;
+    [SerializeField] private PlayerMovement playerMovement;
     
     private bool hintsActive = false;
     private int currentTaskIndex = -1;
     private bool isTaskSelectionOpen = false;
-    
-    private GameObject lastSelectedButton = null;
     private bool wasHintPromptVisibleBeforePause = false;
+    private GameObject lastSelectedButton = null;
     
     void Start()
     {
@@ -38,11 +33,14 @@ public class HintSystem : MonoBehaviour
         if (hintPromptPanel != null)
             hintPromptPanel.SetActive(true);
             
-
         if (taskSelectionPanel != null)
             taskSelectionPanel.SetActive(false);
+            
         if (pauseMenu == null)
             pauseMenu = FindObjectOfType<PauseMenu>();
+            
+        if (playerMovement == null)
+            playerMovement = FindObjectOfType<PlayerMovement>();
     }
     
     void SetupTaskButtons()
@@ -52,7 +50,7 @@ public class HintSystem : MonoBehaviour
             
         for (int i = 0; i < taskSelectionButtons.Length; i++)
         {
-            int index = i; 
+            int index = i;
             
             if (taskSelectionButtons[i] != null)
             {
@@ -70,95 +68,31 @@ public class HintSystem : MonoBehaviour
     
     void Update()
     {
-        bool isGamePaused = (pauseMenu != null && pauseMenu.isPaused); 
-        if (isGamePaused && !wasGamePaused)
-        {
-            if (taskSelectionPanel != null)
-                taskSelectionPanel.SetActive(false);
-            isTaskSelectionOpen = false;
-            hintsActive = false;
-            HideAllArrows();
-        }
-        
-        wasGamePaused = isGamePaused;
-        if (isGamePaused)
+        if (pauseMenu != null && pauseMenu.isPaused)
             return;
-       
-        if (Input.GetKeyDown(KeyCode.H) || Input.GetKeyDown(KeyCode.JoystickButton3)) 
+            
+        if (Input.GetKeyDown(KeyCode.H) || Input.GetKeyDown(KeyCode.JoystickButton3))
         {
             ToggleTaskSelection();
         }
         
-        if (isTaskSelectionOpen && Input.GetKeyDown(KeyCode.JoystickButton0)) 
+        if (isTaskSelectionOpen && EventSystem.current.currentSelectedGameObject != lastSelectedButton)
         {
-            GameObject selectedObject = EventSystem.current.currentSelectedGameObject;
-            if (selectedObject != null)
-            {
-                Button selectedButton = selectedObject.GetComponent<Button>();
-                if (selectedButton != null)
-                {
-                    selectedButton.onClick.Invoke();
-                }
-            }
-        }
-    }
-    
-    private void ToggleTaskSelection()
-    {
-        if (pauseMenu != null && pauseMenu.isPaused) 
-            return;
-        
-        if (isTaskSelectionOpen)
-        {
-            lastSelectedButton = EventSystem.current.currentSelectedGameObject;
-         
-            EventSystem.current.SetSelectedGameObject(null);
-    
             if (lastSelectedButton != null)
             {
-                TaskButtonHighlight highlight = lastSelectedButton.GetComponent<TaskButtonHighlight>();
-                if (highlight != null)
-                {
-                    highlight.ForceDeselect();
-                }
+                TaskButtonHighlight lastIcon = lastSelectedButton.GetComponent<TaskButtonHighlight>();
+                if (lastIcon != null)
+                    lastIcon.OnDeselect(new BaseEventData(EventSystem.current));
             }
             
-            taskSelectionPanel.SetActive(false);
-            isTaskSelectionOpen = false;
+            lastSelectedButton = EventSystem.current.currentSelectedGameObject;
             
-            if (hintsActive)
+            if (lastSelectedButton != null)
             {
-                hintsActive = false;
-                ToggleHintArrows(false);
+                TaskButtonHighlight currentIcon = lastSelectedButton.GetComponent<TaskButtonHighlight>();
+                if (currentIcon != null)
+                    currentIcon.OnSelect(new BaseEventData(EventSystem.current));
             }
-        }
-        else
-        {
-            taskSelectionPanel.SetActive(true);
-            isTaskSelectionOpen = true;
-            GameObject buttonToSelect = null;
-            
-            if (lastSelectedButton != null && lastSelectedButton.activeInHierarchy)
-            {
-                buttonToSelect = lastSelectedButton;
-            }
-            else if (taskSelectionButtons != null && taskSelectionButtons.Length > 0 && taskSelectionButtons[0] != null)
-            {
-                buttonToSelect = taskSelectionButtons[0].gameObject;
-            }
-            
-            StartCoroutine(SelectButtonNextFrame(buttonToSelect));
-        }
-    }
-    
-    private IEnumerator SelectButtonNextFrame(GameObject buttonToSelect)
-    {
-        yield return null;
-        
-        if (buttonToSelect != null && buttonToSelect.activeInHierarchy)
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(buttonToSelect);
         }
     }
     
@@ -167,20 +101,75 @@ public class HintSystem : MonoBehaviour
         if (taskIndex >= 0 && taskIndex < taskArrowGroups.Length)
         {
             currentTaskIndex = taskIndex;
-
             hintsActive = true;
             ToggleHintArrows(true);
-
+            
             if (taskSelectionPanel != null)
             {
                 taskSelectionPanel.SetActive(false);
                 isTaskSelectionOpen = false;
             }
-      
+            
             EventSystem.current.SetSelectedGameObject(null);
+            
+            UnblockPlayerMovement();
         }
     }
-   
+    
+    public void ShowHintPrompt(int taskIndex)
+    {
+        if (taskIndex >= 0 && taskIndex < taskArrowGroups.Length)
+        {
+            currentTaskIndex = taskIndex;
+            
+            if (hintPromptPanel != null)
+            {
+                hintPromptPanel.SetActive(true);
+                if (hintPromptText != null)
+                    hintPromptText.text = "Press H for a hint";
+            }
+        }
+    }
+    
+    public void HideHintPrompt()
+    {
+        if (hintPromptPanel != null)
+            hintPromptPanel.SetActive(false);
+            
+        ClearHints();
+    }
+    
+    private void ToggleTaskSelection()
+    {
+        if (isTaskSelectionOpen)
+        {
+            taskSelectionPanel.SetActive(false);
+            isTaskSelectionOpen = false;
+            
+            if (hintsActive)
+            {
+                hintsActive = false;
+                ToggleHintArrows(false);
+            }
+            
+            EventSystem.current.SetSelectedGameObject(null);
+            
+            UnblockPlayerMovement();
+        }
+        else
+        {
+            taskSelectionPanel.SetActive(true);
+            isTaskSelectionOpen = true;
+            
+            if (taskSelectionButtons != null && taskSelectionButtons.Length > 0 && taskSelectionButtons[0] != null)
+            {
+                EventSystem.current.SetSelectedGameObject(taskSelectionButtons[0].gameObject);
+            }
+            
+            BlockPlayerMovement();
+        }
+    }
+    
     private void ToggleHintArrows(bool show)
     {
         HideAllArrows();
@@ -200,12 +189,54 @@ public class HintSystem : MonoBehaviour
         }
     }
     
+    public void OnGamePaused()
+    {
+        if (hintPromptPanel != null)
+            wasHintPromptVisibleBeforePause = hintPromptPanel.activeSelf;
+        
+        if (taskSelectionPanel != null)
+            taskSelectionPanel.SetActive(false);
+        
+        if (hintPromptPanel != null)
+            hintPromptPanel.SetActive(false);
+            
+        isTaskSelectionOpen = false;
+        hintsActive = false;
+        HideAllArrows();
+    }
+    
+    public void OnGameResumed()
+    {
+        if (hintPromptPanel != null)
+            hintPromptPanel.SetActive(wasHintPromptVisibleBeforePause);
+    }
+    
     public void OnTaskCompleted(int taskIndex)
     {
-        if (taskIndex == currentTaskIndex && hintsActive)
+        if (taskIndex == currentTaskIndex)
         {
             hintsActive = false;
             ToggleHintArrows(false);
+        }
+    }
+    
+    private void BlockPlayerMovement()
+    {
+        if (playerMovement != null)
+        {
+            playerMovement.blockAInput = true;
+            playerMovement.blockJump = true;
+            playerMovement.enabled = false;
+        }
+    }
+    
+    private void UnblockPlayerMovement()
+    {
+        if (playerMovement != null)
+        {
+            playerMovement.blockAInput = false;
+            playerMovement.blockJump = false;
+            playerMovement.enabled = true;
         }
     }
     
@@ -221,28 +252,15 @@ public class HintSystem : MonoBehaviour
                 hintsActive = false;
                 ToggleHintArrows(false);
             }
+            
+            UnblockPlayerMovement();
         }
     }
-
-    public void OnGamePaused()
+    
+    private void ClearHints()
     {
-        if (hintPromptPanel != null)
-            wasHintPromptVisibleBeforePause = hintPromptPanel.activeSelf;
-
-        if (taskSelectionPanel != null)
-            taskSelectionPanel.SetActive(false);
-        
-        if (hintPromptPanel != null)
-            hintPromptPanel.SetActive(false);
-            
-        isTaskSelectionOpen = false;
         hintsActive = false;
+        currentTaskIndex = -1;
         HideAllArrows();
-    }
-
-    public void OnGameResumed()
-    {
-        if (hintPromptPanel != null)
-            hintPromptPanel.SetActive(wasHintPromptVisibleBeforePause);
     }
 }
