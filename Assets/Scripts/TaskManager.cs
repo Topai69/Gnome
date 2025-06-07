@@ -38,6 +38,12 @@ public class TaskManager : MonoBehaviour
             taskBindings[index].isCompleted = true;
             taskBindings[index].taskItem.SetTask(taskBindings[index].description, true);
             UpdateTaskProgress();
+      
+            HintSystem hintSystem = FindObjectOfType<HintSystem>();
+            if (hintSystem != null)
+            {
+                hintSystem.OnTaskCompleted(index);
+            }
         }
         else
         {

@@ -43,6 +43,13 @@ public class FridgeInteractable : InteractableBase
     public override void OnInteract()
     {
         base.OnInteract();
+
+        /*HintSystem hintSystem = FindObjectOfType<HintSystem>();
+        if (hintSystem != null)
+        {
+            hintSystem.ShowHintPrompt(0); 
+        }*/
+    
         Debug.Log("Interacted with fridge");
 
         qteUI.SetActive(true);

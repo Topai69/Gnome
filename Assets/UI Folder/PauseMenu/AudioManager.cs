@@ -33,8 +33,12 @@ public class AudioManager : MonoBehaviour
     }
     public void ChangeVolume()
     {
-        AudioListener.volume = audioSlider.value;
-        Save();
+        VolumeSliderController controller = audioSlider.GetComponent<VolumeSliderController>();
+        if (controller == null || !controller.IsMouseControl())
+        {
+            AudioListener.volume = audioSlider.value;
+            Save();
+        }
     }
 
     private void Load()
