@@ -1,3 +1,5 @@
+using System;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class HeaterInteractable : InteractableBase
@@ -5,11 +7,13 @@ public class HeaterInteractable : InteractableBase
     [SerializeField] private AnimationClip rotation;
     [SerializeField] private TaskManager taskManager;
     [HideInInspector] public ScoreScript ScoreScript;
-
+    [SerializeField] GameObject vfx;
     [SerializeField] private GameObject quickTimeEvent;
-    [SerializeField] private GameObject interactionUI; 
+    [SerializeField] private GameObject interactionUI;
 
     [HideInInspector] public bool hasInteracted = false;
+    bool flag = false;
+    float timer = 0f;
 
     private void Start()
     {
@@ -53,7 +57,27 @@ public class HeaterInteractable : InteractableBase
             col.enabled = false;
         }
 
-        GetComponent<HeaterInteractable>().enabled = false;
+
+        // GetComponent<HeaterInteractable>().enabled = false;
         gameObject.layer = 6;
+
+        vfx.SetActive(true);
+        flag = true;
+    }
+
+    private void Update()
+    {
+        if (flag)
+        {
+            if (timer < 5f)
+            {
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                vfx.SetActive(false);
+                GetComponent<HeaterInteractable>().enabled = false;
+            }
+        }
     }
 }
