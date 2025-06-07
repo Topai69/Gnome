@@ -15,16 +15,15 @@ public class TaskManager : MonoBehaviour
 
     public List<TaskBinding> taskBindings;
     [SerializeField] private Image progressBar; 
-    [SerializeField] private TextMeshProUGUI percentageText; 
+    [SerializeField] private TextMeshProUGUI percentageText;
+    [SerializeField] private Image pauseMenuProgressBar;
+    [SerializeField] private TextMeshProUGUI pauseMenuPercentageText;
 
     void Start()
     {
-        foreach (TaskBinding binding in taskBindings)
+        foreach (var binding in taskBindings)
         {
-            if (binding.taskItem != null)
-            {
-                binding.taskItem.SetTask(binding.description, binding.isCompleted);
-            }
+            binding.taskItem.SetTask(binding.description, binding.isCompleted);
         }
         
         UpdateTaskProgress();
@@ -38,7 +37,7 @@ public class TaskManager : MonoBehaviour
             taskBindings[index].isCompleted = true;
             taskBindings[index].taskItem.SetTask(taskBindings[index].description, true);
             UpdateTaskProgress();
-      
+            
             HintSystem hintSystem = FindObjectOfType<HintSystem>();
             if (hintSystem != null)
             {
@@ -59,14 +58,21 @@ public class TaskManager : MonoBehaviour
             if (binding.isCompleted)
                 completedCount++;
         }
+        
         float progress = taskBindings.Count > 0 ? (float)completedCount / taskBindings.Count : 0f;
+        
         if (progressBar != null)
             progressBar.fillAmount = progress;
 
+        if (pauseMenuProgressBar != null)
+            pauseMenuProgressBar.fillAmount = progress;
+
+        int percentage = Mathf.RoundToInt(progress * 100);
+        
         if (percentageText != null)
-        {
-            int percentage = Mathf.RoundToInt(progress * 100);
             percentageText.text = percentage + "%";
-        }
+            
+        if (pauseMenuPercentageText != null)
+            pauseMenuPercentageText.text = percentage + "%";
     }
 }

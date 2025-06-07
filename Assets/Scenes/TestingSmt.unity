@@ -1730,6 +1730,7 @@ MonoBehaviour:
   - Very well, you are at the place. Now, be quick - Joysticks to move and B to jump.
     Just as usual.
   textSpeed: 0.01
+  voiceDuration: 0
 --- !u!114 &140456708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4233,6 +4234,7 @@ MonoBehaviour:
   - The laptop is still with the cable plugged in. Why would they do that? It wastes
     energy and damages the battery.
   textSpeed: 0.01
+  voiceDuration: 0
 --- !u!114 &269679809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5439,15 +5441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7343cff9b136544c949b64d24ce2596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCameraTransform: {fileID: 226512440}
-  playerTransform: {fileID: 0}
-  grabPointOffset: {x: 0, y: 0, z: 1.5}
-  dynamicGrabPoint: {fileID: 0}
-  interactionInputData: {fileID: 11400000, guid: 03244df4aab348144bdc37fe939d9d00, type: 2}
-  dropKey: 101
-  adjustmentSpeed: 0.1
-  itemGrabbable: {fileID: 0}
-  interactionUIPanel: {fileID: 0}
 --- !u!1 &428564558
 GameObject:
   m_ObjectHideFlags: 0
@@ -9559,6 +9552,7 @@ MonoBehaviour:
   - So much water wasted, so much energy gone in vain... But at least it's easy to
     fix
   textSpeed: 0.01
+  voiceDuration: 0
 --- !u!114 &766715883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11332,10 +11326,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuPanel: {fileID: 1862082455}
   resumeButton: {fileID: 1918948055}
+  gameplayUIElements: {fileID: 1372907576}
   isPaused: 0
   gameplayUI: {fileID: 1372907576}
-  timeLeft: {fileID: 1480073648}
-  clock: {fileID: 1342386335}
 --- !u!114 &916332574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12226,6 +12219,8 @@ MonoBehaviour:
     isCompleted: 0
   progressBar: {fileID: 0}
   percentageText: {fileID: 1038222748}
+  pauseMenuProgressBar: {fileID: 526329533}
+  pauseMenuPercentageText: {fileID: 867556254}
 --- !u!4 &1013012124
 Transform:
   m_ObjectHideFlags: 0
@@ -16885,10 +16880,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuPanel: {fileID: 0}
   resumeButton: {fileID: 0}
+  gameplayUIElements: {fileID: 0}
   isPaused: 0
   gameplayUI: {fileID: 0}
-  timeLeft: {fileID: 0}
-  clock: {fileID: 0}
   duration: 1150
   elapsedTime: 0
   gameDuration: 585
@@ -21598,6 +21592,7 @@ MonoBehaviour:
   - {fileID: 1412212342}
   - {fileID: 1115854893}
   pauseMenu: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!1 &1662063008
 GameObject:
   m_ObjectHideFlags: 0
@@ -23868,6 +23863,7 @@ MonoBehaviour:
   - Blast these humans. Due to the earthquakes our underground cities are in danger,
     and they don't even bother themselves to turn off the heater!
   textSpeed: 0.01
+  voiceDuration: 0
 --- !u!114 &1861480802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24076,6 +24072,7 @@ MonoBehaviour:
   lines:
   - Good gnome! I wonder if their food is rotten already.
   textSpeed: 0.01
+  voiceDuration: 0
 --- !u!114 &1864713832
 MonoBehaviour:
   m_ObjectHideFlags: 0
