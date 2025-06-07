@@ -67,7 +67,7 @@ public class ItemGrabbable : InteractableBase
         originalRotation = transform.rotation;
 
         itemRigidbody.useGravity = false;
-        itemRigidbody.linearDamping = 10f;
+        itemRigidbody.linearDamping = 5f;
         itemRigidbody.freezeRotation = true;
 
         isGrabbed = true;
