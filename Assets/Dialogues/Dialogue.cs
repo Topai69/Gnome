@@ -11,10 +11,19 @@ public class Dialogue : MonoBehaviour
     public int voiceDuration;
 
     private int index;
+    
+    public static bool isAnyDialogueActive = false;
 
     // Start is called before the first frame update
     protected void Start()
     {
+        if (isAnyDialogueActive)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        
+        isAnyDialogueActive = true;
         textComponent.text = string.Empty;
         StartDialogue();
     }
@@ -53,7 +62,7 @@ public class Dialogue : MonoBehaviour
         if (index == lines.Length - 1)
         {
             yield return new WaitForSeconds(voiceDuration);
-            gameObject.SetActive(false);
+            DisableDialogue();
         }
     }
 
@@ -67,7 +76,21 @@ public class Dialogue : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(false);
+            DisableDialogue();
+        }
+    }
+    
+    void DisableDialogue()
+    {
+        isAnyDialogueActive = false;
+        gameObject.SetActive(false);
+    }
+    
+    void OnDisable()
+    {
+        if (gameObject.activeInHierarchy == false)
+        {
+            isAnyDialogueActive = false;
         }
     }
 }
