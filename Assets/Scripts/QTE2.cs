@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class QuickTimeEvent2 : MonoBehaviour 
+public class QuickTimeEvent2 : MonoBehaviour
 {
     [Header("QTE Visuals")]
     public GameObject qteUI;
@@ -14,11 +15,15 @@ public class QuickTimeEvent2 : MonoBehaviour
     public KeyCode inputKey = KeyCode.A;
 
     [Header("References")]
-    public PlayerMovement movementScript; 
+    public PlayerMovement movementScript;
+    public FridgeInteractable interactable;
 
     private float elapsedTime = 0f;
     private bool isRunning = false;
     private int pressCount = 0;
+    private int pressCount2 = 0;
+    private bool flag1 = false;
+    private bool flag2 = false;
 
     void OnEnable()
     {
@@ -33,57 +38,59 @@ public class QuickTimeEvent2 : MonoBehaviour
         isRunning = true;
         timerSlider.value = 1f;
 
-        if (movementScript != null)
-        {
-            movementScript.blockAInput = true; 
-            movementScript.blockJump = true;   
-            Debug.Log("A key movement and jumping blocked (QTE started)");
-        }
+        movementScript.blockAInput = true;
+        movementScript.blockJump = true;
+        Debug.Log("A key movement and jumping blocked (QTE started)");
     }
 
     void Update()
     {
         if (!isRunning) return;
-
-        elapsedTime += Time.deltaTime;
-
-        float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
-        timerSlider.value = remaining;
-
-        if (Input.GetKeyDown(inputKey) || Input.GetKeyDown(KeyCode.JoystickButton0))
+        movementScript.MovePlayer();
+        if (Input.GetKeyDown(inputKey) || Input.GetKeyDown(KeyCode.JoystickButton0) && !flag1)
         {
             pressCount++;
             Debug.Log("Pressed A: " + pressCount);
 
-            if (pressCount >= requiredPresses)
+        }
+        if (pressCount >= requiredPresses && !flag2)
+        {
+            flag1 = true;
+            if (Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton1))
             {
-                Debug.Log("QTE Success!");
+                pressCount2++;
+                Debug.Log("Pressed B: " + pressCount2);
+            }
+        }
+        if (pressCount2 >= requiredPresses - 5)
+        {
+            flag2 = true;
+            if ((Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.B)) 
+                || (Input.GetKeyDown(KeyCode.Joystick1Button0) && Input.GetKeyDown(KeyCode.Joystick1Button1)))
+            {
+                Debug.Log("QTE Success");
                 EndQTE();
             }
         }
-
-        if (elapsedTime >= timerDuration)
-        {
-            Debug.Log(pressCount >= requiredPresses ? "QTE Success!" : "QTE Failed!");
-            EndQTE();
-        }
+        elapsedTime += Time.deltaTime;
+        float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
+        timerSlider.value = remaining;
     }
+
 
     void EndQTE()
     {
         isRunning = false;
         qteUI.SetActive(false);
-
         gameObject.SetActive(false); // Triggers OnDisable()
     }
 
     void OnDisable()
     {
-        if (movementScript != null)
-        {
-            movementScript.blockAInput = false;
-            movementScript.blockJump = false; 
-            Debug.Log("A key movement and jumping re-enabled (QTE ended)");
-        }
+     
+        movementScript.blockAInput = false;
+        movementScript.blockJump = false; 
+        Debug.Log("A key movement and jumping re-enabled (QTE ended)");
+        interactable.Finish();
     }
 }

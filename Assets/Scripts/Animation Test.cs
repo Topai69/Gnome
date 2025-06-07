@@ -24,6 +24,7 @@ public class AnimationTest : MonoBehaviour
         Gnome.SetBool("IsWalking", false);
         Gnome.SetBool("IsJumping", false);
         Gnome.SetBool("IsFalling", false);
+        playerMovement.blockAInput = true;
     }
     
     public void StopPushingAnimation()
@@ -31,6 +32,7 @@ public class AnimationTest : MonoBehaviour
         isPushing = false;
         Gnome.SetBool("IsPushing", false);
         Gnome.SetBool("IsIdle", true);  
+        playerMovement.blockAInput = false;
     }
 
     void Update()

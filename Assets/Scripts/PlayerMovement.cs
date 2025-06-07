@@ -173,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.Normalize();
     }
 
-private void MovePlayer()
+public void MovePlayer()
 {
     float targetSpeed;
 

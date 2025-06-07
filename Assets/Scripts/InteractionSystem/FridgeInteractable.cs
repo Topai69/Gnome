@@ -8,6 +8,7 @@ public class FridgeInteractable : InteractableBase
     [SerializeField] private TaskManager taskManager;
     [HideInInspector] public ScoreScript ScoreScript;
     [SerializeField] public QuickTimeEvent2 quickTime;
+    [SerializeField] public GameObject plane;
 
 
     [Header("QTE Visuals")]
@@ -72,6 +73,7 @@ public class FridgeInteractable : InteractableBase
         if (animController != null)
         {
             animController.StartPushingAnimation();
+            player.transform.position = plane.transform.position;
         }
     }
 
@@ -83,30 +85,34 @@ public class FridgeInteractable : InteractableBase
 
         float remaining = Mathf.Clamp01(1 - (elapsedTime / timerDuration));
         timerSlider.value = remaining;
-    
+
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.JoystickButton0))
-    {
-        if (aButtonImage != null && pressedSprite != null)
-        aButtonImage.sprite = pressedSprite; 
-
-        pressCount++;
-        Debug.Log("Pressed A: " + pressCount);
-
-        if (pressCount >= requiredPresses)
         {
-        Debug.Log("QTE Success!");
-        EndQTE();
+            if (aButtonImage != null && pressedSprite != null)
+                aButtonImage.sprite = pressedSprite;
+
+            //pressCount++;
+            // Debug.Log("Pressed A: " + pressCount);
+
+            //if (pressCount >= requiredPresses)
+            //{
+            //Debug.Log("QTE Success!");
+            //EndQTE();
+            //}
+            //}
+            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.JoystickButton0))
+            {
+                if (aButtonImage != null && normalSprite != null)
+                    aButtonImage.sprite = normalSprite;
+            }
+           
+            
         }
-        }
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.JoystickButton0))
-        {
-        if (aButtonImage != null && normalSprite != null)
-        aButtonImage.sprite = normalSprite;
-    }
+
     }
 
-
-    void EndQTE()
+  
+    public void Finish()
     {
         isRunning = false;
         qteUI.SetActive(false);
@@ -121,23 +127,10 @@ public class FridgeInteractable : InteractableBase
             }
         }
 
-        if (pressCount >= requiredPresses)
+        if (animController != null)
         {
-            Finish();
+            animController.StopPushingAnimation();
         }
-        else
-        {
-            Debug.Log("Player can retry.");
-            
-            if (animController != null)
-            {
-                animController.StopPushingAnimation();
-            }
-        }
-    }
-  
-    private void Finish()
-    {
         Animation anim = GetComponentInParent<Animation>();
         transform.parent.gameObject.GetComponent<Animation>().Play("Fridge");
         float fridgeAnimationDuration = transform.parent.gameObject.GetComponent<Animation>()["Fridge"].length;
