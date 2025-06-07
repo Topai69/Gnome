@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class HintSystem : MonoBehaviour
 {
@@ -14,6 +14,8 @@ public class HintSystem : MonoBehaviour
     [SerializeField] private Button[] taskSelectionButtons;
     [SerializeField] private string[] taskNames;
     [SerializeField] private GameObject[] taskArrowGroups;
+    [SerializeField] private GameObject blurPanel;
+    [SerializeField] private GameObject gameplayUIElements;
     
     [Header("External References")]
     [SerializeField] private PauseMenu pauseMenu;
@@ -22,9 +24,8 @@ public class HintSystem : MonoBehaviour
     private bool hintsActive = false;
     private int currentTaskIndex = -1;
     private bool isTaskSelectionOpen = false;
-    private bool wasHintPromptVisibleBeforePause = false;
-    private bool wasTaskSelectionOpenBeforePause = false;
     private GameObject lastSelectedButton = null;
+    private bool wasHintPromptVisibleBeforePause = false;
     
     void Start()
     {
@@ -36,6 +37,9 @@ public class HintSystem : MonoBehaviour
             
         if (taskSelectionPanel != null)
             taskSelectionPanel.SetActive(false);
+            
+        if (blurPanel != null)
+            blurPanel.SetActive(false);
             
         if (pauseMenu == null)
             pauseMenu = FindObjectOfType<PauseMenu>();
@@ -111,6 +115,12 @@ public class HintSystem : MonoBehaviour
                 isTaskSelectionOpen = false;
             }
             
+            if (blurPanel != null)
+                blurPanel.SetActive(false);
+                
+            if (gameplayUIElements != null)
+                gameplayUIElements.SetActive(true);
+                
             EventSystem.current.SetSelectedGameObject(null);
             
             UnblockPlayerMovement();
@@ -147,11 +157,20 @@ public class HintSystem : MonoBehaviour
             taskSelectionPanel.SetActive(false);
             isTaskSelectionOpen = false;
             
-            hintsActive = false;
-            ToggleHintArrows(false);
+            if (hintsActive)
+            {
+                hintsActive = false;
+                ToggleHintArrows(false);
+            }
             
             EventSystem.current.SetSelectedGameObject(null);
             
+            if (blurPanel != null)
+                blurPanel.SetActive(false);
+                
+            if (gameplayUIElements != null)
+                gameplayUIElements.SetActive(true);
+                
             UnblockPlayerMovement();
         }
         else
@@ -159,14 +178,17 @@ public class HintSystem : MonoBehaviour
             taskSelectionPanel.SetActive(true);
             isTaskSelectionOpen = true;
             
-            hintsActive = false;
-            ToggleHintArrows(false);
-            
             if (taskSelectionButtons != null && taskSelectionButtons.Length > 0 && taskSelectionButtons[0] != null)
             {
                 EventSystem.current.SetSelectedGameObject(taskSelectionButtons[0].gameObject);
             }
             
+            if (blurPanel != null)
+                blurPanel.SetActive(true);
+                
+            if (gameplayUIElements != null)
+                gameplayUIElements.SetActive(false);
+                
             BlockPlayerMovement();
         }
     }
@@ -192,12 +214,18 @@ public class HintSystem : MonoBehaviour
     
     public void OnGamePaused()
     {
+        if (hintPromptPanel != null)
+            wasHintPromptVisibleBeforePause = hintPromptPanel.activeSelf;
+        
         if (taskSelectionPanel != null)
             taskSelectionPanel.SetActive(false);
-        
+    
         if (hintPromptPanel != null)
             hintPromptPanel.SetActive(false);
-            
+        
+        if (blurPanel != null)
+            blurPanel.SetActive(false);
+        
         isTaskSelectionOpen = false;
         hintsActive = false;
         HideAllArrows();
@@ -206,6 +234,9 @@ public class HintSystem : MonoBehaviour
     public void OnGameResumed()
     {
         UnblockPlayerMovement();
+        
+        if (hintPromptPanel != null)
+            hintPromptPanel.SetActive(wasHintPromptVisibleBeforePause);
     }
     
     public void OnTaskCompleted(int taskIndex)
@@ -244,6 +275,12 @@ public class HintSystem : MonoBehaviour
             taskSelectionPanel.SetActive(false);
             isTaskSelectionOpen = false;
             
+            if (blurPanel != null)
+                blurPanel.SetActive(false);
+                
+            if (gameplayUIElements != null)
+                gameplayUIElements.SetActive(true);
+                
             if (hintsActive)
             {
                 hintsActive = false;
