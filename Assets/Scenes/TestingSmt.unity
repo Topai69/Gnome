@@ -1730,7 +1730,7 @@ MonoBehaviour:
   - Very well, you are at the place. Now, be quick - Joysticks to move and B to jump.
     Just as usual.
   textSpeed: 0.01
-  voiceDuration: 0
+  voiceDuration: 6
 --- !u!114 &140456708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3347,7 +3347,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226512439}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18110493, y: -0.04272612, z: 0.007875707, w: 0.98250365}
+  m_LocalRotation: {x: 0.18110488, y: -0.042726114, z: 0.007875704, w: 0.9825037}
   m_LocalPosition: {x: 5.1116014, y: 3.7936153, z: 30.41341}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4246,7 +4246,7 @@ MonoBehaviour:
   - The laptop is still with the cable plugged in. Why would they do that? It wastes
     energy and damages the battery.
   textSpeed: 0.01
-  voiceDuration: 0
+  voiceDuration: 5
 --- !u!114 &269679809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4987,7 +4987,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349876157}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18110493, y: -0.04272612, z: 0.007875707, w: 0.98250365}
+  m_LocalRotation: {x: 0.18110488, y: -0.042726114, z: 0.007875704, w: 0.9825037}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9640,7 +9640,7 @@ MonoBehaviour:
   - So much water wasted, so much energy gone in vain... But at least it's easy to
     fix
   textSpeed: 0.01
-  voiceDuration: 0
+  voiceDuration: 6
 --- !u!114 &766715883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14273,7 +14273,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168981874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1811049, y: -0.042726118, z: 0.007875705, w: 0.9825037}
+  m_LocalRotation: {x: 0.18110488, y: -0.042726118, z: 0.007875703, w: 0.9825037}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14666,7 +14666,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169670628}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.24036312, y: -0.55703014, z: -0.17253834, w: 0.7759984}
+  m_LocalRotation: {x: 0.009212116, y: 0.986821, z: -0.060723357, w: 0.14970696}
   m_LocalPosition: {x: -17.91, y: 7.46, z: 57.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -24052,7 +24052,7 @@ MonoBehaviour:
   - Blast these humans. Due to the earthquakes our underground cities are in danger,
     and they don't even bother themselves to turn off the heater!
   textSpeed: 0.01
-  voiceDuration: 0
+  voiceDuration: 7
 --- !u!114 &1861480802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24261,7 +24261,7 @@ MonoBehaviour:
   lines:
   - Good gnome! I wonder if their food is rotten already.
   textSpeed: 0.01
-  voiceDuration: 0
+  voiceDuration: 4
 --- !u!114 &1864713832
 MonoBehaviour:
   m_ObjectHideFlags: 0
