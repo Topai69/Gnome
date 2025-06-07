@@ -10,15 +10,15 @@ public class MessagesScript : MonoBehaviour
     private void Start()
     {
         this.gameObject.SetActive(true);
-        
     }
+    
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-            {
-                audioSource.PlayOneShot(voiceLine);
-                DialogueBox.SetActive(true);
-                GetComponent<BoxCollider>().enabled = false;
+        if (collision.gameObject.CompareTag("Player") && !Dialogue.isAnyDialogueActive)
+        {
+            audioSource.PlayOneShot(voiceLine);
+            DialogueBox.SetActive(true);
+            GetComponent<BoxCollider>().enabled = false;
         }
     }
 }
