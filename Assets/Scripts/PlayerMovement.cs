@@ -48,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
     public bool overrideSpeed = false;
     public float customSpeed = 5f;
 
-    public bool blockAInput = false; 
+    public bool blockAInput = false;
+    public bool blockBInput = false; 
     public bool blockJump = false; 
 
     private void Start()
@@ -173,8 +174,8 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.Normalize();
     }
 
-public void MovePlayer()
-{
+    public void MovePlayer()
+    {
     float targetSpeed;
 
     // override speed logic
@@ -196,10 +197,10 @@ public void MovePlayer()
     {
         rb.linearVelocity = new Vector3(moveDirection.x * targetSpeed, rb.linearVelocity.y, moveDirection.z * targetSpeed);
     }
-}
+    }
 
-private void SpeedControl()
-{
+    private void SpeedControl()
+    {
     Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
     float maxSpeed = overrideSpeed ? customSpeed :
@@ -211,7 +212,7 @@ private void SpeedControl()
         Vector3 limitedVel = flatVel.normalized * maxSpeed;
         rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
     }
-}
+    }
 
 
     private void Jump()

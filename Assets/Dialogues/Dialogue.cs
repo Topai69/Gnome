@@ -8,6 +8,7 @@ public class Dialogue : MonoBehaviour
     public TextMeshProUGUI textComponent;
     public string[] lines;
     public float textSpeed;
+    public int voiceDuration;
 
     private int index;
 
@@ -47,6 +48,12 @@ public class Dialogue : MonoBehaviour
         {
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
+        }
+        
+        if (index == lines.Length - 1)
+        {
+            yield return new WaitForSeconds(voiceDuration);
+            gameObject.SetActive(false);
         }
     }
 
