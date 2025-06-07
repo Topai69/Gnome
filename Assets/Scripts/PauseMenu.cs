@@ -1,21 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private GameObject pauseMenuPanel;
     [SerializeField] private Button resumeButton; 
+    [SerializeField] private GameObject gameplayUIElements;
 
     public bool isPaused = false;
 
     [Header("Menu Panels")]
     public GameObject gameplayUI;
-
-    public TextMeshProUGUI timeLeft;
-    public RotateOverTime clock;
 
     private HintSystem hintSystem;
 
@@ -63,11 +60,6 @@ public class PauseMenu : MonoBehaviour
                 }
             }
         }
-
-        if (timeLeft != null && clock != null)
-        {
-            timeLeft.text = "Time Left:" + (clock.gameDuration - clock.elapsedTime).ToString("F0");
-        }
     }
 
     public void TogglePause()
@@ -77,10 +69,16 @@ public class PauseMenu : MonoBehaviour
         if (pauseMenuPanel != null)
         {
             pauseMenuPanel.SetActive(isPaused);
-            if (isPaused && resumeButton != null)
-            {
-                StartCoroutine(SelectButtonNextFrame(resumeButton.gameObject));
-            }
+        }
+
+        if (gameplayUIElements != null)
+        {
+            gameplayUIElements.SetActive(!isPaused);
+        }
+
+        if (isPaused && resumeButton != null)
+        {
+            StartCoroutine(SelectButtonNextFrame(resumeButton.gameObject));
         }
 
         // Blocca/sblocca il tempo di gioco
@@ -102,12 +100,6 @@ public class PauseMenu : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(button);
-
-        PauseButtonHighlight highlight = button.GetComponent<PauseButtonHighlight>();
-        if (highlight != null)
-        {
-            highlight.OnSelect(new BaseEventData(EventSystem.current));
-        }
     }
 
     public void ResumeGame()

@@ -3271,7 +3271,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226512439}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1811062, y: -0.0425645, z: 0.007845914, w: 0.9825107}
+  m_LocalRotation: {x: 0.18111284, y: -0.04172627, z: 0.0076914034, w: 0.9825467}
   m_LocalPosition: {x: 5.1116014, y: 3.7936153, z: 30.41341}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4898,7 +4898,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349876157}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1811062, y: -0.0425645, z: 0.007845914, w: 0.9825107}
+  m_LocalRotation: {x: 0.18111284, y: -0.04172627, z: 0.0076914034, w: 0.9825467}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11181,10 +11181,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuPanel: {fileID: 1862082455}
   resumeButton: {fileID: 1918948055}
+  gameplayUIElements: {fileID: 1372907576}
   isPaused: 0
   gameplayUI: {fileID: 1372907576}
-  timeLeft: {fileID: 1480073648}
-  clock: {fileID: 1342386335}
 --- !u!114 &916332574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13937,7 +13936,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168981874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18110618, y: -0.0425645, z: 0.007845913, w: 0.9825107}
+  m_LocalRotation: {x: 0.18111283, y: -0.04172626, z: 0.0076914006, w: 0.9825467}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14330,7 +14329,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169670628}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.14627683, y: 0.574061, z: 0.10512875, w: 0.7987522}
+  m_LocalRotation: {x: 0.009212116, y: 0.986821, z: -0.060723357, w: 0.14970696}
   m_LocalPosition: {x: -17.91, y: 7.46, z: 57.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -16537,10 +16536,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuPanel: {fileID: 0}
   resumeButton: {fileID: 0}
+  gameplayUIElements: {fileID: 0}
   isPaused: 0
   gameplayUI: {fileID: 0}
-  timeLeft: {fileID: 0}
-  clock: {fileID: 0}
   duration: 120
   elapsedTime: 0
   gameDuration: 120
