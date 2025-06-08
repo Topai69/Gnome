@@ -108,10 +108,7 @@ public class FridgeInteractable : InteractableBase
             Debug.Log("QTE Failed!");
             EndQTE();
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (flag)
         {
             if (timer > 0f)
@@ -242,10 +239,9 @@ public class FridgeInteractable : InteractableBase
         }
 
 
-        gameObject.layer = 6;
-
         vfx.SetActive(true);
         flag = true;
+        gameObject.layer = 6; 
     }
 
     private IEnumerator StopPushingAfterFridgeAnimation(float delay)
