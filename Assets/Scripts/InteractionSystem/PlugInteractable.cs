@@ -21,7 +21,7 @@ public class PlugInteractable : InteractableBase
 
         if (taskManager != null)
         {
-            taskManager.CompleteTask(1);
+            taskManager.CompleteTask(3);
         }
 
         if (ScoreScript != null)
