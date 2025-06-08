@@ -3819,7 +3819,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226512439}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18110749, y: -0.04239969, z: 0.007815535, w: 0.98251784}
+  m_LocalRotation: {x: 0.18110073, y: -0.0432479, z: 0.007971887, w: 0.9824809}
   m_LocalPosition: {x: 5.1116014, y: 3.7936153, z: 30.41341}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5685,7 +5685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349876157}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18110749, y: -0.04239969, z: 0.007815535, w: 0.98251784}
+  m_LocalRotation: {x: 0.18110073, y: -0.0432479, z: 0.007971887, w: 0.9824809}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16677,7 +16677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168981874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18110749, y: -0.04239969, z: 0.007815533, w: 0.98251784}
+  m_LocalRotation: {x: 0.18110068, y: -0.04324789, z: 0.007971884, w: 0.9824809}
   m_LocalPosition: {x: -15.993, y: 10.833, z: 51.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17216,7 +17216,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169670628}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.33831066, y: 0.25969553, z: 0.097706765, w: 0.8991983}
+  m_LocalRotation: {x: -0.06594905, y: 0.67410207, z: 0.0606346, w: 0.73318523}
   m_LocalPosition: {x: -17.91, y: 7.46, z: 57.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -24885,7 +24885,7 @@ MonoBehaviour:
   - {fileID: 1901018291}
   - {fileID: 916664300}
   - {fileID: 635264362}
-  - {fileID: 635264362}
+  - {fileID: 1113617599}
   taskNames:
   - Fridge
   - Laptop
