@@ -76,7 +76,6 @@ public class HeaterInteractable : InteractableBase
             else
             {
                 vfx.SetActive(false);
-                GetComponent<HeaterInteractable>().enabled = false;
             }
         }
     }
