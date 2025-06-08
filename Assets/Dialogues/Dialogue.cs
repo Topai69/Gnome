@@ -25,6 +25,10 @@ public class Dialogue : MonoBehaviour
         
         isAnyDialogueActive = true;
         textComponent.text = string.Empty;
+
+        if (BackgroundMusicManager.Instance != null)
+            BackgroundMusicManager.Instance.FadeToLow();
+
         StartDialogue();
     }
 
@@ -83,6 +87,10 @@ public class Dialogue : MonoBehaviour
     void DisableDialogue()
     {
         isAnyDialogueActive = false;
+
+        if (BackgroundMusicManager.Instance != null)
+                BackgroundMusicManager.Instance.FadeToNormal();
+
         gameObject.SetActive(false);
     }
     
@@ -91,6 +99,9 @@ public class Dialogue : MonoBehaviour
         if (gameObject.activeInHierarchy == false)
         {
             isAnyDialogueActive = false;
+
+            if (BackgroundMusicManager.Instance != null)
+                BackgroundMusicManager.Instance.FadeToNormal();
         }
     }
 }
