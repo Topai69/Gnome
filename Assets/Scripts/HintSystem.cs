@@ -151,47 +151,53 @@ public class HintSystem : MonoBehaviour
     }
     
     private void ToggleTaskSelection()
+{
+    if (isTaskSelectionOpen)
     {
-        if (isTaskSelectionOpen)
+        taskSelectionPanel.SetActive(false);
+        isTaskSelectionOpen = false;
+        
+        if (hintsActive)
         {
-            taskSelectionPanel.SetActive(false);
-            isTaskSelectionOpen = false;
-            
-            if (hintsActive)
-            {
-                hintsActive = false;
-                ToggleHintArrows(false);
-            }
-            
-            EventSystem.current.SetSelectedGameObject(null);
-            
-            if (blurPanel != null)
-                blurPanel.SetActive(false);
-                
-            if (gameplayUIElements != null)
-                gameplayUIElements.SetActive(true);
-                
-            UnblockPlayerMovement();
+            hintsActive = false;
+            ToggleHintArrows(false);
         }
-        else
-        {
-            taskSelectionPanel.SetActive(true);
-            isTaskSelectionOpen = true;
+        
+        EventSystem.current.SetSelectedGameObject(null);
+        
+        if (blurPanel != null)
+            blurPanel.SetActive(false);
             
-            if (taskSelectionButtons != null && taskSelectionButtons.Length > 0 && taskSelectionButtons[0] != null)
-            {
-                EventSystem.current.SetSelectedGameObject(taskSelectionButtons[0].gameObject);
-            }
+        if (gameplayUIElements != null)
+            gameplayUIElements.SetActive(true);
             
-            if (blurPanel != null)
-                blurPanel.SetActive(true);
-                
-            if (gameplayUIElements != null)
-                gameplayUIElements.SetActive(false);
-                
-            BlockPlayerMovement();
-        }
+        if (BackgroundMusicManager.Instance != null)
+            BackgroundMusicManager.Instance.FadeToNormal();
+            
+        UnblockPlayerMovement();
     }
+    else
+    {
+        taskSelectionPanel.SetActive(true);
+        isTaskSelectionOpen = true;
+        
+        if (taskSelectionButtons != null && taskSelectionButtons.Length > 0 && taskSelectionButtons[0] != null)
+        {
+            EventSystem.current.SetSelectedGameObject(taskSelectionButtons[0].gameObject);
+        }
+        
+        if (blurPanel != null)
+            blurPanel.SetActive(true);
+            
+        if (gameplayUIElements != null)
+            gameplayUIElements.SetActive(false);
+            
+        if (BackgroundMusicManager.Instance != null)
+            BackgroundMusicManager.Instance.FadeToLow();
+            
+        BlockPlayerMovement();
+    }
+}
     
     private void ToggleHintArrows(bool show)
     {

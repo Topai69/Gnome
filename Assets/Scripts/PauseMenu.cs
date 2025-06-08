@@ -76,15 +76,22 @@ public class PauseMenu : MonoBehaviour
             gameplayUIElements.SetActive(!isPaused);
         }
 
-        if (isPaused && resumeButton != null)
+        if (isPaused)
         {
-            StartCoroutine(SelectButtonNextFrame(resumeButton.gameObject));
+            if (resumeButton != null)
+                StartCoroutine(SelectButtonNextFrame(resumeButton.gameObject));
+            
+            if (BackgroundMusicManager.Instance != null)
+                BackgroundMusicManager.Instance.FadeToLow();
+        }
+        else
+        {
+            if (BackgroundMusicManager.Instance != null)
+                BackgroundMusicManager.Instance.FadeToNormal();
         }
 
-        // Blocca/sblocca il tempo di gioco
         Time.timeScale = isPaused ? 0f : 1f;
 
-        // Gestione dell'HintSystem
         if (hintSystem != null)
         {
             if (isPaused)

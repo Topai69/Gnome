@@ -37,6 +37,10 @@ public class AudioManager : MonoBehaviour
         if (controller == null || !controller.IsMouseControl())
         {
             AudioListener.volume = audioSlider.value;
+
+            if (BackgroundMusicManager.Instance != null)
+                BackgroundMusicManager.Instance.UpdateVolume(audioSlider.value);
+
             Save();
         }
     }
@@ -44,6 +48,9 @@ public class AudioManager : MonoBehaviour
     private void Load()
     {
         audioSlider.value = PlayerPrefs.GetFloat("musicVolume");
+
+        if (BackgroundMusicManager.Instance != null)
+            BackgroundMusicManager.Instance.UpdateVolume(audioSlider.value);
     }
 
     private void Save()
