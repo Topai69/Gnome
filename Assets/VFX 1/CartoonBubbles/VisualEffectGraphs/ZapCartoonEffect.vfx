@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: YeahCartoonEffect
+  m_Name: ZapCartoonEffect
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 0}
@@ -95,7 +95,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: YeahCartoonEffect
+  m_Name: ZapCartoonEffect
   m_Graph: {fileID: 114350483966674976}
   m_Infos:
     m_RendererSettings:
@@ -1025,7 +1025,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"a85cba96de283bf41abaf58d9e5e486d","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"8dcfc308d8b5f3f4f8d1139ec1d83c39","type":3}}'
     m_Space: -1
   m_Property:
     name: mainTexture
@@ -1360,7 +1360,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"d8cc99a7680885640ac332c4494d265b","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"a9e4e2e8d2c329b40b3d6899520fbf8e","type":3}}'
     m_Space: -1
   m_Property:
     name: mainTexture
@@ -2100,7 +2100,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children:
   - {fileID: 8926484042661615097}
-  m_UIPosition: {x: 2741, y: 409}
+  m_UIPosition: {x: 2742, y: 342}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
