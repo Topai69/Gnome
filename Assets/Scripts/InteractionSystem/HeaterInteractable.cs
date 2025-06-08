@@ -10,6 +10,7 @@ public class HeaterInteractable : InteractableBase
     [SerializeField] GameObject vfx;
     [SerializeField] private GameObject quickTimeEvent;
     [SerializeField] private GameObject interactionUI;
+    [SerializeField] private GameObject mapIcon;
 
     [HideInInspector] public bool hasInteracted = false;
     bool flag = false;
@@ -63,6 +64,7 @@ public class HeaterInteractable : InteractableBase
 
         vfx.SetActive(true);
         flag = true;
+        mapIcon.SetActive(false);
     }
 
     private void Update()

@@ -35,6 +35,7 @@ public class FridgeInteractable : InteractableBase
     private int requiredPresses = 10;
     [SerializeField] private float timer = 3f;
     [SerializeField] GameObject vfx;
+    [SerializeField] GameObject mapIcon;
 
     private AnimationTest animController;
 
@@ -244,7 +245,8 @@ public class FridgeInteractable : InteractableBase
 
         vfx.SetActive(true);
         flag = true;
-        gameObject.layer = 6; 
+        gameObject.layer = 6;
+        mapIcon.SetActive(false); 
     }
 
     private IEnumerator StopPushingAfterFridgeAnimation(float delay)

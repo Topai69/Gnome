@@ -19,6 +19,7 @@ public class LeftSinkValveInteractable : InteractableBase
     private bool flag = false;
     [SerializeField] private float timer = 3f;
     [SerializeField] private GameObject vfx;
+    [SerializeField] private GameObject mapIcon;
 
     private void Start()
     {
@@ -108,5 +109,6 @@ public class LeftSinkValveInteractable : InteractableBase
 
         vfx.SetActive(true);
         flag = true;
+        mapIcon.SetActive(false);
     }
 }
