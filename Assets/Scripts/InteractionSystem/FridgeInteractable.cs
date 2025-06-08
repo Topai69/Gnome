@@ -108,7 +108,10 @@ public class FridgeInteractable : InteractableBase
             Debug.Log("QTE Failed!");
             EndQTE();
         }
+    }
 
+    private void FixedUpdate()
+    {
         if (flag)
         {
             if (timer > 0f)

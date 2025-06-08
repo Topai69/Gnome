@@ -5,14 +5,14 @@ public class LeftSinkValveInteractable : InteractableBase
 {
     [SerializeField] private TaskManager taskManager;
     [HideInInspector] public ScoreScript ScoreScript;
- 
+
 
     [Header("QTE Visuals")]
-    public GameObject qteUI;           
-    public Slider timerSlider;         
+    public GameObject qteUI;
+    public Slider timerSlider;
 
     [Header("Timing Settings")]
-    public float timerDuration = 15f;  
+    public float timerDuration = 15f;
 
     public float elapsedTime = 0f;
     public bool isRunning = false;
@@ -47,6 +47,10 @@ public class LeftSinkValveInteractable : InteractableBase
             Debug.Log("QTE Timeout");
             //EndQTE();
         }
+    }
+
+    private void FixedUpdate()
+    {
         if (flag)
         {
             if (timer > 0f)
