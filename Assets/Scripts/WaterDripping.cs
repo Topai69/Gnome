@@ -11,7 +11,7 @@ public class WaterDripping : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Stop()
+    public void Stop()
     {
         GetComponent<AudioSource>().Stop();
     }

@@ -21,6 +21,7 @@ public class LeftSinkValveInteractable : InteractableBase
     [SerializeField] private GameObject vfx;
     [SerializeField] private GameObject mapIcon;
     [SerializeField] public AudioClip voiceLine;
+    [SerializeField] private WaterDripping water;
 
     private void Start()
     {
@@ -111,5 +112,6 @@ public class LeftSinkValveInteractable : InteractableBase
         vfx.SetActive(true);
         flag = true;
         mapIcon.SetActive(false);
+        water.Stop();
     }
 }
