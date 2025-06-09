@@ -74,7 +74,7 @@ public class VolumeSliderController : MonoBehaviour, ISelectHandler, IDeselectHa
                     newValue += h * Time.unscaledDeltaTime * 0.5f;
                     volumeSlider.value = Mathf.Clamp01(newValue);
                 }
-                if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.Escape) || 
+                if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Escape) || 
                     Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
                 {
                     DeactivateSlider();
@@ -125,7 +125,7 @@ public class VolumeSliderController : MonoBehaviour, ISelectHandler, IDeselectHa
         
         if (confirmPrompt != null && confirmPrompt.GetComponent<TextMeshProUGUI>() != null)
         {
-            confirmPrompt.GetComponent<TextMeshProUGUI>().text = "Press Enter/B to confirm";
+            confirmPrompt.GetComponent<TextMeshProUGUI>().text = "Press A/Enter to confirm";
         }
         
         UpdateVisuals();
@@ -144,7 +144,7 @@ public class VolumeSliderController : MonoBehaviour, ISelectHandler, IDeselectHa
         
         if (confirmPrompt != null && confirmPrompt.GetComponent<TextMeshProUGUI>() != null)
         {
-            confirmPrompt.GetComponent<TextMeshProUGUI>().text = "Press Enter/A to edit";
+            confirmPrompt.GetComponent<TextMeshProUGUI>().text = "Press A/Enter to edit";
         }
         
         UpdateVisuals();

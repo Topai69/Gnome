@@ -53,11 +53,11 @@ public class InteractionController : MonoBehaviour{
 
             if(interactionData.IsEmpty()){
                 interactionData.Interactable = _interactable;
-                uiPanel.SetTooltip("Hold A/E To Interact");
+                uiPanel.SetTooltip("Hold X/E To Interact");
             }else{
                 if (!interactionData.IsSameInteractable(_interactable)){
                     interactionData.Interactable = _interactable;
-                    uiPanel.SetTooltip("Hold A/E To Interact");
+                    uiPanel.SetTooltip("Hold X/E To Interact");
                 }
             }
 
