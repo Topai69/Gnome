@@ -27,6 +27,7 @@ public class PauseMenu : MonoBehaviour
     private bool usingController = false;
     private GameCountdownTimer gameTimer;
     private TaskManager taskManager;
+    private PlayerMovement playerMovement;
     
     void Start()
     {
@@ -36,6 +37,7 @@ public class PauseMenu : MonoBehaviour
         hintSystem = FindObjectOfType<HintSystem>();
         gameTimer = FindObjectOfType<GameCountdownTimer>();
         taskManager = FindObjectOfType<TaskManager>();
+        playerMovement = FindObjectOfType<PlayerMovement>();
         
         SetupButtonNavigation();
 
@@ -160,6 +162,8 @@ public class PauseMenu : MonoBehaviour
             
         if (isPaused)
         {
+            BlockPlayerMovement();
+            
             UpdateTimeDisplay();
             UpdateBatteryFill();
             
@@ -171,6 +175,8 @@ public class PauseMenu : MonoBehaviour
         }
         else
         {
+            StartCoroutine(SafelyUnblockPlayerMovement());
+            
             if (BackgroundMusicManager.Instance != null)
                 BackgroundMusicManager.Instance.FadeToNormal();
         }
@@ -183,6 +189,31 @@ public class PauseMenu : MonoBehaviour
                 hintSystem.OnGamePaused();
             else
                 hintSystem.OnGameResumed();
+        }
+    }
+    
+    private void BlockPlayerMovement()
+    {
+        if (playerMovement != null)
+        {
+            playerMovement.blockAInput = true;
+            playerMovement.blockJump = true;
+            playerMovement.enabled = false;
+        }
+    }
+    
+    private System.Collections.IEnumerator SafelyUnblockPlayerMovement()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            yield return null;
+        }
+        
+        if (playerMovement != null)
+        {
+            playerMovement.blockAInput = false;
+            playerMovement.blockJump = false;
+            playerMovement.enabled = true;
         }
     }
     
