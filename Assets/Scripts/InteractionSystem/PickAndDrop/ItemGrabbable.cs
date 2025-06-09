@@ -77,6 +77,11 @@ public class ItemGrabbable : InteractableBase
             interactionUI.ResetUI();
             interactionUI.gameObject.SetActive(false);
         }
+
+        if (gameObject.name.Contains("Battery"))
+        {
+            Destroy(gameObject, 2f);
+        }
     }
 
     private void Drop()
