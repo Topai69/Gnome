@@ -76,4 +76,16 @@ public class TaskManager : MonoBehaviour
         if (pauseMenuPercentageText != null)
             pauseMenuPercentageText.text = percentage + "%";
     }
+
+    public float GetCurrentProgress()
+    {
+        int completedCount = 0;
+        foreach (TaskBinding binding in taskBindings)
+        {
+            if (binding.isCompleted)
+                completedCount++;
+        }
+        
+        return taskBindings.Count > 0 ? (float)completedCount / taskBindings.Count : 0f;
+    }
 }

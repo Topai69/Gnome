@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using TMPro; 
+using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -15,6 +15,8 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject gameplayUIElements;
     [SerializeField] private TextMeshProUGUI volumePercentageText;
     [SerializeField] private TextMeshProUGUI musicToggleText;
+    [SerializeField] private TextMeshProUGUI timeRemainingText;
+    [SerializeField] private Image batteryFillImage;
     
     [Header("Volume Settings")]
     [SerializeField] private float volumeIncrement = 0.1f;
@@ -23,6 +25,8 @@ public class PauseMenu : MonoBehaviour
     public bool isPaused = false;
     private HintSystem hintSystem;
     private bool usingController = false;
+    private GameCountdownTimer gameTimer;
+    private TaskManager taskManager;
     
     void Start()
     {
@@ -30,6 +34,9 @@ public class PauseMenu : MonoBehaviour
             pauseMenuPanel.SetActive(false);
             
         hintSystem = FindObjectOfType<HintSystem>();
+        gameTimer = FindObjectOfType<GameCountdownTimer>();
+        taskManager = FindObjectOfType<TaskManager>();
+        
         SetupButtonNavigation();
 
         if (volumePercentageText != null)
@@ -86,8 +93,15 @@ public class PauseMenu : MonoBehaviour
             TogglePause();
         }
         
+        if (isPaused && timeRemainingText != null && gameTimer != null)
+        {
+            UpdateTimeDisplay();
+        }
+        
         if (isPaused)
         {
+            UpdateBatteryFill();
+            
             bool mouseMovement = Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f;
             bool mouseClick = Input.GetMouseButtonDown(0);
             
@@ -115,6 +129,25 @@ public class PauseMenu : MonoBehaviour
         }
     }
     
+    private void UpdateTimeDisplay()
+    {
+        if (timeRemainingText != null && gameTimer != null)
+        {
+            int minutes = Mathf.FloorToInt(gameTimer.timeLeftInSeconds / 60);
+            int seconds = Mathf.FloorToInt(gameTimer.timeLeftInSeconds % 60);
+            timeRemainingText.text = $"{minutes:00}:{seconds:00}";
+        }
+    }
+    
+    private void UpdateBatteryFill()
+    {
+        if (batteryFillImage != null && taskManager != null)
+        {
+            float progress = taskManager.GetCurrentProgress();
+            batteryFillImage.fillAmount = progress;
+        }
+    }
+    
     public void TogglePause()
     {
         isPaused = !isPaused;
@@ -127,6 +160,9 @@ public class PauseMenu : MonoBehaviour
             
         if (isPaused)
         {
+            UpdateTimeDisplay();
+            UpdateBatteryFill();
+            
             if (resumeButton != null)
                 StartCoroutine(SelectButtonNextFrame(resumeButton.gameObject));
                 
