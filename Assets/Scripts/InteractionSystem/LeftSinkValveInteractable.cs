@@ -20,6 +20,7 @@ public class LeftSinkValveInteractable : InteractableBase
     [SerializeField] private float timer = 3f;
     [SerializeField] private GameObject vfx;
     [SerializeField] private GameObject mapIcon;
+    [SerializeField] public AudioClip voiceLine;
 
     private void Start()
     {
@@ -106,7 +107,7 @@ public class LeftSinkValveInteractable : InteractableBase
 
         
         gameObject.layer = 6;
-
+        GetComponent<AudioSource>().PlayOneShot(voiceLine);
         vfx.SetActive(true);
         flag = true;
         mapIcon.SetActive(false);

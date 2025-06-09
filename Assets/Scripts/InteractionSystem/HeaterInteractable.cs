@@ -1,6 +1,7 @@
 using System;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class HeaterInteractable : InteractableBase
 {
@@ -12,9 +13,13 @@ public class HeaterInteractable : InteractableBase
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private GameObject mapIcon;
 
+    [SerializeField] public AudioClip voiceLine;
+
     [HideInInspector] public bool hasInteracted = false;
     bool flag = false;
     [SerializeField] float timer = 3f;
+    [SerializeField] 
+
 
     private void Start()
     {
@@ -64,7 +69,8 @@ public class HeaterInteractable : InteractableBase
 
         vfx.SetActive(true);
         flag = true;
-        mapIcon.SetActive(false);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(voiceLine);
+
     }
 
     private void Update()

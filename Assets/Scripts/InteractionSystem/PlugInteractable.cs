@@ -5,7 +5,6 @@ public class PlugInteractable : InteractableBase
 
     [SerializeField] private TaskManager taskManager;
     [HideInInspector] public ScoreScript ScoreScript;
-    [SerializeField] public GameObject plug;
 
     private void Start()
     {
@@ -16,8 +15,7 @@ public class PlugInteractable : InteractableBase
         base.OnInteract();
         
         gameObject.AddComponent<Rigidbody>();
-        gameObject.GetComponent<Rigidbody>().mass = 2.0f;
-        gameObject.GetComponent<Rigidbody>().angularDamping = 0.0f;
+        gameObject.GetComponent<Rigidbody>().mass = 5.0f;
 
         if (taskManager != null)
         {
