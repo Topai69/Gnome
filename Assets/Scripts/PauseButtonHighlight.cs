@@ -5,13 +5,9 @@ using TMPro;
 
 public class PauseButtonHighlight : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [Header("Highlight Settings")]
     [SerializeField] private float scaleMultiplier = 1.1f;
-    [SerializeField] private Color highlightColor = new Color(1f, 0.9f, 0.5f); 
-    [SerializeField] private float glowIntensity = 0.5f;
-    
-    [Header("Components")]
-    [SerializeField] private Image outlineImage; 
+    [SerializeField] private Color highlightColor = new Color(1f, 1f, 0.5f);
+    [SerializeField] private float glowIntensity = 1.2f;
     
     private Image buttonImage;
     private TextMeshProUGUI buttonText;
@@ -32,11 +28,8 @@ public class PauseButtonHighlight : MonoBehaviour, ISelectHandler, IDeselectHand
             
         if (buttonText != null)
             normalTextColor = buttonText.color;
-            
-        if (outlineImage != null)
-            outlineImage.enabled = false;
     }
-   
+    
     public void OnSelect(BaseEventData eventData)
     {
         isSelected = true;
@@ -53,53 +46,37 @@ public class PauseButtonHighlight : MonoBehaviour, ISelectHandler, IDeselectHand
     {
         isHovered = true;
         UpdateVisuals();
+        
         EventSystem.current.SetSelectedGameObject(gameObject);
     }
-
+    
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovered = false;
         UpdateVisuals();
     }
-
+    
     private void UpdateVisuals()
     {
         bool shouldHighlight = isSelected || isHovered;
         
-        transform.localScale = shouldHighlight 
-            ? originalScale * scaleMultiplier 
-            : originalScale;
+        transform.localScale = shouldHighlight ? originalScale * scaleMultiplier : originalScale;
         
         if (buttonImage != null)
         {
-            buttonImage.color = shouldHighlight 
-                ? highlightColor 
-                : normalColor;
+            buttonImage.color = shouldHighlight ? highlightColor : normalColor;
         }
         
         if (buttonText != null)
         {
-            buttonText.color = shouldHighlight 
-                ? Color.white 
-                : normalTextColor;
-
+            buttonText.color = shouldHighlight ? Color.white : normalTextColor;
             if (shouldHighlight)
-            {
-                buttonText.fontMaterial.EnableKeyword("GLOW_ON");
-                buttonText.fontMaterial.SetFloat("_GlowPower", glowIntensity);
-            }
+                buttonText.fontStyle = FontStyles.Bold;
             else
-            {
-                buttonText.fontMaterial.DisableKeyword("GLOW_ON");
-            }
-        }
-   
-        if (outlineImage != null)
-        {
-            outlineImage.enabled = shouldHighlight;
+                buttonText.fontStyle = FontStyles.Normal;
         }
     }
-
+    
     public void ResetVisuals()
     {
         isSelected = false;

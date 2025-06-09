@@ -81,4 +81,14 @@ public class BackgroundMusicManager : MonoBehaviour
         currentVolumeMultiplier = targetMultiplier;
         musicSource.volume = PlayerPrefs.GetFloat("musicVolume", 1f) * currentVolumeMultiplier;
     }
+
+    public void PauseMusic()
+    {
+        musicSource.Pause();
+    }
+
+    public void ResumeMusic()
+    {
+        musicSource.Play();
+    }
 }
