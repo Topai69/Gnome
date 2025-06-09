@@ -5,6 +5,9 @@ public class PlugInteractable : InteractableBase
 
     [SerializeField] private TaskManager taskManager;
     [HideInInspector] public ScoreScript ScoreScript;
+    private bool flag = false;
+    private float timer = 1f;
+    private float timePassed = 0f;
 
     private void Start()
     {
@@ -13,9 +16,10 @@ public class PlugInteractable : InteractableBase
     public override void OnInteract()
     {
         base.OnInteract();
-        
+
         gameObject.AddComponent<Rigidbody>();
-        gameObject.GetComponent<Rigidbody>().mass = 5.0f;
+        gameObject.GetComponent<Rigidbody>().mass = 25.0f;
+        gameObject.GetComponent<Rigidbody>().angularDamping = 1f;
 
         if (taskManager != null)
         {
@@ -26,7 +30,28 @@ public class PlugInteractable : InteractableBase
         {
             ScoreScript.Score += 10;
         }
-        gameObject.GetComponent<PlugInteractable>().enabled = false; //turn of the script, since it's no longer needed
+        flag = true;
         gameObject.layer = 6;
+        
+        
     }
+
+    private void Update()
+    {
+        if (flag)
+        {
+            if (timePassed < timer)
+            {
+
+                timePassed += Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("Removed");
+                Destroy(GetComponent<Rigidbody>());
+                gameObject.GetComponent<PlugInteractable>().enabled = false;
+            }
+        }
+    }
+
 }
