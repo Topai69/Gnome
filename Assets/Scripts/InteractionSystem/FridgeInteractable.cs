@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine.VFX;
 
@@ -36,6 +37,9 @@ public class FridgeInteractable : InteractableBase
     [SerializeField] private float timer = 3f;
     [SerializeField] GameObject vfx;
     [SerializeField] GameObject mapIcon;
+
+    public AudioSource audioSource;
+    [SerializeField] public AudioClip voiceLine;
 
     private AnimationTest animController;
 
@@ -246,7 +250,8 @@ public class FridgeInteractable : InteractableBase
         vfx.SetActive(true);
         flag = true;
         gameObject.layer = 6;
-        mapIcon.SetActive(false); 
+        mapIcon.SetActive(false);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(voiceLine);
     }
 
     private IEnumerator StopPushingAfterFridgeAnimation(float delay)
