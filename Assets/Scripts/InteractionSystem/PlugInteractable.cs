@@ -12,7 +12,7 @@ public class PlugInteractable : InteractableBase
     private float timePassed = 0f;
     [SerializeField] Rope Rope;
     [SerializeField] Transform center;
-
+    [SerializeField] float length;
 
     private void Start()
     {
@@ -54,7 +54,7 @@ public class PlugInteractable : InteractableBase
             else
             {
                 Debug.Log("Removed");
-                Rope.ropeLength = 3;
+                Rope.ropeLength = length;
                 Destroy(GetComponent<Rigidbody>());
                 gameObject.GetComponent<PlugInteractable>().enabled = false;
             }
