@@ -83,8 +83,8 @@ public class HeaterInteractable : InteractableBase
             }
             else
             {
-                //vfx.SetActive(false);
-                for (float i = 1f; i > 0f; i -= 0.01f) vfx.GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 1f, i);
+                vfx.SetActive(false);
+                //for (float i = 1f; i > 0f; i -= 0.01f) vfx.GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 1f, i);
                 GetComponent<HeaterInteractable>().enabled = false;
             }
         }
