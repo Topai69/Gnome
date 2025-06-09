@@ -44,7 +44,7 @@ public class StartButton : MonoBehaviour
 
         yield return new WaitForSeconds(delayBeforeLoad);
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(2);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(4);
         while (!asyncLoad.isDone)
         {
             yield return null;
