@@ -56,7 +56,7 @@ public class PlugInteractable_2 : InteractableBase
                 Debug.Log("Removed");
                 Rope.ropeLength = length;
                 Destroy(GetComponent<Rigidbody>());
-                gameObject.GetComponent<PlugInteractable>().enabled = false;
+                gameObject.GetComponent<PlugInteractable_2>().enabled = false;
             }
         }
     }
