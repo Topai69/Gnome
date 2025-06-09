@@ -1,37 +1,47 @@
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class GameCountdownTimer : MonoBehaviour
 {
-    [Header("Timer Settings")]
     public float timeLeftInSeconds = 600f; 
-
-    [Header("UI Reference")]
-    public TextMeshProUGUI timeText;
-
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private bool useUnscaledTime = true;
+    
     private bool isRunning = true;
+    private float lastUpdateTime;
+
+    void Start()
+    {
+        lastUpdateTime = useUnscaledTime ? Time.unscaledTime : Time.time;
+        UpdateTimerDisplay();
+    }
 
     void Update()
     {
-        if (!isRunning || timeText == null) return;
-
-        if (timeLeftInSeconds > 0f)
+        if (isRunning)
         {
-            timeLeftInSeconds -= Time.unscaledDeltaTime;
-            timeLeftInSeconds = Mathf.Max(timeLeftInSeconds, 0);
+            float currentTime = useUnscaledTime ? Time.unscaledTime : Time.time;
+            float deltaTime = currentTime - lastUpdateTime;
+            lastUpdateTime = currentTime;
 
-            int minutes = Mathf.FloorToInt(timeLeftInSeconds / 60);
-            int seconds = Mathf.FloorToInt(timeLeftInSeconds % 60);
-            timeText.text = $"TIME LEFT: {minutes:00}:{seconds:00}";
+            if (timeLeftInSeconds > 0)
+            {
+                timeLeftInSeconds -= deltaTime;
+                if (timeLeftInSeconds < 0)
+                    timeLeftInSeconds = 0;
+            }
+            
+            UpdateTimerDisplay();
         }
     }
 
-    public void StopTimer() => isRunning = false;
-    public void ResumeTimer() => isRunning = true;
-
-    public void ResetTimer(float newTime)
+    void UpdateTimerDisplay()
     {
-        timeLeftInSeconds = newTime;
-        isRunning = true;
+        if (timerText != null)
+        {
+            int minutes = Mathf.FloorToInt(timeLeftInSeconds / 60);
+            int seconds = Mathf.FloorToInt(timeLeftInSeconds % 60);
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
     }
 }

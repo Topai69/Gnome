@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class BackgroundMusicManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class BackgroundMusicManager : MonoBehaviour
     
     private float currentVolumeMultiplier = 1f;
     private Coroutine fadeCoroutine;
+    private bool isMuted = false;
+
+    public event Action OnVolumeChanged;
     
     private void Awake()
     {
@@ -42,12 +46,33 @@ public class BackgroundMusicManager : MonoBehaviour
         musicSource.Play();
     }
     
+    public bool IsMuted()
+    {
+        return isMuted;
+    }
+    
+    public void PauseMusic()
+    {
+        isMuted = true;
+        musicSource.mute = true;
+        OnVolumeChanged?.Invoke();
+    }
+
+    public void ResumeMusic()
+    {
+        isMuted = false;
+        musicSource.mute = false;
+        OnVolumeChanged?.Invoke();
+    }
+    
     public void UpdateVolume(float sliderValue)
     {
         float targetVolume = sliderValue * maxVolume * currentVolumeMultiplier;
         musicSource.volume = targetVolume;
+        
+        OnVolumeChanged?.Invoke();
     }
-    
+
     public void FadeToLow()
     {
         if (fadeCoroutine != null)
@@ -80,5 +105,7 @@ public class BackgroundMusicManager : MonoBehaviour
         
         currentVolumeMultiplier = targetMultiplier;
         musicSource.volume = PlayerPrefs.GetFloat("musicVolume", 1f) * currentVolumeMultiplier;
+        
+        OnVolumeChanged?.Invoke();
     }
 }
