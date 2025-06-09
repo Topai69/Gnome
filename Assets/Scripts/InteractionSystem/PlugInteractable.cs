@@ -1,4 +1,6 @@
+using GogoGaga.OptimizedRopesAndCables;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public class PlugInteractable : InteractableBase
 {
@@ -8,6 +10,9 @@ public class PlugInteractable : InteractableBase
     private bool flag = false;
     private float timer = 1f;
     private float timePassed = 0f;
+    [SerializeField] Rope Rope;
+    [SerializeField] Transform center;
+
 
     private void Start()
     {
@@ -20,6 +25,7 @@ public class PlugInteractable : InteractableBase
         gameObject.AddComponent<Rigidbody>();
         gameObject.GetComponent<Rigidbody>().mass = 25.0f;
         gameObject.GetComponent<Rigidbody>().angularDamping = 1f;
+        gameObject.GetComponent<Rigidbody>().centerOfMass = center.localPosition;
 
         if (taskManager != null)
         {
@@ -48,6 +54,7 @@ public class PlugInteractable : InteractableBase
             else
             {
                 Debug.Log("Removed");
+                Rope.ropeLength = 3;
                 Destroy(GetComponent<Rigidbody>());
                 gameObject.GetComponent<PlugInteractable>().enabled = false;
             }
