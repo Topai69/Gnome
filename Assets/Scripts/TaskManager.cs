@@ -58,8 +58,9 @@ public class TaskManager : MonoBehaviour
             if (binding.isCompleted)
                 completedCount++;
         }
+
+        float progress = completedCount * (1.0f / 6.0f);
         
-        float progress = taskBindings.Count > 0 ? (float)completedCount / taskBindings.Count : 0f;
         
         if (progressBar != null)
             progressBar.fillAmount = progress;
