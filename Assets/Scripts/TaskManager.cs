@@ -18,6 +18,7 @@ public class TaskManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI percentageText;
     [SerializeField] private Image pauseMenuProgressBar;
     [SerializeField] private TextMeshProUGUI pauseMenuPercentageText;
+    [SerializeField] private GameObject endingBox;
 
     void Start()
     {
@@ -43,6 +44,8 @@ public class TaskManager : MonoBehaviour
             {
                 hintSystem.OnTaskCompleted(index);
             }
+
+           
         }
         else
         {
@@ -75,6 +78,10 @@ public class TaskManager : MonoBehaviour
             
         if (pauseMenuPercentageText != null)
             pauseMenuPercentageText.text = percentage + "%";
+        if (percentage >= 100)
+        {
+            endingBox.GetComponent<EndingScript>().Ending();
+        }
     }
 
     public float GetCurrentProgress()
