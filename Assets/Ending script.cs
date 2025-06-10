@@ -19,6 +19,6 @@ public class EndingScript : MonoBehaviour
         audioSource.PlayOneShot(voiceLine);
         DialogueBox.SetActive(true);
         GetComponent<BoxCollider>().enabled = false;
-        SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene(5);
     }
 }
