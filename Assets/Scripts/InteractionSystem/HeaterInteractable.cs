@@ -1,7 +1,4 @@
-using System;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class HeaterInteractable : InteractableBase
 {

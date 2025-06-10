@@ -25,7 +25,7 @@ public class VideoEndSceneLoader : MonoBehaviour
 
     void OnVideoFinished(VideoPlayer vp)
     {
-        StartCoroutine(LoadSceneWithLoadingScreen(3));
+        StartCoroutine(LoadSceneWithLoadingScreen(2));
     }
 
     IEnumerator LoadSceneWithLoadingScreen(int sceneIndex)

@@ -1,6 +1,5 @@
 using GogoGaga.OptimizedRopesAndCables;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.GameCenter;
 
 public class PlugInteractable : InteractableBase
 {
