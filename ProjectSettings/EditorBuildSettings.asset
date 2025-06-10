@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CutScene.unity
     guid: ef39be45431a1f04d877a59ebb7abe5b
+  - enabled: 1
+    path: Assets/Scenes/Ending scene.unity
+    guid: 242b6d0a35988e34ca966bd364259bcc
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

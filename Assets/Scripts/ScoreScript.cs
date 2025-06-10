@@ -5,11 +5,13 @@ public class ScoreScript : MonoBehaviour
 {
     public int Score;
     public ProgressBar ProgressBar;
+    public ProgressBar ProgressBarPause;
     public int ScoreIncrease = 10;
     public int level;
     void Start()
     {
         ProgressBar = FindAnyObjectByType<ProgressBar>();
+        ProgressBarPause = FindAnyObjectByType<ProgressBar>();
         level = 1;
     }
 
@@ -17,6 +19,7 @@ public class ScoreScript : MonoBehaviour
     void Update()
     {
         ProgressBar.current = Score;
+        ProgressBarPause.current = Score;
         Leveling();
     }
 
@@ -35,13 +38,14 @@ public class ScoreScript : MonoBehaviour
             level = 2;
             Score = 0;
             ProgressBar.maximum = 300;
-            
+            ProgressBarPause.maximum = 300;
+
         }
         if (level == 2 && Score >= 300)
         {
             level = 3;
             Score = 0;
-            ProgressBar.maximum = 500;
+            ProgressBarPause.maximum = 500;
             
         }
     }
