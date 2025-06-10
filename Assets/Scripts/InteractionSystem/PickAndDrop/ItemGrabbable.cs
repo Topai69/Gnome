@@ -20,6 +20,8 @@ public class ItemGrabbable : InteractableBase
     private Quaternion originalRotation;
     private bool wrongBinPopupShown = false;
 
+    private static string[] noCollisionNames = { "Bottle", "Paper2", "plasticCup", "Battery" };
+
     private void Awake()
     {
         itemRigidbody = GetComponent<Rigidbody>();
@@ -38,6 +40,52 @@ public class ItemGrabbable : InteractableBase
     private void Start()
     {
         interactionUI = FindObjectOfType<InteractionUIPanel>();
+
+        foreach (string name in noCollisionNames)
+        {
+            if (gameObject.name.Contains(name))
+            {
+                DisableCollisionsWithPlayer();
+                DisableCollisionsWithOtherTrashObjects();
+                break;
+            }
+        }
+    }
+
+    private void DisableCollisionsWithPlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null) return;
+
+        Collider thisCol = GetComponent<Collider>();
+        foreach (Collider playerCol in player.GetComponentsInChildren<Collider>())
+        {
+            Physics.IgnoreCollision(thisCol, playerCol, true);
+        }
+    }
+
+    private void DisableCollisionsWithOtherTrashObjects()
+    {
+        Collider thisCol = GetComponent<Collider>();
+        ItemGrabbable[] allTrash = FindObjectsOfType<ItemGrabbable>();
+
+        foreach (ItemGrabbable other in allTrash)
+        {
+            if (other != this)
+            {
+                foreach (string name in noCollisionNames)
+                {
+                    if (other.name.Contains(name))
+                    {
+                        Collider otherCol = other.GetComponent<Collider>();
+                        if (thisCol != null && otherCol != null)
+                        {
+                            Physics.IgnoreCollision(thisCol, otherCol, true);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public override void OnInteract()
