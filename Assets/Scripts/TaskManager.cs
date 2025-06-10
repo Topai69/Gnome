@@ -30,7 +30,6 @@ public class TaskManager : MonoBehaviour
         UpdateTaskProgress();
     }
 
-    // ✅ Call this to mark a task as completed and update the UI
     public void CompleteTask(int index)
     {
         if (index >= 0 && index < taskBindings.Count)

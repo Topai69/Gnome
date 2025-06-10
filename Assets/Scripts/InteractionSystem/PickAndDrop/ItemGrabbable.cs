@@ -128,7 +128,7 @@ public class ItemGrabbable : InteractableBase
 
         if (gameObject.name.Contains("Battery"))
         {
-            Destroy(gameObject, 2f);
+            Invoke(nameof(ForceReleaseAndDestroy), 2f);
         }
     }
 
@@ -152,6 +152,30 @@ public class ItemGrabbable : InteractableBase
             interactionUI.SetTooltip("Interact");
             interactionUI.UpdateProgressBar(0f);
         }
+    }
+
+    private void ForceReleaseAndDestroy()
+    {
+        isGrabbed = false;
+
+        if (grabPointTransform != null)
+        {
+            grabPointTransform.SetParent(null);
+            grabPointTransform = null;
+        }
+
+        itemRigidbody.useGravity = true;
+        itemRigidbody.linearDamping = 0f;
+        itemRigidbody.freezeRotation = false;
+
+        if (interactionUI != null)
+        {
+            interactionUI.gameObject.SetActive(true);
+            interactionUI.SetTooltip("Interact");
+            interactionUI.UpdateProgressBar(0f);
+        }
+
+        Destroy(gameObject);
     }
 
     private void FixedUpdate()
